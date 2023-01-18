@@ -1,14 +1,28 @@
 import React, { useRef } from "react"
-const cors = require('cors');
 const URL_LOGIN = "http://localhost/Molinos%20Web/php/validar_user.php";
 
+const enviarData = async () => {
+    var url = 'http://localhost/Molinos%20Web/php/validar_user.php';
+    var data = { username: 'example' };
+
+    await fetch(url, {
+        method: 'POST', // or 'PUT'
+        body: JSON.stringify({ user: "root" }), // data can be `string` or {object}!
+        mode: "cors",
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(res => res.json())
+        .catch(error => console.error('Error:', error))
+        .then(response => console.log('Success:', response));
+}
 
 // Ejemplo implementando el metodo POST:
- const  postData = async (url, data)=>{
+const postData = async (url, data) => {
     // Opciones por defecto estan marcadas con un *
     const response = await fetch(url, {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
-        body: JSON.stringify({'user':"root"}), // body data type must match "Content-Type" header
+        body: JSON.stringify({ user: "root" }), // body data type must match "Content-Type" header
         mode: 'cors', // no-cors, *cors, same-origin
         // cache: 'default', // *default, no-cache, reload, force-cache, only-if-cached
         // credentials: 'include', // include, *same-origin, omit
@@ -20,22 +34,25 @@ const URL_LOGIN = "http://localhost/Molinos%20Web/php/validar_user.php";
         // redirect: 'follow', // manual, *follow, error
         // referrerPolicy: 'origin-when-cross-origin' // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
     });
-    console.log(response);
+    // console.log(response);
     const json = await response.text();
-    console.log(json);
+    // console.log(json);
 }
 
 export default function Login(props) {
 
     const refUsuario = useRef(null);
     const refPassword = useRef(null);
+    const refForm = useRef(null);
 
     const handleLogin = () => {
-        const data = {
-            'user': refUsuario.current.value,
+        const data = new FormData(refForm.target);
+        // {
+            // user: refUsuario.current.value,
             // "password" : refPassword.current.value 
-        };
-        postData(URL_LOGIN, data);
+        // };
+        enviarData();
+        // postData(URL_LOGIN, data);
         console.log(data);
     }
 
@@ -47,24 +64,26 @@ export default function Login(props) {
                         <div className="card-header text-center">
                             <h3>🔫Inicio</h3>
                         </div>
-                        <div className="card-body">
-                            <div className="input-group mb-3">
-                                <span className="input-group-text" id="basic-addon1">📧</span>
-                                <input type="email" className="form-control" placeholder="Correo" aria-label="Username" aria-describedby="basic-addon2" ref={refUsuario} />
-                            </div>
+                        <form ref={refForm}>
+                            <div className="card-body">
+                                <div className="input-group mb-3">
+                                    <span className="input-group-text" id="basic-addon1">📧</span>
+                                    <input type="email" className="form-control" placeholder="Correo" aria-label="Username" aria-describedby="basic-addon2" name="user" ref={refUsuario} />
+                                </div>
 
-                            <div className="input-group mb-3">
-                                <span className="input-group-text" id="basic-addon1">🔐</span>
-                                <input type="password" className="form-control" placeholder="Contraseña" aria-label="password" aria-describedby="basic-addon2" ref={refPassword} />
-                            </div>
+                                <div className="input-group mb-3">
+                                    <span className="input-group-text" id="basic-addon1">🔐</span>
+                                    <input type="password" className="form-control" placeholder="Contraseña" aria-label="password" aria-describedby="basic-addon2" name="password" ref={refPassword} />
+                                </div>
 
-                            <div className="d-grid gap-2">
-                                <button className="btn btn-info btn-lg" type="button" onClick={handleLogin}>Acceder</button>
+                                <div className="d-grid gap-2">
+                                    <button className="btn btn-info btn-lg" type="button" onClick={handleLogin}>Acceder</button>
+                                </div>
+                                <div className="card-footer">
+                                    <span>¿Olvido su contrseña?</span><a href="http://localhost/Molinos%20Web/php/validar_user.php">Recuperar</a>
+                                </div>
                             </div>
-                            <div className="card-footer">
-                                <span>¿Olvido su contrseña?</span><a href="http://localhost/Molinos%20Web/php/validar_user.php">Recuperar</a>
-                            </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
