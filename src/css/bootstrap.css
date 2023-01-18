@@ -378,7 +378,7 @@ button,
 [type=button],
 [type=reset],
 [type=submit] {
-  -webkit-appearance: button;
+  --webkit-appearance: button;
 }
 button:not(:disabled),
 [type=button]:not(:disabled),
@@ -436,7 +436,7 @@ legend + * {
 
 [type=search] {
   outline-offset: -2px;
-  -webkit-appearance: textfield;
+  --webkit-appearance: textfield;
 }
 
 /* rtl:raw:
@@ -462,7 +462,7 @@ legend + * {
 
 ::file-selector-button {
   font: inherit;
-  -webkit-appearance: button;
+  --webkit-appearance: button;
 }
 
 output {
@@ -2271,7 +2271,7 @@ textarea.form-control-lg {
   -moz-appearance: none;
   appearance: none;
   -webkit-print-color-adjust: exact;
-  color-adjust: exact;
+  --color-adjust: exact;
   print-color-adjust: exact;
 }
 .form-check-input[type=checkbox] {
@@ -10877,4 +10877,12 @@ textarea.form-control-lg {
   }
 }
 
-/*# sourceMappingURL=bootstrap.css.map */
+.login{
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  height: 100%;
+  width: 100%;
+  background: rgb(2,0,36);
+  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
+}
