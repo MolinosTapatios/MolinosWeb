@@ -1,26 +1,36 @@
 <?php
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: *');
+header("Content-type: application/json; charset=utf-8");
+$input = json_decode(file_get_contents("php://input"), true);
 session_start();
-
 require "./conexion.php";
 
+
 $conex = conexionMSQLI();
-$usuario = $_POST['user'];
-// $password = $_POST["password"];
+$usuario = $input["user"];
+$password = $input["password"];
+
 $sql = "SELECT * from usuario where username = \"$usuario\"";
 $result = mysqli_query($conex, $sql);
-// echo $sql." ";
+$json = Array();
+
 if (mysqli_num_rows($result)) {
-    while ($row = mysqli_fetch_array($result)) {
-        $_SESSION["id"] = $row["id"];
-        $_SESSION["user_active"] = true;
-        $_SESSION["user"] = $row["username"];
-        $_SESSION["password"] = $row["password"];
-        echo json_encode("1");
+    if ($row = mysqli_fetch_array($result)) {
+        if(md5($password) == $row["password"]){
+            $_SESSION["id"] = $row["id"];
+            $_SESSION["user_active"] = true;
+            $_SESSION["user"] = $row["username"];
+            $_SESSION["password"] = $row["password"];
+            $json["flag"] = "1";
+            // echo json_encode("1");
+        }else{
+            $json["flag"] = "Contraseña incorrecta";
+            // echo json_encode("Contraseña incorrecta");
+        }
     }
 } else {
-    echo json_encode("0");
+    $json["flag"] = "Usuario no encontrado";
+    // echo json_encode("Usuario no encontrado");
 }
-echo json_encode($sql);
-?>
+echo json_encode($json);
