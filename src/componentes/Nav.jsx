@@ -1,27 +1,88 @@
-export default function Nav(params) {
+import React,{useState} from 'react';
+import { Nav, Button, Container, Form, Navbar, NavDropdown, Row } from 'react-bootstrap';
+import { Tabs, Tab } from 'react-bootstrap';
+// import Sonnet from '../../components/Sonnet';
+
+function Menu(params) {
+    const [key, setKey] = useState('home');
 
     return (
-        <nav>
-            <ul className="nav nav-tabs" id="myTab" role="tablist">
-                <li className="nav-item" role="presentation">
-                    <button className="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Home</button>
-                </li>
-                <li className="nav-item" role="presentation">
-                    <button className="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Profile</button>
-                </li>
-                <li className="nav-item" role="presentation">
-                    <button className="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Contact</button>
-                </li>
-                <li className="nav-item" role="presentation">
-                    <button className="nav-link" id="disabled-tab" data-bs-toggle="tab" data-bs-target="#disabled-tab-pane" type="button" role="tab" aria-controls="disabled-tab-pane" aria-selected="false" disabled>Disabled</button>
-                </li>
-            </ul>
-            <div className="tab-content" id="myTabContent">
-                <div className="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabIndex="0">Pag one</div>
-                <div className="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabIndex="0">Pag two</div>
-                <div className="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabIndex="0">Pag three</div>
-                <div className="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab" tabIndex="0">Pag for</div>
-            </div>
-        </nav>
+        <div>
+            <Navbar bg="light" expand="lg">
+                <Container fluid>
+                    <Navbar.Brand href="#">Navbar scroll</Navbar.Brand>
+                    <Navbar.Toggle aria-controls="navbarScroll" />
+                    <Navbar.Collapse id="navbarScroll">
+                        <Nav
+                            className="me-auto my-2 my-lg-0"
+                            style={{ maxHeight: '100px' }}
+                            navbarScroll
+                        >
+                            <Nav.Link href="#action1">Home</Nav.Link>
+                            <Nav.Link href="#action2">Link</Nav.Link>
+                            <NavDropdown title="Link" id="navbarScrollingDropdown">
+                                <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
+                                <NavDropdown.Item href="#action4">
+                                    Another action
+                                </NavDropdown.Item>
+                                <NavDropdown.Divider />
+                                <NavDropdown.Item href="#action5">
+                                    Something else here
+                                </NavDropdown.Item>
+                            </NavDropdown>
+                            <Nav.Link href="#" disabled>
+                                Link
+                            </Nav.Link>
+                        </Nav>
+                        <Form className="d-flex">
+                            <Form.Control
+                                type="search"
+                                placeholder="Search"
+                                className="me-2"
+                                aria-label="Search"
+                            />
+                            <Button variant="outline-success">Search</Button>
+                        </Form>
+                    </Navbar.Collapse>
+                </Container>
+            </Navbar>
+
+            <Container className='py-4'>
+                <Row className='justify-content-center'>
+                    <Tabs justify variant="pills" defaultActiveKey="tab-1" className="mb-1 p-0">
+                        <Tab eventKey="tab-1" title="Tab 1">
+                            ......1
+                        </Tab>
+                        <Tab eventKey="tab-2" title="Tab 2">
+                            ......2
+                        </Tab>
+                        <Tab eventKey="tab-3" title="Tab 3">
+                            ......3
+                        </Tab>
+                    </Tabs>
+                </Row>
+            </Container>
+
+            <Tabs
+                id="controlled-tab-example"
+                activeKey={key}
+                onSelect={(k) => setKey(k)}
+                className="mb-3"
+            >
+                <Tab eventKey="home" title="Home">
+                    {/* <Sonnet /> */}
+                    home
+                </Tab>
+                <Tab eventKey="profile" title="Profile">
+                    {/* <Sonnet /> */}
+                    profile
+                </Tab>
+                <Tab eventKey="contact" title="Contact" disabled>
+                    {/* <Sonnet /> */}
+                </Tab>
+            </Tabs>
+        </div>
     );
 }
+
+export default Menu;
