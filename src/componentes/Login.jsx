@@ -1,21 +1,20 @@
 import React, { useRef } from "react"
-const URL_LOGIN = "http://localhost/Molinos%20Web/php/validar_user.php";
+const URL_LOGIN = "http://localhost/php/validar_user.php";
 
-const enviarData = async () => {
-    var url = 'http://localhost/Molinos%20Web/php/validar_user.php';
-    var data = { username: 'example' };
-
-    await fetch(url, {
-        method: 'POST', // or 'PUT'
-        body: JSON.stringify({ user: "root" }), // data can be `string` or {object}!
-        mode: "cors",
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }).then(res => res.json())
-        .catch(error => console.error('Error:', error))
-        .then(response => console.log('Success:', response));
-}
+//              ---------------funciona----------
+// const enviarData = async (url,data) => {
+//     await fetch(url, {
+//         method: 'POST',
+//         body: JSON.stringify(data),
+//         mode: "cors",
+//         headers: {
+//             'Content-Type': 'application/json'
+//         }
+//     }).then(res => res.json())
+//         .catch(error => console.error('Error:', error))
+//         .then(response => console.log('Success:', response));
+//         console.log(data);
+// }
 
 // Ejemplo implementando el metodo POST:
 const postData = async (url, data) => {
@@ -34,9 +33,8 @@ const postData = async (url, data) => {
         // redirect: 'follow', // manual, *follow, error
         // referrerPolicy: 'origin-when-cross-origin' // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
     });
-    // console.log(response);
-    const json = await response.text();
-    // console.log(json);
+    const json = await response.json();
+    console.log(json);
 }
 
 export default function Login(props) {
@@ -46,13 +44,12 @@ export default function Login(props) {
     const refForm = useRef(null);
 
     const handleLogin = () => {
-        const data = new FormData(refForm.target);
-        // {
-            // user: refUsuario.current.value,
-            // "password" : refPassword.current.value 
-        // };
-        enviarData();
-        // postData(URL_LOGIN, data);
+        const data = {
+            "user": refUsuario.current.value,
+            "password" : refPassword.current.value 
+        };
+        // enviarData(URL_LOGIN,data);
+        postData(URL_LOGIN, data);
         console.log(data);
     }
 
