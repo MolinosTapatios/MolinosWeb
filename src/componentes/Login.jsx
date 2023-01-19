@@ -51,11 +51,14 @@ export default function Login(props) {
             "user": refUsuario.current.value,
             "password": refPassword.current.value
         };
-        const resp = await postData(URL_LOGIN, data);
-        console.log(resp.flag);
-        
-        props.acceder(resp.flag);
-        setError(resp.msg);
+        try{
+            const resp = await postData(URL_LOGIN, data);
+            console.log(resp.flag);
+            props.acceder(resp.flag);
+            setError(resp.msg);
+        }catch(e){
+            setError("Error al consultar");
+        }
         setEspera(false);
     }
 

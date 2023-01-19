@@ -1,6 +1,7 @@
 import React,{ useState } from "react";
 import Login from "./componentes/Login";
-import Menu from "./componentes/Menu";
+// import Menu from "./componentes/Menu";
+import Nav from "./componentes/Nav";
 
 function App() {
 
@@ -11,7 +12,7 @@ function App() {
   }
 
   return (
-    conectado ? <Menu /> : <Login acceder={acceder}/>    
+    conectado ? <Nav/> /*<Menu />*/ : <Login acceder={acceder}/>    
     );
 }
 
