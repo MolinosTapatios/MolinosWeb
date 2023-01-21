@@ -1,6 +1,7 @@
 import React,{useState} from 'react';
-import { Nav, Button, Container, Form, Navbar, NavDropdown, Row } from 'react-bootstrap';
+import { Nav, Button, Container, Form, Navbar, NavDropdown } from 'react-bootstrap';
 import { Tabs, Tab } from 'react-bootstrap';
+import Chats from './Chats';
 // import Sonnet from '../../components/Sonnet';
 
 function Menu(params) {
@@ -47,7 +48,7 @@ function Menu(params) {
                 </Container>
             </Navbar>
 
-            <Container className='py-4'>
+            {/* <Container className='py-4'>
                 <Row className='justify-content-center'>
                     <Tabs justify variant="pills" defaultActiveKey="tab-1" className="mb-1 p-0">
                         <Tab eventKey="tab-1" title="Tab 1">
@@ -61,7 +62,7 @@ function Menu(params) {
                         </Tab>
                     </Tabs>
                 </Row>
-            </Container>
+            </Container> */}
 
             <Tabs
                 id="controlled-tab-example"
@@ -69,11 +70,11 @@ function Menu(params) {
                 onSelect={(k) => setKey(k)}
                 className="mb-3"
             >
-                <Tab eventKey="home" title="Home">
+                <Tab eventKey="home" title="Inicio">
                     {/* <Sonnet /> */}
-                    home
+                    <Chats/>
                 </Tab>
-                <Tab eventKey="profile" title="Profile">
+                <Tab eventKey="profile" title="Chats">
                     {/* <Sonnet /> */}
                     profile
                 </Tab>
