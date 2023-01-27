@@ -5,7 +5,7 @@ function Chats(params) {
     const [room, setRoom] = useState("");
 
     const joinRoom = () => {
-        if(username != "" && room != ""){
+        if(username !== "" && room !== ""){
 
         }
     }
