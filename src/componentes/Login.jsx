@@ -1,5 +1,7 @@
-import React, { useRef, useState } from "react"
-const URL_LOGIN = "http://localhost/molinos%20Web/php/validar_user.php";
+import React, { useRef, useState } from "react";
+import image from "../img/1.0.png";
+// import { Modal } from "react-bootstrap";
+const URL_LOGIN = "http://localhost/php/validar_user.php";
 
 //              ---------------funciona----------
 // const enviarData = async (url,data) => {
@@ -45,18 +47,18 @@ export default function Login(props) {
     const refPassword = useRef(null);
     // const refForm = useRef(null);
 
-    const handleLogin = async() => {
+    const handleLogin = async () => {
         setEspera(true);
         const data = {
             "user": refUsuario.current.value,
             "password": refPassword.current.value
         };
-        try{
+        try {
             const resp = await postData(URL_LOGIN, data);
             console.log(resp.flag);
             props.acceder(resp.flag);
             setError(resp.msg);
-        }catch(e){
+        } catch (e) {
             setError("Error al consultar");
         }
         setEspera(false);
@@ -64,37 +66,30 @@ export default function Login(props) {
 
     return (
         <div className="login">
-            <div className="row">
-                <div className="col-sm-4 offset-4  mt-5">
-                    <div className="card pt-5">
-                        <div className="card-header text-center">
-                            <h3>🔫Inicio</h3>
+            <div className="modal d-block py-5" tabIndex="-1" role="dialog" id="modalSignin">
+                <div className="modal-dialog" role="document">
+                    <div className="modal-content rounded-4 shadow info">
+                        <div className="modal-header p-5 pb-4 border-bottom-0">
+                            <img className="imagenUser" src={image} alt="imagen de usuario"/>
                         </div>
-                        <div className="card-body">
-                            <div className="input-group mb-3">
-                                <span className="input-group-text" id="basic-addon1">📧</span>
-                                <input type="email" className="form-control" placeholder="Correo" aria-label="Username" aria-describedby="basic-addon2" name="user" ref={refUsuario} />
-                            </div>
 
-                            <div className="input-group mb-3">
-                                <span className="input-group-text" id="basic-addon1">🔐</span>
-                                <input type="password" className="form-control" placeholder="Contraseña" aria-label="password" aria-describedby="basic-addon2" name="password" ref={refPassword} />
+                        <div className="modal-body p-5 pt-0">
+                            <div id="inputUsuario" className="form-floating mb-3">
+                                <input type="text" className="form-control rounded-3" id="floatingInput" placeholder="username..." ref={refUsuario}/>
+                                <label htmlFor="floatingInput">Usuario</label>
                             </div>
-
+                            <div id="inputPassword" className="form-floating mb-3">
+                                <input name="password" type="password" className="form-control rounded-3" id="floatingPassword"
+                                    placeholder="Password" ref={refPassword}/>
+                                <label htmlFor="floatingPassword">Contraseña</label>
+                            </div>
                             {
-                            error &&
-                            <div className="alert alert-danger">
-                                {error}
-                            </div>
+                                error &&
+                                <div className="alert alert-danger">
+                                    {error}
+                                </div>
                             }
-
-
-                            <div className="d-grid gap-2">
-                                <button className="btn btn-info btn-lg" type="button" onClick={handleLogin} disabled={espera}>Acceder</button>
-                            </div>
-                            <div className="card-footer">
-                                <span>¿Olvido su contrseña?</span><a href="http://localhost/Molinos%20Web/php/validar_user.php">Recuperar</a>
-                            </div>
+                            <button id="button" className="w-100 mb-2 btn btn-lg rounded-3 btn-primary" onClick={handleLogin} disabled={espera}>Continuar</button>
                         </div>
                     </div>
                 </div>

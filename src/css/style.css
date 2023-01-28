@@ -1,13 +1,37 @@
 .login {
-    position: absolute;
-    top: 0%;
-    left: 0%;
-    height: 100%;
-    width: 100%;
-    /* background: rgb(2,0,36); */
-    /* background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%); */
-    background-image: url("../img/inicioSesion.jpg");
-    background-size: cover;
-    background-position: center center;
-    background-attachment: fixed;
-  }
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  height: 100%;
+  width: 100%;
+  /* background: rgb(2,0,36); */
+  /* background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%); */
+  background-image: url("../img/inicioSesion.jpg");
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+}
+
+.imagenUser {
+  width: 150px;
+  height: 150px;
+  margin: auto;
+  padding-top: 20px;
+}
+
+.info
+{
+  /* background : -moz-linear-gradient(16.1% 19.49% -45deg,rgba(223, 114, 1, 1) 0%,rgba(1, 56, 177, 1) 100%); */
+  background : -webkit-linear-gradient(-45deg, rgba(223, 114, 1, 1) 0%, rgba(1, 56, 177, 1) 100%);
+  background : -webkit-gradient(linear,16.1% 19.49% ,89.12% 85.21% ,color-stop(0,rgba(223, 114, 1, 1) ),color-stop(1,rgba(1, 56, 177, 1) ));
+  background : -o-linear-gradient(-45deg, rgba(223, 114, 1, 1) 0%, rgba(1, 56, 177, 1) 100%);
+  background : -ms-linear-gradient(-45deg, rgba(223, 114, 1, 1) 0%, rgba(1, 56, 177, 1) 100%);
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#DF7201', endColorstr='#0138B1' ,GradientType=0)";
+  background : linear-gradient(135deg, rgba(223, 114, 1, 1) 0%, rgba(1, 56, 177, 1) 100%);
+  border-style : Solid;
+  border-color : #000000;
+  border-color : rgba(0, 0, 0, 0.5);
+  border-width : 2px;
+  opacity : 0.6;
+  filter: alpha(opacity=60) progid:DXImageTransform.Microsoft.Alpha(opacity=60) progid:DXImageTransform.Microsoft.gradient(startColorstr='#DF7201',endColorstr='#0138B1' , GradientType=1);
+}
