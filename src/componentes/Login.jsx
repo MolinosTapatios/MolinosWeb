@@ -70,26 +70,33 @@ export default function Login(props) {
                 <div className="modal-dialog" role="document">
                     <div className="modal-content rounded-4 shadow info">
                         <div className="modal-header p-5 pb-4 border-bottom-0">
-                            <img className="imagenUser" src={image} alt="imagen de usuario"/>
+                            <img className="imagenUser" src={image} alt="imagen de usuario" />
                         </div>
 
-                        <div className="modal-body p-5 pt-0">
-                            <div id="inputUsuario" className="form-floating mb-3">
-                                <input type="text" className="form-control rounded-3" id="floatingInput" placeholder="username..." ref={refUsuario}/>
-                                <label htmlFor="floatingInput">Usuario</label>
-                            </div>
-                            <div id="inputPassword" className="form-floating mb-3">
-                                <input name="password" type="password" className="form-control rounded-3" id="floatingPassword"
-                                    placeholder="Password" ref={refPassword}/>
-                                <label htmlFor="floatingPassword">Contraseña</label>
-                            </div>
-                            {
-                                error &&
-                                <div className="alert alert-danger">
-                                    {error}
+                        <div className="modal-body px-4 pt-0">
+                            <div className="container-fluid">
+                                <div id="inputUsuario" className="form-floating mb-3">
+                                    <input type="text" className="form-control rounded-3" id="floatingInput" placeholder="username..." ref={refUsuario} />
+                                    <label htmlFor="floatingInput">Usuario</label>
                                 </div>
-                            }
-                            <button id="button" className="w-100 mb-2 btn btn-lg rounded-3 btn-primary" onClick={handleLogin} disabled={espera}>Continuar</button>
+                                <div id="inputPassword" className="form-floating mb-3">
+                                    <input name="password" type="password" className="form-control rounded-3" id="floatingPassword"
+                                        placeholder="Password" ref={refPassword} />
+                                    <label htmlFor="floatingPassword">Contraseña</label>
+                                </div>
+                                {
+                                    error &&
+                                    <div className="alert alert-danger">
+                                        {error}
+                                    </div>
+                                }
+                                <button id="button" className="w-100 mb-2 btn btn-lg rounded-3 btn-primary" onClick={handleLogin} disabled={espera}>Iniciar Sesion</button>
+                                <a className="row justify-content-center" href="https://#">¿Olvidaste tu Contraseña?</a>
+                                <hr className="border border-dark border-2 opacity-50" />
+                                <div className="d-grid gap-2 col-8 mx-auto">
+                                    <button className="mb-2 btn btn-lg rounded-3 btn-success">Crear Cuenta Nueva</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
