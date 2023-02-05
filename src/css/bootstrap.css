@@ -3765,11 +3765,12 @@ fieldset:disabled .btn {
   background-clip: padding-box;
   border: var(--bs-dropdown-border-width) solid var(--bs-dropdown-border-color);
   border-radius: var(--bs-dropdown-border-radius);
+  /* left: -100px; */
 }
 
 .dropdown-menu[data-bs-popper] {
   top: 100%;
-  left: 0;
+  left: -30%;
   margin-top: var(--bs-dropdown-spacer);
 }
 

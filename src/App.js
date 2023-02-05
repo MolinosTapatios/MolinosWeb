@@ -1,18 +1,31 @@
-import React,{ useState } from "react";
+import React,{ useState, useEffect } from "react";
 import Login from "./componentes/Login";
-// import Menu from "./componentes/Menu";
+import Home from "./componentes/Home";
 import Nav from "./componentes/Nav";
 
-function App() {
 
+function App() {
+  
   const [conectado, setConectado] = useState(false);
+  
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem("active");
+    if(loggedUserJSON){
+        const user = JSON.parse(loggedUserJSON);
+        setConectado(user.flag);
+    }
+  }, []);
 
   const acceder=(estado)=>{
     setConectado(estado); 
   }
-
+  const login=<Login acceder={acceder}/>;
   return (
-    conectado ? <Nav/> /*<Menu />*/ : <Login acceder={acceder}/>    
+      conectado ? 
+      <div>
+        <Nav/>
+        <Home/>
+      </div> : login
     );
 }
 

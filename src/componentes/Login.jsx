@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import image from "../img/1.0.png";
 // import { Modal } from "react-bootstrap";
 const URL_LOGIN = "http://localhost/php/validar_user.php";
@@ -39,7 +39,9 @@ const postData = async (url, data) => {
     return json;
 }
 
-export default function Login(props) {
+
+function Login(props) {
+    
     const [error, setError] = useState(null);
     const [espera, setEspera] = useState(null);
 
@@ -54,10 +56,13 @@ export default function Login(props) {
             "password": refPassword.current.value
         };
         try {
-            const resp = await postData(URL_LOGIN, data);
-            console.log(resp.flag);
-            props.acceder(resp.flag);
-            setError(resp.msg);
+            const user = await postData(URL_LOGIN, data);
+            if(user.flag){
+                window.localStorage.setItem("active",JSON.stringify(user));
+            }
+            props.acceder(user.flag);
+            // console.log(resp.flag);
+            setError(user.msg);
         } catch (e) {
             setError("Error al consultar");
         }
@@ -104,3 +109,5 @@ export default function Login(props) {
         </div>
     );
 }
+
+export default Login;
