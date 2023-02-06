@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import image from "../img/1.0.png";
 // import { Modal } from "react-bootstrap";
 const URL_LOGIN = "http://localhost/php/validar_user.php";

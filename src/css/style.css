@@ -33,7 +33,7 @@ h1 {
 
 h1,h4{
   color: white;
-  /* background-color: rgba(33, 47, 126, 0.507); */
+  background-color: rgba(61, 84, 218, 0.507);
 }
 
 .info {
@@ -65,11 +65,15 @@ h1,h4{
   height: 50vw;
 }
 
-.h2{
-  z-index: 1;
-}
-
 .title-respons{
   font-size: 120%;
   padding: 13vw;
+}
+
+.ml-resp-1{
+  margin-left: 10vw;
+}
+
+.mr-resp-1{
+  margin-right: 10vw;
 }
