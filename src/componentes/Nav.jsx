@@ -30,7 +30,7 @@ function Menu(params) {
                         <NavDropdown title={icon} className="me-2 btn btn-secondary">
                             <NavDropdown.Item href="#action2">Mi Cuenta</NavDropdown.Item>
                             <NavDropdown.Divider />
-                            <NavDropdown.Item href="#action3">Salir</NavDropdown.Item>
+                            <NavDropdown.Item href="localhost" onClick={()=>{sessionStorage.removeItem("active")}}>Salir</NavDropdown.Item>
                         </NavDropdown>
                         <Button className='btn btn-secondary'>
                             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-cart4" viewBox="0 0 16 16">

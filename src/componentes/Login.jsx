@@ -58,10 +58,10 @@ function Login(props) {
         try {
             const user = await postData(URL_LOGIN, data);
             if(user.flag){
-                window.localStorage.setItem("active",JSON.stringify(user));
+                // window.localStorage.setItem("active",JSON.stringify(user));
+                window.sessionStorage.setItem("active",JSON.stringify(user));
             }
             props.acceder(user.flag);
-            // console.log(resp.flag);
             setError(user.msg);
         } catch (e) {
             setError("Error al consultar");

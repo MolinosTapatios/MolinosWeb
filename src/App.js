@@ -9,7 +9,7 @@ function App() {
   const [conectado, setConectado] = useState(false);
   
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem("active");
+    const loggedUserJSON = window.sessionStorage.getItem("active");
     if(loggedUserJSON){
         const user = JSON.parse(loggedUserJSON);
         setConectado(user.flag);
