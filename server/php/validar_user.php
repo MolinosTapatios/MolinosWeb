@@ -11,7 +11,7 @@ $conex = conexionMSQLI();
 $usuario = $input["user"];
 $password = $input["password"];
 
-$sql = "SELECT * from usuario where username = \"$usuario\"";
+$sql = "SELECT * from usuarios where username = \"$usuario\"";
 $result = mysqli_query($conex, $sql);
 $json = Array();
 
@@ -22,15 +22,19 @@ if (mysqli_num_rows($result)) {
             $_SESSION["user_active"] = true;
             $_SESSION["user"] = $row["username"];
             $_SESSION["password"] = $row["password"];
-            $json["flag"] = "1";
+            $json["flag"] = true;
+            $json["msg"] = "Verificacion Exitosa ".md5($password);
             // echo json_encode("1");
         }else{
-            $json["flag"] = "Contraseña incorrecta";
+            $json["flag"] = false;
+            $json["msg"] = "Contraseña incorrecta";
             // echo json_encode("Contraseña incorrecta");
         }
     }
 } else {
-    $json["flag"] = "Usuario no encontrado";
+    $json["flag"] = false;
+    $json["msg"] = "Usuario no encontrado";
     // echo json_encode("Usuario no encontrado");
 }
 echo json_encode($json);
+?>

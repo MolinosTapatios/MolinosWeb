@@ -1,5 +1,6 @@
 import img from '../img/LOGO.png';
 import { Nav, Button, Container, Form, Navbar, NavDropdown } from 'react-bootstrap';
+import {Link} from 'react-router-dom'
 
 function Menu(params) {
     // const [key, setKey] = useState('home');
@@ -30,7 +31,7 @@ function Menu(params) {
                         <NavDropdown title={icon} className="me-2 btn btn-secondary">
                             <NavDropdown.Item href="#action2">Mi Cuenta</NavDropdown.Item>
                             <NavDropdown.Divider />
-                            <NavDropdown.Item href="localhost" onClick={()=>{sessionStorage.removeItem("active")}}>Salir</NavDropdown.Item>
+                            <Link className='dropdown-item' to="/login" onClick={()=>{sessionStorage.removeItem("active")}}>Salir</Link>
                         </NavDropdown>
                         <Button className='btn btn-secondary'>
                             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-cart4" viewBox="0 0 16 16">
@@ -46,13 +47,15 @@ function Menu(params) {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav" className='row justify-content-center'>
                         <Nav className="col-md-auto">
-                            <Nav.Link href="#home">Inicio</Nav.Link>
+                            <Link className='nav-link' to="/">Inicio</Link>
+                            {/* <Nav.Link href="/">Inicio</Nav.Link> */}
                             <NavDropdown title="Molinos" id="navbarScrollingDropdown">
-                                <NavDropdown.Item href="#action2">Molinos de discos</NavDropdown.Item>
+                                <Link className='dropdown-item' to="/">Molinos de Discos</Link>
                                 <NavDropdown.Divider />
-                                <NavDropdown.Item href="#action3">Molinos de piedras</NavDropdown.Item>
+                                <Link className='dropdown-item' to="/">Molinos de Piedras</Link>
                             </NavDropdown>
-                            <Nav.Link href="#action4">Tortilladoras</Nav.Link>
+                            <Link className='nav-link' to="/tortilla">Tortilladoras</Link>
+                            <Link className='nav-link' to="/registrarPr">Reguistrar Productos</Link>
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
