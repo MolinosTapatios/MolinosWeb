@@ -3,6 +3,7 @@ import {Route, Routes} from 'react-router-dom'
 import Login from "./componentes/Login";
 import Home from "./componentes/Home";
 import Nav from "./componentes/Nav";
+import RegProduct from './subPaginas/RegistrarProduct'
 
 
 function App() {
@@ -21,19 +22,20 @@ function App() {
     setConectado(estado); 
   }
  const NAV = ()=> conectado ? <Nav/>:"";
- const RegPro = ()=> <h1>Tortilladoras</h1>;
- const Tortilla = ()=> <h1>Registrar producto</h1>;
+ const Tortilla = ()=> <h1>Tortilladoras</h1>;
+//  const RegPro = ()=> <h1>Registrar producto</h1>;
 
   return (
+    conectado ?
       <div>
         <NAV/>
         <Routes>
           <Route path="/" element={<Home/>}/>
-          <Route path="/login" element={<Login acceder={acceder}/>}/>
-          <Route path="/registrarPr" element={<RegPro />}/>
+          {/* <Route path="/login" element={<Login acceder={acceder}/>}/> */}
+          <Route path="/registrarPr" element={<RegProduct />}/>
           <Route path="/tortilla" element={<Tortilla />}/>
         </Routes>
-      </div>
+      </div> : <Login acceder={acceder}/>
     );
 }
 

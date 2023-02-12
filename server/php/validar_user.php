@@ -23,7 +23,7 @@ if (mysqli_num_rows($result)) {
             $_SESSION["user"] = $row["username"];
             $_SESSION["password"] = $row["password"];
             $json["flag"] = true;
-            $json["msg"] = "Verificacion Exitosa ".md5($password);
+            $json["msg"] = "Verificacion Exitosa ";
             // echo json_encode("1");
         }else{
             $json["flag"] = false;

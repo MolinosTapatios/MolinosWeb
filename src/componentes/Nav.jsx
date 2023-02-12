@@ -1,6 +1,6 @@
 import img from '../img/LOGO.png';
-import { Nav, Button, Container, Form, Navbar, NavDropdown } from 'react-bootstrap';
-import {Link} from 'react-router-dom'
+import { Nav, Button, Container, Form, Navbar, NavDropdown, Row, Col } from 'react-bootstrap';
+import { Link } from 'react-router-dom'
 
 function Menu(params) {
     // const [key, setKey] = useState('home');
@@ -10,35 +10,39 @@ function Menu(params) {
     </svg>;
 
     return (
-        <div style={{ minWidth: "300px" }}>
+        <div style={{ minWidth: "400px" }}>
             <Navbar bg="light" expand="sm">
                 <Container fluid>
                     <Navbar.Brand href="#home">
-                        <img src={img} alt="..." className='imgLogo' />
-                        Maquinaria Carbera
+                        <img src={img} alt="..." className='imgLogo me-2' />Maquinaria Carbera
                     </Navbar.Brand>
-                    <Form className="d-flex col">
-                        <div className='input-group'>
-                            <Form.Control
-                                style={{ minWidth: "100px" }}
-                                type="search"
-                                placeholder="Buscar..."
-                                className=" ml-resp-1"
-                                aria-label="Search"
-                            />
-                            <Button variant="outline-success mr-resp-1">Buscar</Button>
-                        </div>
-                        <NavDropdown title={icon} className="me-2 btn btn-secondary">
-                            <NavDropdown.Item href="#action2">Mi Cuenta</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <Link className='dropdown-item' to="/login" onClick={()=>{sessionStorage.removeItem("active")}}>Salir</Link>
-                        </NavDropdown>
-                        <Button className='btn btn-secondary'>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-cart4" viewBox="0 0 16 16">
-                                <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l.5 2H5V5H3.14zM6 5v2h2V5H6zm3 0v2h2V5H9zm3 0v2h1.36l.5-2H12zm1.11 3H12v2h.61l.5-2zM11 8H9v2h2V8zM8 8H6v2h2V8zM5 8H3.89l.5 2H5V8zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"></path>
-                            </svg>
-                        </Button>
-                        {/* <Button variant="outline-danger" className='mx-2'>Salir</Button> */}
+                    <Form className="">
+                        <Row >
+                            <Form.Group as={Col} md="12">
+                                <Form.Control
+                                    style={{ minWidth: "100px" }}
+                                    type="search"
+                                    placeholder="Buscar..."
+                                    className="ml-resp-1"
+                                    aria-label="Search"
+                                />
+                                <Button variant="outline-success" className='mr-resp-1'>Buscar</Button>
+                            </Form.Group>
+                            <div className='col'>
+                                <NavDropdown title={icon} className="me-2 btn btn-secondary">
+                                    <NavDropdown.Item href="#action2">Mi Cuenta</NavDropdown.Item>
+                                    <NavDropdown.Divider />
+                                    <NavDropdown.Item href="/" onClick={() => { sessionStorage.removeItem("active") }}>Salir</NavDropdown.Item>
+                                    {/* <Link className='dropdown-item' to="/" onClick={()=>{sessionStorage.removeItem("active")}}>Salir</Link> */}
+                                </NavDropdown>
+                                <Button className='btn btn-secondary'>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-cart4" viewBox="0 0 16 16">
+                                        <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l.5 2H5V5H3.14zM6 5v2h2V5H6zm3 0v2h2V5H9zm3 0v2h1.36l.5-2H12zm1.11 3H12v2h.61l.5-2zM11 8H9v2h2V8zM8 8H6v2h2V8zM5 8H3.89l.5 2H5V8zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"></path>
+                                    </svg>
+                                </Button>
+                            </div>
+                            {/* <Button variant="outline-danger" className='mx-2'>Salir</Button> */}
+                        </Row>
                     </Form>
                 </Container>
             </Navbar>
@@ -55,7 +59,7 @@ function Menu(params) {
                                 <Link className='dropdown-item' to="/">Molinos de Piedras</Link>
                             </NavDropdown>
                             <Link className='nav-link' to="/tortilla">Tortilladoras</Link>
-                            <Link className='nav-link' to="/registrarPr">Reguistrar Productos</Link>
+                            <Nav.Link className='nav-link' href="/registrarPr">Reguistrar Productos</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
