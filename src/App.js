@@ -1,9 +1,9 @@
 import React,{ useState, useEffect } from "react";
 import {Route, Routes} from 'react-router-dom'
-import Login from "./componentes/Login";
-import Home from "./componentes/Home";
-import Nav from "./componentes/Nav";
-import RegProduct from './subPaginas/RegistrarProduct'
+import Login from "./componentes/Login.jsx";
+import Home from "./componentes/Home.jsx";
+import Nav from "./componentes/Nav.jsx";
+import RegProduct from './subPaginas/RegistrarProduct.jsx'
 
 
 function App() {

@@ -71,10 +71,29 @@ h1,h4{
 }
 
 .ml-resp-1{
-  margin-left: 10vw;
+  margin-left: 10%;
   /* width: 30vw !important; */
 }
 
 .mr-resp-1{
-  margin-right: 10vw;
+  margin-right: 10%;
+}
+
+.botones{
+  display: none;
+}
+
+.add{
+  display: block;
+}
+
+@media (min-width: 576px){
+
+  .botones{
+    display: flex;
+  }
+
+  .add{
+    display: none;
+  }
 }
