@@ -2,7 +2,7 @@
     //conexionPDO();
     function conexionPDO(){
         $host = "localhost";
-        $dbname = "oniontech";
+        $dbname = "molinos";
         $username = "root";
         $pss = "";
 
@@ -10,7 +10,8 @@
             $conn = new PDO ("mysql:host=$host;dbname=$dbname",$username,$pss);
             // echo "Se conecto correctamente";
         } catch(PDOException $ex){
-            // echo "Error al conectar con la base de datos:$dbname, error: $ex"; 
+            echo "Error al conectar con la base de datos:$dbname, error: $ex";
+            exit;
         }
         return $conn;
     }
