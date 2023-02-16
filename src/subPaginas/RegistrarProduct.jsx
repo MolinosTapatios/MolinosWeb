@@ -42,8 +42,10 @@ function RegistrarProduct(params) {
         }
         const respuesta = await Registrar(data)
         // console.log(respuesta.flag)
-        if (respuesta.flag)
+        if (respuesta.flag){
             setColor("info")
+            limpiar()
+        }
         else
             setColor("danger")
         setError(respuesta.msg)
@@ -86,6 +88,17 @@ function RegistrarProduct(params) {
         })
         // guardarArchivo()
         // handleRegistro();
+    }
+
+    function limpiar(){
+        refNombre.current.value = ""
+        refPrecio.current.value = ""
+        refStock.current.value = ""
+        refImagen.current.value = ""
+        refDescripcion.current.value = ""
+        refStatus.current.value = ""
+        refTipo.current.value = ""
+        imagen.current.value = ""
     }
 
     return (

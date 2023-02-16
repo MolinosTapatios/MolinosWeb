@@ -1,8 +1,22 @@
+import { useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table';
 
 function Productos(params) {
 
-    const productos = [{"nombre":"Molino"}];
+    const [productos,setProductos] = useState([]);
+
+    useEffect(function () {
+        console.log("xd")
+        fetch("http://localhost/server/ajaxProductos.php")
+        .then(res => res.json())
+        .then(response =>{
+            const data = response
+            const productos = data;
+            // console.log(productos)
+            setProductos(productos);
+        })
+    }, [])
+
 
     return (
         <div style={{backgroundColor:"white"}}>
@@ -21,18 +35,21 @@ function Productos(params) {
                             <th>Acciones</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody className='text-center'>
                         {
                             productos.map(p => 
-                                <tr key={p.nombre}>
-                                    <th>1</th>
+                                <tr key={p.id}>
+                                    <th>{p.id}</th>
                                     <th>{p.nombre}</th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
+                                    <th>{p.descripcion}</th>
+                                    <th>{p.precio}</th>
+                                    <th>{p.stock}</th>
+                                    <th>{p.status}</th>
+                                    <th>{p.Tipo_Producto_id}</th>
+                                    <th>
+                                        <button id={p.id} className='btn btn-danger mx-2'><i className="bi bi-trash"></i></button>
+                                        <button id={p.id} className='btn btn-info mx-2'><i className="bi bi-pencil-square"></i>    </button>
+                                    </th>
                                 </tr>
                                 )
                         }
