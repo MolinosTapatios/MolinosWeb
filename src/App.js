@@ -4,6 +4,7 @@ import Login from "./componentes/Login.jsx";
 import Home from "./componentes/Home.jsx";
 import Nav from "./componentes/Nav.jsx";
 import RegProduct from './subPaginas/RegistrarProduct.jsx'
+import Productos from './subPaginas/Productos.jsx'
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
           {/* <Route path="/login" element={<Login acceder={acceder}/>}/> */}
           <Route path="/registrarPr" element={<RegProduct />}/>
           <Route path="/tortilla" element={<Tortilla />}/>
+          <Route path="/todos_productos" element={<Productos />}/>
         </Routes>
       </div> : <Login acceder={acceder}/>
     );

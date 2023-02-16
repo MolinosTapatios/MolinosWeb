@@ -46,16 +46,6 @@ function Menu(params) {
                     </Form>
                 </Container>
             </Navbar>
-            {/* <div className='' style={{ backgroundColor: "rgb(248,249,250)" }}>
-                <Container className='container text-center'>
-                        <NavDropdown title={icon} id="navbarScrollingDropdown" className='row'>
-                            <Link className='dropdown-item' to="/">Mi Cuenta</Link>
-                            <NavDropdown.Divider />
-                            <Link className='dropdown-item' to="/">Salir</Link>
-                        </NavDropdown>
-                        <Link className='nav-link row' to="/">Carrito</Link>
-                </Container>
-            </div> */}
             <Navbar bg="light" expand="sm">
                 <Container className='text-center'>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -69,7 +59,11 @@ function Menu(params) {
                                 <Link className='dropdown-item' to="/">Molinos de Piedras</Link>
                             </NavDropdown>
                             <Link className='nav-link' to="/tortilla">Tortilladoras</Link>
-                            <Link className='nav-link' to="/registrarPr">Reguistrar Productos</Link>
+                            <NavDropdown title="Inventario" id="navbarScrollingDropdown">
+                                <Link className='dropdown-item' to="/todos_productos">Todos los productos</Link>
+                                <NavDropdown.Divider />
+                                <Link className='dropdown-item' to="registrarPr">Registrar Producto</Link>
+                            </NavDropdown>
                             
                             <Link className='nav-link add' to="#action2">Mi Cuenta</Link>
                             <Link className='nav-link add' to="#action2">Carrito</Link>

@@ -1,48 +1,113 @@
-import { Form, Row, Col, InputGroup, Button } from 'react-bootstrap';
-import { useState } from 'react';
+import { Form, Row, Col, InputGroup, Button, Alert } from 'react-bootstrap';
+import { useRef, useState } from 'react';
+import { Registrar } from "../ajaxs/Registro_producto";
+// import Registrar from '../ajaxs/Registro_producto';
 
 function RegistrarProduct(params) {
+    const refNombre = useRef(null);
+    const refPrecio = useRef(null);
+    const refStock = useRef(null);
+    const refImagen = useRef(null);
+    const refDescripcion = useRef(null);
+    const refStatus = useRef(null);
+    const refTipo = useRef(null);
+    const imagen = useRef(null);
+
     //Validacion de formulario
     const [validated, setValidated] = useState(false);
+    const [error, setError] = useState(null);
+    const [show, setShow] = useState(false);
+    const [color, setColor] = useState(null);
 
     const handleSubmit = (event) => {
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
-        }else{
-            alert("Se envio formulario");
-            postData();
+        } else {
+            event.preventDefault();
+            handleRegistro();
         }
-
         setValidated(true);
     };
 
-    //Registro de producto
-    const postData = async (url, data) => {
-        // Opciones por defecto estan marcadas con un *
-        const response = await fetch(url, {
-            method: 'POST', // *GET, POST, PUT, DELETE, etc.
-            body: JSON.stringify(data), // body data type must match "Content-Type" header
-            mode: 'cors', // no-cors, *cors, same-origin
-            // cache: 'default', // *default, no-cache, reload, force-cache, only-if-cached
-            // credentials: 'include', // include, *same-origin, omit
-            headers: {
-                'Content-Type': 'application/json',
-                // 'Access-Control-Allow-Origin':'*' 
-                // 'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            // redirect: 'follow', // manual, *follow, error
-            // referrerPolicy: 'origin-when-cross-origin' // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-        });
-        const json = await response.json();
-        return json;
+    async function handleRegistro() {
+        const data = {
+            "nombre": refNombre.current.value,
+            "precio": refPrecio.current.value,
+            "stock": refStock.current.value,
+            "descripcion": refDescripcion.current.value,
+            "status": refStatus.current.value,
+            "tipo": refTipo.current.value,
+        }
+        const respuesta = await Registrar(data)
+        // console.log(respuesta.flag)
+        if (respuesta.flag)
+            setColor("info")
+        else
+            setColor("danger")
+        setError(respuesta.msg)
+        setShow(true)
+    }
+    
+    const [file,setFile] = useState(null);
+    
+    function mostrarImg() {
+        setFile(refImagen.current.files[0])
+        // console.log(refImagen.current.files[0])
+        const img = refImagen.current.files[0]
+        const fileReadar = new FileReader();
+        fileReadar.readAsDataURL(img)
+        fileReadar.onload = function () {
+            imagen.current.src = fileReadar.result
+            // console.log(fileReadar.result)
+        }
+    }
+
+    function pruebas() {
+        if(!file){
+            alert("No hay archivos seleccionados");
+            return;
+        }
+        
+        const formdata = new FormData()
+        formdata.append('imagen', file)
+        
+        console.log(formdata);
+
+        fetch("http://localhost/server/guardarImg.php",{
+            method:"POST",
+            body:formdata
+        })
+        .then(res => res.text)
+        .then(res => console.log(res))
+        .catch(err => {
+            console.error(err)
+        })
+        // guardarArchivo()
+        // handleRegistro();
     }
 
     return (
-        <div style={{ background: "white" }}>
-            <div className='container py-5' >
-                <h1 className='text-center my-5'>Registro de productos</h1>
+        <div style={{ background: "gray" }}>
+            <div className='container py-1' >
+                <h1 className='text-center mt-2 mb-5'>Registro de productos</h1>
+                {
+                    show &&
+                    <Alert variant={color} onClose={() => setShow(false)} dismissible>
+                        {/* <Alert.Heading>Oh snap! You got an error!</Alert.Heading> */}
+                        <p>
+                            {error}
+                        </p>
+                    </Alert>
+                    //    <Button onClick={() => setShow(true)}>Show Alert</Button>
+                }
+                {/* {
+                    error &&
+                    <div className="alert alert-info">
+                        {error}
+                    </div>
+                } */}
                 <Form noValidate validated={validated} onSubmit={handleSubmit}>
                     <Row className="mb-3">
 
@@ -51,6 +116,7 @@ function RegistrarProduct(params) {
                             <Form.Control
                                 type="text"
                                 placeholder="Nombre"
+                                ref={refNombre}
                                 required
                             />
                             <Form.Control.Feedback type="invalid">Ingresa el nombre del producto.</Form.Control.Feedback>
@@ -65,6 +131,7 @@ function RegistrarProduct(params) {
                                     step="0.01"
                                     type="number"
                                     placeholder="$...."
+                                    ref={refPrecio}
                                     required
                                 />
                                 <Form.Control.Feedback type="invalid">
@@ -79,34 +146,79 @@ function RegistrarProduct(params) {
                                 type="number"
                                 min="0"
                                 placeholder='Stock'
-                                required />
+                                ref={refStock}
+                                required
+                            />
                             <Form.Control.Feedback type="invalid">Ingresa el stoc actual</Form.Control.Feedback>
                         </Form.Group>
                     </Row>
-                    <Row className="mb-3">
 
-                        <Form.Group controlId="formFile" className="mb-3">
-                            <Form.Label>Selecciona una imagen</Form.Label>
-                            <Form.Control type="file" accept='.png, .jpg' required />
-                            <Form.Control.Feedback type="invalid">
-                                El producto debe tener una imagen
-                            </Form.Control.Feedback>
+                    <Row className='mb-3'>
+                        <Form.Group className='' as={Col}>
+                            <Form.Label>Tipo</Form.Label>
+                            <Form.Select ref={refTipo} required >
+                                <option defaultValue value="">Selecciona un tipo...</option>
+                                <option value="1">Molino</option>
+                                <option value="2">Tortilladora</option>
+                                <option value="3">Mezcladora</option>
+                            </Form.Select>
+                            <Form.Control.Feedback type="invalid">Selecciona el tipo del producto</Form.Control.Feedback>
                         </Form.Group>
 
-                        <Form.Group as={Col} >
-                            <Form.Label>Descripcion</Form.Label>
-                            <Form.Control as="textarea" type="text" placeholder="Descripcion" required />
-                            <Form.Control.Feedback type="invalid">
-                                Ingresa una descripción.
-                            </Form.Control.Feedback>
+                        <Form.Group as={Col}>
+                            <Form.Label>Estado</Form.Label>
+                            <Form.Select ref={refStatus} required >
+                                <option defaultValue value="" >Selecciona el estado...</option>
+                                <option value="0" >Oculto</option>
+                                <option value="1" >Visible</option>
+                            </Form.Select>
+                            <Form.Control.Feedback type="invalid">Seleciona el estado para el producto</Form.Control.Feedback>
                         </Form.Group>
-                        {/* <textarea name="" id="" cols="30" rows="5"></textarea> */}
                     </Row>
+
+                    <Row className="mb-3">
+                        <div className='col'>
+                            <Form.Group controlId="formFile" className="mb-3">
+                                <Form.Label>Selecciona una imagen</Form.Label>
+                                <Form.Control
+                                    type="file"
+                                    accept='.png, .jpg'
+                                    ref={refImagen}
+                                    onChange={mostrarImg}
+                                    encType="multipart/form-data"
+                                // required
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    El producto debe tener una imagen
+                                </Form.Control.Feedback>
+                            </Form.Group>
+
+                            <Form.Group >
+                                <Form.Label>Descripcion</Form.Label>
+                                <Form.Control
+                                    as="textarea"
+                                    type="text"
+                                    placeholder="Descripcion"
+                                    required
+                                    ref={refDescripcion}
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    Ingresa una descripción.
+                                </Form.Control.Feedback>
+                            </Form.Group>
+                        </div>
+
+                        <Form.Group as={Col}>
+                            <Form.Label>Imagen</Form.Label>
+                            <img className='form-control' src="" alt="Imagen" ref={imagen} style={{}} />
+                        </Form.Group>
+                    </Row>
+                    {/* <textarea name="" id="" cols="30" rows="5"></textarea> */}
                     <Button type="submit">Registrar Producto</Button>
                 </Form>
+                <Button onClick={pruebas}>Registrar Producto</Button>
             </div>
         </div>
-
     );
 }
 
