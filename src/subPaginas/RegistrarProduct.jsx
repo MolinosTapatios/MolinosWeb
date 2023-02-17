@@ -9,6 +9,7 @@ function RegistrarProduct(params) {
     const refStock = useRef(null);
     const refImagen = useRef(null);
     const refDescripcion = useRef(null);
+    const refCaracteristicas = useRef(null);
     const refStatus = useRef(null);
     const refTipo = useRef(null);
     const imagen = useRef(null);
@@ -37,6 +38,7 @@ function RegistrarProduct(params) {
             "precio": refPrecio.current.value,
             "stock": refStock.current.value,
             "descripcion": refDescripcion.current.value,
+            "caracteristicas" : refCaracteristicas.current.value,
             "status": refStatus.current.value,
             "tipo": refTipo.current.value,
         }
@@ -44,7 +46,6 @@ function RegistrarProduct(params) {
         // console.log(respuesta.flag)
         if (respuesta.flag){
             setColor("info")
-            limpiar()
         }
         else
             setColor("danger")
@@ -52,10 +53,10 @@ function RegistrarProduct(params) {
         setShow(true)
     }
     
-    const [file,setFile] = useState(null);
+    // const [file,setFile] = useState(null);
     
     function mostrarImg() {
-        setFile(refImagen.current.files[0])
+        // setFile(refImagen.current.files[0])
         // console.log(refImagen.current.files[0])
         const img = refImagen.current.files[0]
         const fileReadar = new FileReader();
@@ -66,39 +67,40 @@ function RegistrarProduct(params) {
         }
     }
 
-    function pruebas() {
-        if(!file){
-            alert("No hay archivos seleccionados");
-            return;
-        }
+    // function pruebas() {
+    //     if(!file){
+    //         alert("No hay archivos seleccionados");
+    //         return;
+    //     }
         
-        const formdata = new FormData()
-        formdata.append('imagen', file)
+    //     const formdata = new FormData()
+    //     formdata.append('imagen', file)
         
-        console.log(formdata);
+    //     console.log(formdata);
 
-        fetch("http://localhost/server/guardarImg.php",{
-            method:"POST",
-            body:formdata
-        })
-        .then(res => res.text)
-        .then(res => console.log(res))
-        .catch(err => {
-            console.error(err)
-        })
-        // guardarArchivo()
-        // handleRegistro();
-    }
+    //     fetch("http://localhost/server/guardarImg.php",{
+    //         method:"POST",
+    //         body:formdata
+    //     })
+    //     .then(res => res.text)
+    //     .then(res => console.log(res))
+    //     .catch(err => {
+    //         console.error(err)
+    //     })
+    //     // guardarArchivo()
+    //     // handleRegistro();
+    // }
 
     function limpiar(){
-        refNombre.current.value = ""
-        refPrecio.current.value = ""
-        refStock.current.value = ""
-        refImagen.current.value = ""
-        refDescripcion.current.value = ""
-        refStatus.current.value = ""
-        refTipo.current.value = ""
-        imagen.current.value = ""
+        refNombre.current.value = null
+        refPrecio.current.value = null
+        refStock.current.value = null
+        refImagen.current.value = null
+        refDescripcion.current.value = null
+        refCaracteristicas.current.value = null
+        refStatus.current.value = null
+        refTipo.current.value = null
+        imagen.current.value = null
     }
 
     return (
@@ -108,19 +110,11 @@ function RegistrarProduct(params) {
                 {
                     show &&
                     <Alert variant={color} onClose={() => setShow(false)} dismissible>
-                        {/* <Alert.Heading>Oh snap! You got an error!</Alert.Heading> */}
                         <p>
                             {error}
                         </p>
                     </Alert>
-                    //    <Button onClick={() => setShow(true)}>Show Alert</Button>
                 }
-                {/* {
-                    error &&
-                    <div className="alert alert-info">
-                        {error}
-                    </div>
-                } */}
                 <Form noValidate validated={validated} onSubmit={handleSubmit}>
                     <Row className="mb-3">
 
@@ -219,6 +213,20 @@ function RegistrarProduct(params) {
                                     Ingresa una descripción.
                                 </Form.Control.Feedback>
                             </Form.Group>
+
+                            <Form.Group >
+                                <Form.Label>Caracteristicas</Form.Label>
+                                <Form.Control
+                                    as="textarea"
+                                    type="text"
+                                    placeholder="Caracteristicas"
+                                    required
+                                    ref={refCaracteristicas}
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    Ingresa una Caracteristicas.
+                                </Form.Control.Feedback>
+                            </Form.Group>
                         </div>
 
                         <Form.Group as={Col}>
@@ -226,10 +234,13 @@ function RegistrarProduct(params) {
                             <img className='form-control' src="" alt="Imagen" ref={imagen} style={{}} />
                         </Form.Group>
                     </Row>
-                    {/* <textarea name="" id="" cols="30" rows="5"></textarea> */}
-                    <Button type="submit">Registrar Producto</Button>
+
+                    <Row className='justify-content-evenly'>
+                        <Button className='col-3' type="submit">Registrar Producto</Button>
+
+                        <Button className='col-3' onClick={limpiar}>Limpiar Formulario</Button>
+                    </Row>
                 </Form>
-                <Button onClick={pruebas}>Registrar Producto</Button>
             </div>
         </div>
     );

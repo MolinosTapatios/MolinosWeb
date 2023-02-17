@@ -26,13 +26,9 @@ async function Registrar(params) {
     
     try {
         const registrar = await postData(params)
-        if(registrar.flag){
-            respons.flag = true
-            respons.msg = registrar.msg
-        }else{
-            respons.flag = false
-            respons.msg = registrar.msg.errorInfo[2]
-        }
+        // console.log(registrar);
+        respons.flag = registrar.flag
+        respons.msg = registrar.msg
     } catch (e) {
         respons.flag = false;
         respons.msg = "Error en el catch "+e
