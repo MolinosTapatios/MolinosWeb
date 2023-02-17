@@ -53,11 +53,49 @@ function Productos(params) {
                 <h1 className='mb-5'>Todos los productos en linea</h1>
 
                 {
-                show &&
-                <Alert variant="danger" onClose={() => setShow(false)} dismissible>
-                    <p>Producto eliminado correctamente</p>
-                </Alert>}
-                
+                    show &&
+                    <Alert variant="danger" onClose={() => setShow(false)} dismissible>
+                        <p>Producto eliminado correctamente</p>
+                    </Alert>
+                }
+
+                <div className='row col-5 mb-3'>
+                    <div className='input-group flex-nowrap'>
+                        <label className="input-group-text">Busqueda:</label>
+                        <input className="form-control col-1" type="text" id="busqueda" />
+                    </div>
+                </div>
+
+                <div className="mb-3">
+                    <div className="row">
+                        <div className="col-md-4 btn-toolbar align-items-center">
+                            <label htmlFor="num_filas">Mostrar  </label>
+                            <select name="num_filas" id="num_filas" className="form-select-sm">
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select> <label htmlFor="fin">  registros</label>
+                        </div>
+                        <div className="col-md-4 offset-md-4 ">
+                            <div aria-label="Page navigation example " className="col-auto">
+                                {/* <ul className="pagination justify-content-end">
+                                    <li className="page-item"><a class="page-link" href="#">Previous</a></li>
+                                    <li className="page-item"><a class="page-link" href="#">1</a></li>
+                                    <li className="page-item active"><a class="page-link" href="#">2</a></li>
+                                    <li className="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li className="page-item"><a class="page-link" href="#">Next</a></li>
+                                </ul> */}
+                                <ul className="pagination justify-content-end" id="pagination">
+                                    <li className="page-item prev-page" id="prev"><a className="page-link prev-page btn">Anterior</a></li>
+                                    <li className="page-item active"><a className="page-link btn" data-page="1">1</a></li>
+                                    <li className="page-item next-page" id="next"><a className="page-link next-page btn">Siguiente</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <Table striped bordered hover size="sm" >
                     <thead className='text-center'>
                         <tr>
