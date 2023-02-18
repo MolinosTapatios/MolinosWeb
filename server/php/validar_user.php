@@ -22,13 +22,14 @@ if (mysqli_num_rows($result)) {
             // echo json_encode("1");
         }else{
             $json["flag"] = false;
-            $json["msg"] = "Contraseña incorrecta";
+            $json["msg"] = "Usuario o contraseña incorrectos";
+            // $json["msg"] = "Contraseña incorrecta";
             // echo json_encode("Contraseña incorrecta");
         }
     }
 } else {
     $json["flag"] = false;
-    $json["msg"] = "Usuario no encontrado";
+    $json["msg"] = "Usuario o contraseña incorrectos";
     // echo json_encode("Usuario no encontrado");
 }
 echo json_encode($json);

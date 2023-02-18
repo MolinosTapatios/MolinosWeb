@@ -2,28 +2,22 @@
 include("./config.php");
 
 $conn = conexionMSQLI();
+
 $sql = "SELECT * from productos";
 $resultado = $conn->query($sql);
 
+$json = array();
 while($fila = $resultado->fetch_array()){
-    $producto[] = array_map('utf8_encode', $fila);
+    // $producto[] = array_map('utf8_encode', $fila);
+    $producto["Tipo_Producto_id"] = $fila["Tipo_Producto_id"];
+    $producto["id"] = $fila["id"];
+    $producto["nombre"] = $fila["nombre"];
+    $producto["precio"] = $fila["precio"];
+    $producto["stock"] = $fila["stock"];
+    $producto["status"] = $fila["status"];
+    array_push($json,$producto);
 }
 
-// if (mysqli_num_rows($result)) {
-//     while ($row = mysqli_fetch_array($result)) {
-//         $output .= '<tr class="filas">
-//                             <td>' . $row['id'] . '</td>
-//                             <td>' . $row['fecha'] . '</td>
-//                             <td>' . $row['hora'] . '</td>
-//                             <td>' . $row['tipo_respaldo'] . '</td>
-//                             <td>' . $row['servidor'] . '</td>
-//                             <td>' . $row['usuario'] . '</td>
-//                             <td>' . $row['observacion'] . '</td>
-//                     </tr>';
-//     }
-//     echo $output;
-// }
-
-echo json_encode($producto);
+echo json_encode($json);
 $resultado->close();
 ?>

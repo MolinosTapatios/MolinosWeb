@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Table, Alert } from 'react-bootstrap';
+import Modal from '../componentes/ModalEditarProducto'
 
 function Productos(params) {
 
     const [productos, setProductos] = useState([]);
     const [render, setRender] = useState(null);
     const [show, setShow] = useState(false);
-    // const [id, setId] = useState(null);
+    const [showModal,setShowModal] = useState(false);
+    const [id,setId] = useState(null);
 
     useEffect(function () {
         fetch("http://localhost/server/ajaxProductos.php")
@@ -32,19 +34,17 @@ function Productos(params) {
             })
     }
 
-    const editar = (e) => {
-        console.log(e.target.id)
-        const data = {
-            "id": e.target.id,
-            "nombre": "nombre"
-        }
+    const estado =(estado)=>{
+        setShowModal(estado)
+        return estado;
+    }
 
-        fetch("http://localhost/server/ajax_editarProducto.php", {
-            body: JSON.stringify({ data }),
-            method: "POST"
-        })
-            .then(resp => resp.json())
-            .then(response => setRender(response))
+    const MODAL =()=> <Modal showModal={showModal} estado ={estado}  id={id}/>;
+
+    const editar = (e) => {
+        setId(e.target.id)
+        estado(true)
+        console.log(e.target.id)
     }
 
     return (
@@ -79,17 +79,10 @@ function Productos(params) {
                         </div>
                         <div className="col-md-4 offset-md-4 ">
                             <div aria-label="Page navigation example " className="col-auto">
-                                {/* <ul className="pagination justify-content-end">
-                                    <li className="page-item"><a class="page-link" href="#">Previous</a></li>
-                                    <li className="page-item"><a class="page-link" href="#">1</a></li>
-                                    <li className="page-item active"><a class="page-link" href="#">2</a></li>
-                                    <li className="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li className="page-item"><a class="page-link" href="#">Next</a></li>
-                                </ul> */}
                                 <ul className="pagination justify-content-end" id="pagination">
-                                    <li className="page-item prev-page" id="prev"><a className="page-link prev-page btn">Anterior</a></li>
-                                    <li className="page-item active"><a className="page-link btn" data-page="1">1</a></li>
-                                    <li className="page-item next-page" id="next"><a className="page-link next-page btn">Siguiente</a></li>
+                                    <li className="page-item prev-page" id="prev"><p className="page-link prev-page btn">Anterior</p></li>
+                                    <li className="page-item active"><p className="page-link btn" data-page="1">1</p></li>
+                                    <li className="page-item next-page" id="next"><p className="page-link next-page btn">Siguiente</p></li>
                                 </ul>
                             </div>
                         </div>
@@ -127,6 +120,10 @@ function Productos(params) {
                         }
                     </tbody>
                 </Table>
+
+                <MODAL estado = {false} />
+
+                
             </div>
         </div>
     )

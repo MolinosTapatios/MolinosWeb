@@ -1,9 +1,10 @@
-import { Form, Row, Col, InputGroup, Button, Alert } from 'react-bootstrap';
-import { useRef, useState } from 'react';
-import { Registrar } from "../ajaxs/Registro_producto";
-// import Registrar from '../ajaxs/Registro_producto';
+import { useState, useRef, useEffect } from "react";
+// import { useEffect } from "react";
+import { Modal, Button, Form, Row, Col, InputGroup } from "react-bootstrap";
 
-function RegistrarProduct(params) {
+function ModalEditar({ showModal=false, estado, id=0 }) {
+    
+    console.log(id);
 
     const refNombre = useRef(null);
     const refPrecio = useRef(null);
@@ -15,11 +16,23 @@ function RegistrarProduct(params) {
     const refTipo = useRef(null);
     const imagen = useRef(null);
 
-    //Validacion de formulario
     const [validated, setValidated] = useState(false);
-    const [error, setError] = useState(null);
-    const [show, setShow] = useState(false);
-    const [color, setColor] = useState(null);
+    const [show, setShowModal] = useState(showModal);
+
+    useEffect(()=>{
+        fetch("http://localhost/server/ajax_getProducto.php", {
+            body: JSON.stringify({"id":0}),
+            method: "POST"
+        })
+        .then(resp => resp.json())
+        .then(response => console.log(response))
+    },[])
+
+    // const handleShowModal = () => (setShowModal(true));
+    const handleCloseModal = () => {
+        estado(false)
+        setShowModal(false)
+    }
 
     const handleSubmit = (event) => {
         const form = event.currentTarget;
@@ -33,29 +46,6 @@ function RegistrarProduct(params) {
         setValidated(true);
     };
 
-    async function handleRegistro() {
-        const data = {
-            "nombre": refNombre.current.value,
-            "precio": refPrecio.current.value,
-            "stock": refStock.current.value,
-            "descripcion": refDescripcion.current.value,
-            "caracteristicas" : refCaracteristicas.current.value,
-            "status": refStatus.current.value,
-            "tipo": refTipo.current.value,
-        }
-        const respuesta = await Registrar(data)
-        // console.log(respuesta.flag)
-        if (respuesta.flag){
-            setColor("info")
-        }
-        else
-            setColor("danger")
-        setError(respuesta.msg)
-        setShow(true)
-    }
-    
-    // const [file,setFile] = useState(null);
-    
     function mostrarImg() {
         // setFile(refImagen.current.files[0])
         // console.log(refImagen.current.files[0])
@@ -67,55 +57,42 @@ function RegistrarProduct(params) {
             // console.log(fileReadar.result)
         }
     }
-//se guarda la imagen
-    // function pruebas() {
-    //     if(!file){
-    //         alert("No hay archivos seleccionados");
-    //         return;
-    //     }
-        
-    //     const formdata = new FormData()
-    //     formdata.append('imagen', file)
-        
-    //     console.log(formdata);
 
-    //     fetch("http://localhost/server/guardarImg.php",{
-    //         method:"POST",
-    //         body:formdata
-    //     })
-    //     .then(res => res.text)
-    //     .then(res => console.log(res))
-    //     .catch(err => {
-    //         console.error(err)
-    //     })
-    //     // guardarArchivo()
-    //     // handleRegistro();
-    // }
-
-    function limpiar(){
-        refNombre.current.value = null
-        refPrecio.current.value = null
-        refStock.current.value = null
-        refImagen.current.value = null
-        refDescripcion.current.value = null
-        refCaracteristicas.current.value = null
-        refStatus.current.value = null
-        refTipo.current.value = null
-        imagen.current.value = null
+    async function handleRegistro() {
+        // const data = {
+        //     "nombre": refNombre.current.value,
+        //     "precio": refPrecio.current.value,
+        //     "stock": refStock.current.value,
+        //     "descripcion": refDescripcion.current.value,
+        //     "caracteristicas" : refCaracteristicas.current.value,
+        //     "status": refStatus.current.value,
+        //     "tipo": refTipo.current.value,
+        // }
+        // const respuesta = await Registrar(data)
+        // console.log(respuesta.flag)
+        // if (respuesta.flag){
+            // setColor("info")
+        // }
+        // else
+        // setColor("danger")
+        // setError(respuesta.msg)
+        // setShow(true)
     }
 
     return (
-        <div style={{ background: "gray" }}>
-            <div className='container py-1' >
-                <h1 className='text-center mt-2 mb-5'>Registro de productos</h1>
-                {
-                    show &&
-                    <Alert variant={color} onClose={() => setShow(false)} dismissible>
-                        <p>
-                            {error}
-                        </p>
-                    </Alert>
-                }
+        <>
+            <Modal
+                show={show}
+                onHide={handleCloseModal}
+                backdrop="static"
+                keyboard={false}
+                size="lg"
+                centered
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title>Producto</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
                 <Form noValidate validated={validated} onSubmit={handleSubmit}>
                     <Row className="mb-3">
 
@@ -192,8 +169,8 @@ function RegistrarProduct(params) {
                                     type="file"
                                     accept='.png, .jpg'
                                     ref={refImagen}
-                                    onChange={mostrarImg}
                                     encType="multipart/form-data"
+                                    onChange={mostrarImg}
                                 // required
                                 />
                                 <Form.Control.Feedback type="invalid">
@@ -232,19 +209,20 @@ function RegistrarProduct(params) {
 
                         <Form.Group as={Col}>
                             <Form.Label>Imagen</Form.Label>
-                            <img className='form-control' src="" alt="Imagen" ref={imagen} />
+                            <img className='form-control' src="" alt="Imagen" ref={imagen} style={{}} />
                         </Form.Group>
                     </Row>
-
-                    <Row className='justify-content-evenly'>
-                        <Button className='col-3' type="submit">Registrar Producto</Button>
-
-                        <Button className='col-3' onClick={limpiar}>Limpiar Formulario</Button>
-                    </Row>
                 </Form>
-            </div>
-        </div>
-    );
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseModal}>
+                        Cerrar
+                    </Button>
+                    <Button variant="primary">Guardar</Button>
+                </Modal.Footer>
+            </Modal>
+        </>
+    )
 }
 
-export default RegistrarProduct;
+export default ModalEditar;
