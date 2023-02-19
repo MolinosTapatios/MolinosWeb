@@ -1,50 +1,83 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer, useRef, useState } from 'react';
 import { Table, Alert } from 'react-bootstrap';
 import Modal from '../componentes/ModalEditarProducto'
 
+function FilaProduct({p}) {
+
+    return (
+        <tr >
+            <td>{p.id}</td>
+            <td>{p.nombre}</td>
+        </tr>
+    )
+}
+
 function Productos(params) {
 
-    const [productos, setProductos] = useState([]);
-    const [render, setRender] = useState(null);
-    const [show, setShow] = useState(false);
-    const [showModal,setShowModal] = useState(false);
-    const [id,setId] = useState(null);
+    const [MsgAlert, setMsgAlert] = useState(null)
+    const [productos, setProductos] = useState([])
+    const [render, setRender] = useState(false)
+    const [show, setShow] = useState(false)
+    const [showModal, setShowModal] = useState(false)
+    const [id, setId] = useState(null)
+    const [lista, setLista] = useState([])
 
+    
     useEffect(function () {
         fetch("http://localhost/server/ajaxProductos.php")
-            .then(res => res.json())
-            .then(response => {
-                const data = response
-                const productos = data;
-                // console.log(productos)
-                setProductos(productos);
-            })
+        .then(res => res.json())
+        .then(response => {
+            const data = response
+            const productos = data
+            setProductos(productos)
+            setLista(productos)
+        })
     }, [render])
 
     function eliminar(e) {
-        // console.log(e.target.id)
         fetch("http://localhost/server/ajax_eliminarProducto.php", {
             body: JSON.stringify({ "id": e.target.id }),
             method: "POST"
         })
             .then(resp => resp.json())
             .then(response => {
-                setRender(response)
+                setRender(!render)
                 setShow(true)
+                setMsgAlert(response.msg)
             })
     }
 
-    const estado =(estado)=>{
+    const estado = (estado) => {
         setShowModal(estado)
-        return estado;
+        if (showModal === true) {
+            setRender(!render)
+        }
     }
 
-    const MODAL =()=> <Modal showModal={showModal} estado ={estado}  id={id}/>;
+    const MODAL = () => <Modal showModal={showModal} estado={estado} id={id} />;
 
     const editar = (e) => {
         setId(e.target.id)
         estado(true)
-        console.log(e.target.id)
+        // console.log(e.target.id)
+    }
+
+    //-----------------------------------------------
+    //--------------pagination-----------------------
+    //-----------------------------------------------
+    const refNum_filas = useRef()
+    const refTbody = useRef()
+
+    function Tabla({lista=[]}) {
+        if(!!refNum_filas.current){
+            lista = lista.slice(0,refNum_filas.current.value) 
+        }
+
+        return(
+            lista.map(p =>
+                <FilaProduct key={p.id} p={p} />
+            )
+        )
     }
 
     return (
@@ -55,7 +88,7 @@ function Productos(params) {
                 {
                     show &&
                     <Alert variant="danger" onClose={() => setShow(false)} dismissible>
-                        <p>Producto eliminado correctamente</p>
+                        <p>{MsgAlert}</p>
                     </Alert>
                 }
 
@@ -70,7 +103,7 @@ function Productos(params) {
                     <div className="row">
                         <div className="col-md-4 btn-toolbar align-items-center">
                             <label htmlFor="num_filas">Mostrar  </label>
-                            <select name="num_filas" id="num_filas" className="form-select-sm">
+                            <select name="num_filas" id="num_filas" className="form-select-sm" ref={refNum_filas} /* onChange={cambio} */ >
                                 <option value="10">10</option>
                                 <option value="25">25</option>
                                 <option value="50">50</option>
@@ -101,29 +134,32 @@ function Productos(params) {
                             <th>Acciones</th>
                         </tr>
                     </thead>
-                    <tbody className='text-center'>
+                    <tbody className='text-center' ref={refTbody} id="cuerpo">
+                        
+                            <Tabla lista={lista} filas={10} />
+                        
                         {
-                            productos.map(p =>
-                                <tr key={p.id}>
-                                    <th>{p.id}</th>
-                                    <th>{p.nombre}</th>
-                                    <th>{p.precio}</th>
-                                    <th>{p.stock}</th>
-                                    <th>{p.status}</th>
-                                    <th>{p.Tipo_Producto_id}</th>
-                                    <th>
-                                        <button id={p.id} onClick={eliminar} className='btn btn-danger  mx-2'><i id={p.id} className="bi bi-trash"></i></button>
-                                        <button id={p.id} onClick={editar} className='btn btn-info mx-2'><i id={p.id} className="bi bi-pencil-square"></i></button>
-                                    </th>
-                                </tr>
-                            )
+                            // productos.map(p =>
+                            // <tr key={p.id}>
+                            //     <td>{p.id}</td>
+                            //     <td>{p.nombre}</td>
+                            //     <td>{p.precio}</td>
+                            //     <td>{p.stock}</td>
+                            //     <td>{p.status}</td>
+                            //     <td>{p.Tipo_Producto_id}</td>
+                            //     <td>
+                            //         <button id={p.id} onClick={eliminar} className='btn btn-danger  mx-2'><i id={p.id} className="bi bi-trash"></i></button>
+                            //         <button id={p.id} onClick={editar} className='btn btn-info mx-2'><i id={p.id} className="bi bi-pencil-square"></i></button>
+                            //     </td>
+                            // </tr>
+                            // )
                         }
                     </tbody>
                 </Table>
 
-                <MODAL estado = {false} />
+                <MODAL estado={false} />
 
-                
+
             </div>
         </div>
     )
