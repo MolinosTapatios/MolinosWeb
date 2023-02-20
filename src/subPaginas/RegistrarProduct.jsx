@@ -1,7 +1,6 @@
 import { Form, Row, Col, InputGroup, Button, Alert } from 'react-bootstrap';
 import { useRef, useState } from 'react';
 import { Registrar } from "../ajaxs/Registro_producto";
-// import Registrar from '../ajaxs/Registro_producto';
 
 function RegistrarProduct(params) {
 
@@ -44,9 +43,9 @@ function RegistrarProduct(params) {
             "tipo": refTipo.current.value,
         }
         const respuesta = await Registrar(data)
-        // console.log(respuesta.flag)
         if (respuesta.flag){
             setColor("info")
+            guardarImagen()
         }
         else
             setColor("danger")
@@ -54,43 +53,45 @@ function RegistrarProduct(params) {
         setShow(true)
     }
     
-    // const [file,setFile] = useState(null);
     
     function mostrarImg() {
-        // setFile(refImagen.current.files[0])
-        // console.log(refImagen.current.files[0])
         const img = refImagen.current.files[0]
         const fileReadar = new FileReader();
         fileReadar.readAsDataURL(img)
         fileReadar.onload = function () {
             imagen.current.src = fileReadar.result
-            // console.log(fileReadar.result)
         }
     }
 //se guarda la imagen
-    // function pruebas() {
-    //     if(!file){
-    //         alert("No hay archivos seleccionados");
-    //         return;
-    //     }
-        
-    //     const formdata = new FormData()
-    //     formdata.append('imagen', file)
-        
-    //     console.log(formdata);
+    function guardarImagen() {
 
-    //     fetch("http://localhost/server/guardarImg.php",{
-    //         method:"POST",
-    //         body:formdata
-    //     })
-    //     .then(res => res.text)
-    //     .then(res => console.log(res))
-    //     .catch(err => {
-    //         console.error(err)
-    //     })
-    //     // guardarArchivo()
-    //     // handleRegistro();
-    // }
+        if(!refImagen){
+            alert("No hay archivos seleccionados");
+            return;
+        }
+        //guardando todas lam imagenes para enviar
+        const formdata = new FormData()
+        for (let i = 0; i < refImagen.current.files.length; i++) {
+            formdata.append('imagen[]', refImagen.current.files[i])
+            console.log(i)
+        }
+        formdata.append('user', refNombre.current.value)
+        
+        console.log(refImagen.current.files.length)
+        console.log(formdata.get("imagen[]"));
+
+        fetch("http://localhost/server/guardarImg.php",{
+            method:"POST",
+            body:formdata
+        })
+        .then(res => res.text)
+        .then(res => console.log(res))
+        .catch(err => {
+            console.error(err)
+        })
+        // guardarArchivo()
+        // handleRegistro();
+    }
 
     function limpiar(){
         refNombre.current.value = null
@@ -194,7 +195,8 @@ function RegistrarProduct(params) {
                                     ref={refImagen}
                                     onChange={mostrarImg}
                                     encType="multipart/form-data"
-                                // required
+                                    multiple
+                                    required
                                 />
                                 <Form.Control.Feedback type="invalid">
                                     El producto debe tener una imagen

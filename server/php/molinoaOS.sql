@@ -161,4 +161,15 @@ INSERT INTO `usuarios` VALUES (1,'root','d6ca3fd0c3a3b462ff2b83436dda495e','Silv
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
+CREATE TABLE IF NOT EXISTS `molinos`.`imagenes` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `path` VARCHAR(255) NOT NULL,
+  `productos_id` INT(11) NOT NULL,
+  PRIMARY KEY (`id`),
+    FOREIGN KEY (`productos_id`)
+    REFERENCES `molinos`.`productos` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
 -- Dump completed on 2023-02-16 18:31:51

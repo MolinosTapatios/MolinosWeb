@@ -1,5 +1,3 @@
-// import { useState } from "react";
-// import { useState } from "react";
 import URL from "../config.js"
 
 
@@ -26,7 +24,6 @@ async function Registrar(params) {
     
     try {
         const registrar = await postData(params)
-        // console.log(registrar);
         respons.flag = registrar.flag
         respons.msg = registrar.msg
     } catch (e) {

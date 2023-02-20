@@ -6,13 +6,13 @@ $id = $input["id"];
 $nombre = $input["nombre"];
 $precio = $input["precio"];
 $stock = $input["stock"];
-$decripcion = $input["descripcion"];
+$descripcion = $input["descripcion"];
 $caracteristicas = $input["caracteristicas"];
 $tipo = $input["tipo"];
 $status = $input["status"];
 
 try {
-    $sql = "UPDATE productos set nombre = '$nombre', precio = $precio,   where id = $id";
+    $sql = "UPDATE productos set nombre = '$nombre', descripcion = '$descripcion', caracteristicas = '$caracteristicas', precio = $precio, stock = $stock, status = $status, Tipo_Producto_id = $tipo where id = $id";
     $resp = $conn->query($sql);
 
     if(mysqli_errno($conn)){

@@ -18,6 +18,8 @@ try {
             $producto["precio"] = $fila["precio"];
             $producto["stock"] = $fila["stock"];
             $producto["status"] = $fila["status"];
+            $producto["descripcion"] = $fila["descripcion"];
+            $producto["caracteristicas"] = $fila["caracteristicas"];
         }
         echo json_encode($producto);
     } else {
@@ -27,7 +29,7 @@ try {
     $conex->close();
 } catch (Throwable $th) {
     //throw $th;
-    $json["mag"] = "".$th;
+    $json["msg"] = "".$th;
     echo json_encode($json);
 
 }
