@@ -1,4 +1,4 @@
-// import  VistaProductos  from "../../componentes/VistaProductos";
+import  VistaProductos  from "../componentes/VistaProductos";
 
 function Home(params) {
 
@@ -18,7 +18,7 @@ function Home(params) {
             </div>
             <div className='' id="domestico">
                 <h2 className="text-center">MOLINOS DE DISCO USO DOMÉSTICO</h2>
-                {/* <VistaProductos /> */}
+                <VistaProductos />
             </div>
         </div>
     );
