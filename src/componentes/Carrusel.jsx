@@ -5,7 +5,6 @@ function Carrusel({ images }) {
 
     const [render, setRender] = useState(false)
 
-    console.log(images)
     useEffect(() => {
     }, [render])
 
@@ -18,7 +17,6 @@ function Carrusel({ images }) {
     if (images) {
         return (
             <Carousel onClick={val}>
-                {/* <p style={{visibility:"hidden"}}>Click para cargar imagenes</p> */}
                 {
                     images.map(img =>
                         <Carousel.Item key={img.id}>
