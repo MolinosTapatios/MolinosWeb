@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { Table, Alert } from 'react-bootstrap';
 import Modal from '../componentes/ModalEditarProducto'
+import getProducts from '../services/getProducts';
+import removeProduct from '../services/removeProduct';
 
 function Productos(params) {
 
@@ -12,26 +14,17 @@ function Productos(params) {
 
 
     useEffect(function () {
-        fetch("http://localhost/server/ajaxProductos.php")
-            .then(res => res.json())
-            .then(response => {
-                const data = response
-                const productos = data
-                setLista(productos)
-            })
+        getProducts().then(setLista)
     }, [render])
 
     function eliminar(e) {
-        fetch("http://localhost/server/ajax_eliminarProducto.php", {
-            body: JSON.stringify({ "id": e.target.id }),
-            method: "POST"
+        removeProduct({id : e.target.id})
+        .then(response => {
+            console.log(response)
+            setRender(!render)
+            setShow(true)
+            setMsgAlert(response.msg)
         })
-            .then(resp => resp.json())
-            .then(response => {
-                setRender(!render)
-                setShow(true)
-                setMsgAlert(response.msg)
-            })
     }
 
     const estado = (estado) => {
@@ -61,19 +54,20 @@ function Productos(params) {
     const refNum_filas = useRef()
     const refTbody = useRef()
 
-    useEffect(()=>{
+    useEffect(() => {
         const array = lista.filter(fila => fila["nombre"].toLowerCase().includes(valor.toLowerCase()))
-        setPagTotales(parseInt (array.length / filas+1))
-    },[lista,filas,valor])
+        const itemsTot = (array.length - (array.length % parseInt(filas))) / parseInt(filas) + (array.length % parseInt(filas) === 0 ? 0 : 1);
+        setPagTotales(itemsTot)
+    }, [lista, filas, valor])
 
-    const aux = (lista)=> {
+    const aux = (lista) => {
         lista = lista.filter(fila => fila["nombre"].toLowerCase().includes(valor.toLowerCase()))
-        return(lista)
+        return (lista)
     }
 
     function Tabla({ lista = [], filas = 5 }) {
         const inicio = (filas * pagActual) - filas;
-        
+
         lista = aux(lista)
         lista = lista.slice(inicio, inicio + filas)
 
@@ -118,7 +112,6 @@ function Productos(params) {
     }
 
     function clickItem(e) {
-        console.log(parseInt(e.target.textContent))
         setPagActual(parseInt(e.target.textContent))
     }
 
@@ -191,7 +184,7 @@ function Productos(params) {
                 <div className='row col-5 mb-3'>
                     <div className='input-group flex-nowrap'>
                         <label className="input-group-text">Busqueda:</label>
-                        <input className="form-control col-1" type="text" ref={refBusqueda} onKeyUp={busqueda}/>
+                        <input className="form-control col-1" type="text" ref={refBusqueda} onKeyUp={busqueda} />
                     </div>
                 </div>
 
@@ -232,6 +225,7 @@ function Productos(params) {
                 </Table>
 
                 <MODAL estado={false} />
+                {/* <Modal showModal={showModal} estado={estado} id={id} /> */}
 
 
             </div>

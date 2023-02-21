@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import image from "../img/1.0.png";
-import Constantes from "../config";
+import {URL} from "../services/config";
 // import { Modal } from "react-bootstrap";
 // const URL_LOGIN = "http://localhost/server/validar_user.php";
 
@@ -22,7 +22,7 @@ import Constantes from "../config";
 // Ejemplo implementando el metodo POST:
 const postData = async (data) => {
     // Opciones por defecto estan marcadas con un *
-    const response = await fetch(`${Constantes.URL}/validar_user.php`, {
+    const response = await fetch(`${URL}/validar_user.php`, {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         body: JSON.stringify(data), // body data type must match "Content-Type" header
         mode: 'cors', // no-cors, *cors, same-origin
@@ -59,14 +59,13 @@ function Login(props) {
         try {
             const user = await postData(data);
             if (user.flag) {
-                // window.localStorage.setItem("active",JSON.stringify(user));
                 window.sessionStorage.setItem("active", JSON.stringify(user));
                 window.history.pushState({},"","/");
             }
             props.acceder(user.flag);
             setError(user.msg);
         } catch (e) {
-            setError("Error al consultar");
+            setError("Error en el Servidor");
         }
         setEspera(false);
     }

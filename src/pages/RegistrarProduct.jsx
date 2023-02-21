@@ -1,6 +1,7 @@
 import { Form, Row, Col, InputGroup, Button, Alert } from 'react-bootstrap';
 import { useRef, useState } from 'react';
-import { Registrar } from "../ajaxs/Registro_producto";
+import { Registrar } from "../services/Registro_producto";
+import Carrusel from "../componentes/Carrusel";
 
 function RegistrarProduct(params) {
 
@@ -19,6 +20,7 @@ function RegistrarProduct(params) {
     const [error, setError] = useState(null);
     const [show, setShow] = useState(false);
     const [color, setColor] = useState(null);
+    const [images, setImages] = useState([]);
 
     const handleSubmit = (event) => {
         const form = event.currentTarget;
@@ -55,11 +57,17 @@ function RegistrarProduct(params) {
     
     
     function mostrarImg() {
-        const img = refImagen.current.files[0]
-        const fileReadar = new FileReader();
-        fileReadar.readAsDataURL(img)
-        fileReadar.onload = function () {
-            imagen.current.src = fileReadar.result
+        const imgs = [];
+        if(refImagen.current.files.length > 0){
+            for (let i = 0; i < refImagen.current.files.length; i++) {
+                let img = refImagen.current.files[i]
+                let fileReadar = new FileReader();
+                fileReadar.readAsDataURL(img)
+                fileReadar.onload = () => {
+                    imgs.push({"path": fileReadar.result,"id":i})
+                }
+            }
+            setImages(imgs)
         }
     }
 //se guarda la imagen
@@ -80,7 +88,7 @@ function RegistrarProduct(params) {
         console.log(refImagen.current.files.length)
         console.log(formdata.get("imagen[]"));
 
-        fetch("http://localhost/server/guardarImg.php",{
+        fetch("http://192.168.1.69/server/guardarImg.php",{
             method:"POST",
             body:formdata
         })
@@ -89,8 +97,6 @@ function RegistrarProduct(params) {
         .catch(err => {
             console.error(err)
         })
-        // guardarArchivo()
-        // handleRegistro();
     }
 
     function limpiar(){
@@ -103,6 +109,7 @@ function RegistrarProduct(params) {
         refStatus.current.value = null
         refTipo.current.value = null
         imagen.current.value = null
+        setValidated(false)
     }
 
     return (
@@ -234,7 +241,8 @@ function RegistrarProduct(params) {
 
                         <Form.Group as={Col}>
                             <Form.Label>Imagen</Form.Label>
-                            <img className='form-control' src="" alt="Imagen" ref={imagen} />
+                            {/* <img className='form-control' src="" alt="Imagen" ref={imagen} /> */}
+                            <Carrusel images={images}/>
                         </Form.Group>
                     </Row>
 

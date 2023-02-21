@@ -1,9 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import { Modal, Button, Form, Row, Col, InputGroup } from "react-bootstrap";
+import Carrusel from "./Carrusel";
 
 function ModalEditar({ showModal = false, estado, id = 0 }) {
-
-    // console.log(id);
 
     const refTitleModal = useRef(null);
     const refNombre = useRef(null);
@@ -18,41 +17,39 @@ function ModalEditar({ showModal = false, estado, id = 0 }) {
 
     const [validated, setValidated] = useState(false);
     const [show, setShowModal] = useState(showModal);
-    // const [data, setData] = useState(null);
+    const [images, setImages] = useState([]);
 
     useEffect(() => {
-        if(showModal){
-
-            fetch("http://localhost/server/ajax_getProducto.php", {
+        if (showModal) {
+            fetch("http://192.168.1.69/server/ajax_getProducto.php", {
                 body: JSON.stringify({ "id": id }),
                 method: "POST"
             })
-            .then(resp => resp.json())
-            .then(response => {
-                try {
-                    // console.log(response)
-                    if (!response.msg) {
-                        // console.log(refTitleModal)
-                        refTitleModal.current.innerHTML = response.nombre
-                        refNombre.current.value = response.nombre
-                    refTipo.current.value = response.Tipo_Producto_id
-                    refStatus.current.value = response.status
-                    refCaracteristicas.current.value = response.caracteristicas
-                    refDescripcion.current.value = response.descripcion
-                    refPrecio.current.value = response.precio
-                    refStock.current.value = response.stock
-                }
-            } catch (error) {
-                // console.log(error)
-            }
-        })
-        .catch((error) => {
-            console.error(`Could not get products: ${error}`);
-        });
-    }
-    })
+                .then(resp => resp.json())
+                .then(response => {
+                    try {
+                        if (!response.msg) {
+                            refTitleModal.current.innerHTML = response.nombre
+                            refNombre.current.value = response.nombre
+                            refTipo.current.value = response.Tipo_Producto_id
+                            refStatus.current.value = response.status
+                            refCaracteristicas.current.value = response.caracteristicas
+                            refDescripcion.current.value = response.descripcion
+                            refPrecio.current.value = response.precio
+                            refStock.current.value = response.stock
+                            setImages(response.images)
+                            console.log(response)
+                        }
+                    } catch (error) {
+                        // console.log(error)
+                    }
+                })
+                .catch((error) => {
+                    console.error(`Could not get products: ${error}`);
+                });
+        }
+    }, [id,showModal])
 
-    // const handleShowModal = () => (setShowModal(true));
     const handleCloseModal = () => {
         estado(false)
         setShowModal(false)
@@ -71,8 +68,6 @@ function ModalEditar({ showModal = false, estado, id = 0 }) {
     };
 
     function mostrarImg() {
-        // setFile(refImagen.current.files[0])
-        // console.log(refImagen.current.files[0])
         const img = refImagen.current.files[0]
         const fileReadar = new FileReader();
         fileReadar.readAsDataURL(img)
@@ -86,7 +81,7 @@ function ModalEditar({ showModal = false, estado, id = 0 }) {
         setShowModal(false)
         estado(false)
         const data = {
-            "id":id,
+            "id": id,
             "nombre": refNombre.current.value,
             "precio": refPrecio.current.value,
             "stock": refStock.current.value,
@@ -95,13 +90,12 @@ function ModalEditar({ showModal = false, estado, id = 0 }) {
             "status": refStatus.current.value,
             "tipo": refTipo.current.value
         }
-        fetch("http://localhost/server/ajax_editarProducto.php", {
+        fetch("http://192.168.1.69/server/ajax_editarProducto.php", {
             body: JSON.stringify(data),
             method: "POST"
         }).then(resp => resp.json())
-            .then(response => {
-                // console.log(response)
-            })
+        //hacer algo con la respuesta
+            .then(response => {})
     }
 
     return (
@@ -234,17 +228,18 @@ function ModalEditar({ showModal = false, estado, id = 0 }) {
 
                             <Form.Group as={Col}>
                                 <Form.Label>Imagen</Form.Label>
-                                <img className='form-control' src="" alt="Imagen" ref={muestraImagen} />
+                                {/* <img className='form-control' src="" alt="Imagen" ref={muestraImagen} /> */}
+                                <Carrusel images={images} />
                             </Form.Group>
                         </Row>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={handleCloseModal}>
+                                Cancelar
+                            </Button>
+                            <Button variant="primary" type="submit">Guardar</Button>
+                        </Modal.Footer>
                     </Form>
                 </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleCloseModal}>
-                        Cerrar
-                    </Button>
-                    <Button variant="primary" onClick={handleSubmit}>Guardar</Button>
-                </Modal.Footer>
             </Modal>
         </>
     )

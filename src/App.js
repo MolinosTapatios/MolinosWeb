@@ -1,10 +1,11 @@
 import React,{ useState, useEffect } from "react";
 import {Route, Routes} from 'react-router-dom'
-import Login from "./componentes/Login.jsx";
-import Home from "./componentes/Home.jsx";
+import Login from "./pages/Login.jsx";
+import Home from "./pages/Home.jsx";
 import Nav from "./componentes/Nav.jsx";
-import RegProduct from './subPaginas/RegistrarProduct.jsx'
-import Productos from './subPaginas/Productos.jsx'
+import RegProduct from './pages/RegistrarProduct.jsx'
+import Productos from './pages/Productos.jsx'
+import ErrorPage from "./pages/ErrorPage.jsx";
 
 
 function App() {
@@ -24,7 +25,6 @@ function App() {
   }
  const NAV = ()=> conectado ? <Nav/>:"";
  const Tortilla = ()=> <h1>Tortilladoras</h1>;
-//  const RegPro = ()=> <h1>Registrar producto</h1>;
 
   return (
     conectado ?
@@ -32,10 +32,10 @@ function App() {
         <NAV/>
         <Routes>
           <Route path="/" element={<Home/>}/>
-          {/* <Route path="/login" element={<Login acceder={acceder}/>}/> */}
           <Route path="/registrarPr" element={<RegProduct />}/>
           <Route path="/tortilla" element={<Tortilla />}/>
           <Route path="/todos_productos" element={<Productos />}/>
+          <Route path="/:rest/*" element={<ErrorPage />}/>
         </Routes>
       </div> : <Login acceder={acceder}/>
     );

@@ -1,9 +1,9 @@
-import URL from "../config.js"
+import {URL} from "./config.js"
 
 
 //Registro de producto
 const postData = async (data) => {
-    const response = await fetch(URL.URL + "registrarProducto.php", {
+    const response = await fetch(URL + "registrarProducto.php", {
         method: 'POST',
         body: JSON.stringify(data),
         mode: 'cors',
