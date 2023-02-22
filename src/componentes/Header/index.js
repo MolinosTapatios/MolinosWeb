@@ -8,7 +8,7 @@ function Header({acceder}) {
     const href = useHref()
     const { isLogged, } = useUser()
 
-    console.log(href)
+    // console.log(href)
     
     useEffect(()=>{
         acceder(isLogged)

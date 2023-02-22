@@ -13,7 +13,7 @@ function App() {
   const [conectado, setConectado] = useState(false);
   
   useEffect(() => {
-    console.log(conectado)
+    // console.log(conectado)
     const loggedUserJSON = window.sessionStorage.getItem("active");
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);

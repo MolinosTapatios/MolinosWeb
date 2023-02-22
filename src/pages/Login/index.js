@@ -5,9 +5,7 @@ import useUser from "../../hooks/useUser";
 // import login from "services/login";
 
 function Login({acceder}) {
-    const [error, setError] = useState(null);
-    const [espera, setEspera] = useState(null);
-    const { login, isLogged } = useUser();
+    const { login, isLogged, loading, error } = useUser();
     const navigate = useNavigate();
 
     const refUsuario = useRef(null);
@@ -23,13 +21,14 @@ function Login({acceder}) {
     const handleLogin = event => {
         event.preventDefault();
         event.stopPropagation();
-        setEspera(true);
         try {
+
             login({
                 username: refUsuario.current.value,
                 password: refPassword.current.value
                 // estado: acceder,
-            });
+            })
+            // console.log(user)
             // login({ "user": refUsuario.current.value, "password": refPassword.current.value })
             //     .then(user => {
             //         if (user.flag) {
@@ -41,9 +40,8 @@ function Login({acceder}) {
             //         setError(user.msg);
             //     })
         } catch (e) {
-            setError("Error en el Servidor" + e);
+            // setError("Error en el Servidor" + e);
         }
-        setEspera(false);
     };
 
     return (
@@ -97,7 +95,7 @@ function Login({acceder}) {
                                         className="w-100 mb-2 btn btn-lg rounded-3 btn-primary"
                                         type="submit"
                                         onClick={handleLogin}
-                                        disabled={espera}
+                                        disabled={loading}
                                     >
                                         Iniciar Sesion
                                     </button>
