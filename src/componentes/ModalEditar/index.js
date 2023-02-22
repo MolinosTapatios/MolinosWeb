@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import { Modal, Button, Form, Row, Col, InputGroup } from "react-bootstrap";
-import Carrusel from "./Carrusel";
+import getSingleProduct from "services/getSingleProduct";
+import updateProduct from "services/updateProduct";
+import Carrusel from 'componentes/ModalEditar';
 
 function ModalEditar({ showModal = false, estado, id = 0 }) {
 
@@ -20,35 +22,24 @@ function ModalEditar({ showModal = false, estado, id = 0 }) {
     const [images, setImages] = useState([]);
 
     useEffect(() => {
-        if (showModal) {
-            fetch("http://192.168.1.69/server/ajax_getProducto.php", {
-                body: JSON.stringify({ "id": id }),
-                method: "POST"
-            })
-                .then(resp => resp.json())
-                .then(response => {
-                    try {
-                        if (!response.msg) {
-                            refTitleModal.current.innerHTML = response.nombre
-                            refNombre.current.value = response.nombre
-                            refTipo.current.value = response.Tipo_Producto_id
-                            refStatus.current.value = response.status
-                            refCaracteristicas.current.value = response.caracteristicas
-                            refDescripcion.current.value = response.descripcion
-                            refPrecio.current.value = response.precio
-                            refStock.current.value = response.stock
-                            setImages(response.images)
-                            console.log(response)
-                        }
-                    } catch (error) {
-                        // console.log(error)
+        getSingleProduct({ id: id })
+            .then(response => {
+                if (showModal) {
+                    if (!response.msg) {
+                        refTitleModal.current.innerHTML = response.nombre
+                        refNombre.current.value = response.nombre
+                        refTipo.current.value = response.Tipo_Producto_id
+                        refStatus.current.value = response.status
+                        refCaracteristicas.current.value = response.caracteristicas
+                        refDescripcion.current.value = response.descripcion
+                        refPrecio.current.value = response.precio
+                        refStock.current.value = response.stock
+                        setImages(response.images)
                     }
-                })
-                .catch((error) => {
-                    console.error(`Could not get products: ${error}`);
-                });
-        }
-    }, [id,showModal])
+                }
+            })
+
+    }, [id, showModal])
 
     const handleCloseModal = () => {
         estado(false)
@@ -73,29 +64,21 @@ function ModalEditar({ showModal = false, estado, id = 0 }) {
         fileReadar.readAsDataURL(img)
         fileReadar.onload = function () {
             muestraImagen.current.src = fileReadar.result
-            // console.log(fileReadar.result)
         }
     }
 
     function handleRegistro() {
         setShowModal(false)
         estado(false)
-        const data = {
-            "id": id,
-            "nombre": refNombre.current.value,
-            "precio": refPrecio.current.value,
-            "stock": refStock.current.value,
-            "descripcion": refDescripcion.current.value,
-            "caracteristicas": refCaracteristicas.current.value,
-            "status": refStatus.current.value,
-            "tipo": refTipo.current.value
-        }
-        fetch("http://192.168.1.69/server/ajax_editarProducto.php", {
-            body: JSON.stringify(data),
-            method: "POST"
-        }).then(resp => resp.json())
-        //hacer algo con la respuesta
-            .then(response => {})
+        updateProduct({
+            id:id,
+            nombre:refNombre.current.value,
+            precio:refPrecio.current.value,
+            stock:refStock.current.value,
+            descricripcion:refDescripcion.current.value,
+            caracteristicas:refCaracteristicas.current.value,
+            status:refStatus.current.value,
+            tipo:refTipo.current.value})
     }
 
     return (

@@ -1,7 +1,8 @@
 import { Form, Row, Col, InputGroup, Button, Alert } from 'react-bootstrap';
 import { useRef, useState } from 'react';
-import { Registrar } from "../services/Registro_producto";
-import Carrusel from "../componentes/Carrusel";
+import { Registrar } from "services/insetProduct";
+import Carrusel from "componentes/Carrusel";
+import inputImages from 'services/inputImages';
 
 function RegistrarProduct(params) {
 
@@ -81,22 +82,11 @@ function RegistrarProduct(params) {
         const formdata = new FormData()
         for (let i = 0; i < refImagen.current.files.length; i++) {
             formdata.append('imagen[]', refImagen.current.files[i])
-            console.log(i)
         }
         formdata.append('user', refNombre.current.value)
-        
-        console.log(refImagen.current.files.length)
-        console.log(formdata.get("imagen[]"));
 
-        fetch("http://192.168.1.69/server/guardarImg.php",{
-            method:"POST",
-            body:formdata
-        })
-        .then(res => res.text)
+        inputImages({formdata:formdata})
         .then(res => console.log(res))
-        .catch(err => {
-            console.error(err)
-        })
     }
 
     function limpiar(){

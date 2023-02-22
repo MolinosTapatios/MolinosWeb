@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { Table, Alert } from 'react-bootstrap';
-import Modal from '../componentes/ModalEditarProducto'
-import getProducts from '../services/getProducts';
-import removeProduct from '../services/removeProduct';
+import Modal from 'componentes/ModalEditar'
+import getProducts from 'services/getProducts';
+import inputImages from 'services/inputImages';
+import removeProduct from 'services/removeProduct';
 
 function Productos(params) {
 
@@ -20,7 +21,6 @@ function Productos(params) {
     function eliminar(e) {
         removeProduct({id : e.target.id})
         .then(response => {
-            console.log(response)
             setRender(!render)
             setShow(true)
             setMsgAlert(response.msg)
@@ -37,6 +37,7 @@ function Productos(params) {
     const MODAL = () => <Modal showModal={showModal} estado={estado} id={id} />;
 
     const editar = (e) => {
+        inputImages()
         setId(e.target.id)
         estado(true)
     }
@@ -148,7 +149,6 @@ function Productos(params) {
             items.push(<li key={-2} className="page-item"><p className="page-link">...</p></li>)
             items.push(<PageItem key={pagTotales} pos={pagTotales} />)
         }
-
         return (items)
     }
 
@@ -223,11 +223,8 @@ function Productos(params) {
                         <Tabla lista={lista} filas={filas} />
                     </tbody>
                 </Table>
-
                 <MODAL estado={false} />
                 {/* <Modal showModal={showModal} estado={estado} id={id} /> */}
-
-
             </div>
         </div>
     )

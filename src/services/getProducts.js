@@ -8,9 +8,9 @@ const fromAjaxResponseToProducts = response => {
 }
 
 export default function getProducts() {
-  const URL = `${URL}/ajaxProductos.php`
+  const ajaxURL = `${URL}/ajaxProductos.php`
 
-  return fetch(URL)
+  return fetch(ajaxURL)
     .then((res) => res.json())
     .then(fromAjaxResponseToProducts)
 }

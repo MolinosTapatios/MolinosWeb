@@ -1,6 +1,5 @@
 import {URL} from "./config.js"
 
-
 //Registro de producto
 const postData = async (data) => {
     const response = await fetch(URL + "registrarProducto.php", {
@@ -15,7 +14,7 @@ const postData = async (data) => {
     return json;
 }
 
-async function Registrar(params) {
+async function Registrar({data}) {
 
     const respons = {
         "flag":"",
@@ -23,7 +22,7 @@ async function Registrar(params) {
     }
     
     try {
-        const registrar = await postData(params)
+        const registrar = await postData(data)
         respons.flag = registrar.flag
         respons.msg = registrar.msg
     } catch (e) {

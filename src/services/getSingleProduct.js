@@ -1,17 +1,13 @@
-import React from "react";
-import { URL } from "./config";
+import { URL } from "./config.js";
 
 const fromAjaxResponseToProduct = response => {
-    if (Array.isArray(response)) {
         return response
-    }
-    return []
 }
 
-function getSingleProduct({id}={}) {
-    const URL = `${URL}/ajax_getProducto.php`
+export default function getSingleProduct({ id } = {}) {
+    const ajaxURL = `${URL}/ajax_getProducto.php`
 
-    fetch(URL, {
+    return fetch(ajaxURL, {
         body: JSON.stringify({ "id": id }),
         method: "POST"
     })
