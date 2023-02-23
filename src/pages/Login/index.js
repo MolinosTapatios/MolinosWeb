@@ -1,10 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import image from "img/1.0.png";
 import { useNavigate } from "react-router-dom";
 import useUser from "../../hooks/useUser";
-// import login from "services/login";
 
-function Login({acceder}) {
+function Login() {
     const { login, isLogged, loading, error } = useUser();
     const navigate = useNavigate();
 
@@ -21,27 +20,10 @@ function Login({acceder}) {
     const handleLogin = event => {
         event.preventDefault();
         event.stopPropagation();
-        try {
-
-            login({
-                username: refUsuario.current.value,
-                password: refPassword.current.value
-                // estado: acceder,
-            })
-            // console.log(user)
-            // login({ "user": refUsuario.current.value, "password": refPassword.current.value })
-            //     .then(user => {
-            //         if (user.flag) {
-            //             window.sessionStorage.setItem("active", JSON.stringify(user));
-            //         }
-            //         console.log(user);
-            //         props.acceder(user.flag);
-            // props.acceder(true);
-            //         setError(user.msg);
-            //     })
-        } catch (e) {
-            // setError("Error en el Servidor" + e);
-        }
+        login({
+            username: refUsuario.current.value,
+            password: refPassword.current.value
+        })
     };
 
     return (
@@ -88,7 +70,7 @@ function Login({acceder}) {
                                     </div>
                                     {error &&
                                         <div className="alert alert-danger">
-                                            {error}
+                                            {error.msg}
                                         </div>}
                                     <button
                                         id="button"
@@ -97,7 +79,7 @@ function Login({acceder}) {
                                         onClick={handleLogin}
                                         disabled={loading}
                                     >
-                                        Iniciar Sesion
+                                        Iniciar sesión
                                     </button>
                                     <a className="row justify-content-center" href="https://#">
                                         ¿Olvidaste tu Contraseña?
@@ -105,7 +87,7 @@ function Login({acceder}) {
                                     <hr className="border border-dark border-2 opacity-50" />
                                     <div className="d-grid gap-2 col-8 mx-auto">
                                         <button className="mb-2 btn btn-lg rounded-3 btn-success">
-                                            Crear Cuenta Nueva
+                                            Crear cuenta
                                         </button>
                                     </div>
                                 </div>

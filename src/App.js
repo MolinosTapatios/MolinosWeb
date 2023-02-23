@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Route, Routes } from 'react-router-dom'
+
 import Login from "pages/Login";
 import Home from "pages/Home";
 import RegProduct from 'pages/RegistrarProduct'
@@ -13,7 +14,6 @@ function App() {
   const [conectado, setConectado] = useState(false);
   
   useEffect(() => {
-    // console.log(conectado)
     const loggedUserJSON = window.sessionStorage.getItem("active");
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
@@ -24,6 +24,7 @@ function App() {
   const acceder = (estado) => {
     setConectado(estado)
   }
+  
   const Tortilla = () => <h1>Tortilladoras</h1>;
 
   return (
@@ -31,15 +32,15 @@ function App() {
       <UserContextProvider>
           <Header acceder={acceder} />
         <Routes>
-          <Route path="/login" element={<Login acceder={acceder} />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/" element={<Home />} />
           <Route path="/:rest/*" element={<ErrorPage />} />
           {
-            conectado
+            true
               ? <>
                 <Route path="/registrarPr" element={<RegProduct />} />
                 <Route path="/tortilla" element={<Tortilla />} />
-                <Route path="/todos_productos" element={<Productos />} />
+                <Route path="/catalogo" element={<Productos />} />
               </>
               : ""
           }

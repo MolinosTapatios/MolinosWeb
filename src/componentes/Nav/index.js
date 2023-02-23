@@ -24,7 +24,7 @@ function Menu(params) {
             <Navbar bg="light" expand="sm">
                 <Container fluid>
                     <Navbar.Brand href="#home">
-                        <img src={img} alt="..." className='imgLogo me-2' />Maquinaria Carbera
+                        <img src={img} alt="..." className='imgLogo me-2' />Maquinaria Cabrera
                     </Navbar.Brand>
                     <Form className="d-flex col" >
                         <Form.Group className='input-group flex-nowrap' style={{ minWidth: "150px" }}>
@@ -44,7 +44,7 @@ function Menu(params) {
                                         <NavDropdown.Divider />
                                         <NavDropdown.Item onClick={handleSalir}>Salir</NavDropdown.Item>
                                     </NavDropdown>
-                                    : <Link className='btn-secondary' to={"/login"} style={{ width: "150px", cursor: "pointer" }}>Iniciar Sesion</Link>
+                                    : <Link className='btn-outline-secondary btn me-3' to={"/login"} style={{ width: "150px", cursor: "pointer" }}>Iniciar Sesion</Link>
                             }
                             <Button className='btn btn-secondary'>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-cart4" viewBox="0 0 16 16">
@@ -61,18 +61,18 @@ function Menu(params) {
                     <Navbar.Collapse id="basic-navbar-nav" className='row justify-content-center'>
                         <Nav className="col-md-auto">
                             <Link className='nav-link' to="/">Inicio</Link>
-                            {/* <Nav.Link href="/">Inicio</Nav.Link> */}
                             <NavDropdown title="Molinos" id="navbarScrollingDropdown">
                                 <Link className='dropdown-item' to="/">Molinos de Discos</Link>
                                 <NavDropdown.Divider />
                                 <Link className='dropdown-item' to="/">Molinos de Piedras</Link>
                             </NavDropdown>
                             <Link className='nav-link' to="/tortilla">Tortilladoras</Link>
-                            <NavDropdown title="Inventario" id="navbarScrollingDropdown">
+                            <Link className='nav-link' to="/catalogo">Catálogo</Link>
+                            {/* <NavDropdown title="Catalogo" id="navbarScrollingDropdown">
                                 <Link className='dropdown-item' to="/todos_productos">Todos los productos</Link>
                                 <NavDropdown.Divider />
                                 <Link className='dropdown-item' to="registrarPr">Registrar Producto</Link>
-                            </NavDropdown>
+                            </NavDropdown> */}
 
                             <Link className='nav-link add' to="#action2">Carrito</Link>
                             <Link className='nav-link add' to="#action2">Mi Cuenta</Link>

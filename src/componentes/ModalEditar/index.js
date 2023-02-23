@@ -4,7 +4,7 @@ import getSingleProduct from "services/getSingleProduct";
 import updateProduct from "services/updateProduct";
 import Carrusel from 'componentes/ModalEditar';
 
-function ModalEditar({ showModal = false, estado, id = 0 }) {
+function ModalEditar({ showModal, estado, id = 0 }) {
 
     const refTitleModal = useRef(null);
     const refNombre = useRef(null);
@@ -22,9 +22,11 @@ function ModalEditar({ showModal = false, estado, id = 0 }) {
     const [images, setImages] = useState([]);
 
     useEffect(() => {
-        getSingleProduct({ id: id })
-            .then(response => {
-                if (showModal) {
+        if (id !== 0 && showModal && refNombre.current.value === "" ) {
+            console.log(id)
+            getSingleProduct({ id: id })
+                .then(response => {
+                    console.log(response)
                     if (!response.msg) {
                         refTitleModal.current.innerHTML = response.nombre
                         refNombre.current.value = response.nombre
@@ -36,10 +38,10 @@ function ModalEditar({ showModal = false, estado, id = 0 }) {
                         refStock.current.value = response.stock
                         setImages(response.images)
                     }
-                }
-            })
+                })
 
-    }, [id, showModal])
+        }
+    }, [id,showModal])
 
     const handleCloseModal = () => {
         estado(false)
@@ -71,14 +73,15 @@ function ModalEditar({ showModal = false, estado, id = 0 }) {
         setShowModal(false)
         estado(false)
         updateProduct({
-            id:id,
-            nombre:refNombre.current.value,
-            precio:refPrecio.current.value,
-            stock:refStock.current.value,
-            descricripcion:refDescripcion.current.value,
-            caracteristicas:refCaracteristicas.current.value,
-            status:refStatus.current.value,
-            tipo:refTipo.current.value})
+            id: id,
+            nombre: refNombre.current.value,
+            precio: refPrecio.current.value,
+            stock: refStock.current.value,
+            descricripcion: refDescripcion.current.value,
+            caracteristicas: refCaracteristicas.current.value,
+            status: refStatus.current.value,
+            tipo: refTipo.current.value
+        })
     }
 
     return (
@@ -211,7 +214,6 @@ function ModalEditar({ showModal = false, estado, id = 0 }) {
 
                             <Form.Group as={Col}>
                                 <Form.Label>Imagen</Form.Label>
-                                {/* <img className='form-control' src="" alt="Imagen" ref={muestraImagen} /> */}
                                 <Carrusel images={images} />
                             </Form.Group>
                         </Row>

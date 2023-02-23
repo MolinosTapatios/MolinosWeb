@@ -1,3 +1,4 @@
+import React from "react"
 // import CardProducto from "./CardProducto"
 
 function VistaProducto(params) {

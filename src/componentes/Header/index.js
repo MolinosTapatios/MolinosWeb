@@ -4,12 +4,11 @@ import useUser from "../../hooks/useUser";
 import { useHref } from "react-router-dom";
 
 function Header({acceder}) {
-    // const isLoged = false
     const href = useHref()
     const { isLogged, } = useUser()
 
-    // console.log(href)
-    
+    // console.log("header")
+
     useEffect(()=>{
         acceder(isLogged)
     },[isLogged,acceder])
@@ -19,14 +18,10 @@ function Header({acceder}) {
             {
                 isLogged 
                 ?
-                    "/todos_productos" === href || "/"===href || "/registrarPr"===href ? <Nav /> : ""
+                    "/catalogo" === href || "/"===href || "/registrarPr"===href ? <Nav /> : ""
                 : "/" === href ? <Nav /> : ""
                 
             }
-            {/* {"/todos_productos"===href || "/"===href || "/registrarPr"===href
-                ?<Nav />
-                :""
-            } */}
         </>
     )
 }

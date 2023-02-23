@@ -1,5 +1,5 @@
 import { Form, Row, Col, InputGroup, Button, Alert } from 'react-bootstrap';
-import { useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Registrar } from "services/insetProduct";
 import Carrusel from "componentes/Carrusel";
 import inputImages from 'services/inputImages';
@@ -14,7 +14,6 @@ function RegistrarProduct(params) {
     const refCaracteristicas = useRef(null);
     const refStatus = useRef(null);
     const refTipo = useRef(null);
-    const imagen = useRef(null);
 
     //Validacion de formulario
     const [validated, setValidated] = useState(false);
@@ -96,9 +95,8 @@ function RegistrarProduct(params) {
         refImagen.current.value = null
         refDescripcion.current.value = null
         refCaracteristicas.current.value = null
-        refStatus.current.value = null
-        refTipo.current.value = null
-        imagen.current.value = null
+        refStatus.current.value = ""
+        refTipo.current.value = ""
         setValidated(false)
     }
 
@@ -201,11 +199,11 @@ function RegistrarProduct(params) {
                             </Form.Group>
 
                             <Form.Group >
-                                <Form.Label>Descripcion</Form.Label>
+                                <Form.Label>Descripción</Form.Label>
                                 <Form.Control
                                     as="textarea"
                                     type="text"
-                                    placeholder="Descripcion"
+                                    placeholder="Descripción"
                                     required
                                     ref={refDescripcion}
                                 />
@@ -215,11 +213,11 @@ function RegistrarProduct(params) {
                             </Form.Group>
 
                             <Form.Group >
-                                <Form.Label>Caracteristicas</Form.Label>
+                                <Form.Label>Características</Form.Label>
                                 <Form.Control
                                     as="textarea"
                                     type="text"
-                                    placeholder="Caracteristicas"
+                                    placeholder="Características"
                                     required
                                     ref={refCaracteristicas}
                                 />
@@ -231,7 +229,6 @@ function RegistrarProduct(params) {
 
                         <Form.Group as={Col}>
                             <Form.Label>Imagen</Form.Label>
-                            {/* <img className='form-control' src="" alt="Imagen" ref={imagen} /> */}
                             <Carrusel images={images}/>
                         </Form.Group>
                     </Row>

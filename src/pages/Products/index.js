@@ -1,9 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
 import { Table, Alert } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+
+import "./index.css"
+
+import Paginacion from 'componentes/Paginacion'
 import Modal from 'componentes/ModalEditar'
 import getProducts from 'services/getProducts';
 import inputImages from 'services/inputImages';
 import removeProduct from 'services/removeProduct';
+
 
 function Productos(params) {
 
@@ -11,20 +17,21 @@ function Productos(params) {
     const [render, setRender] = useState(false)
     const [show, setShow] = useState(false)
     const [showModal, setShowModal] = useState(false)
-    const [id, setId] = useState(null)
+    const [id, setId] = useState(0)
 
+    const headers = ["#","Nombre","Precio","Stock","Estado","Tipo de Producto","Acciones"]
 
     useEffect(function () {
         getProducts().then(setLista)
     }, [render])
 
     function eliminar(e) {
-        removeProduct({id : e.target.id})
-        .then(response => {
-            setRender(!render)
-            setShow(true)
-            setMsgAlert(response.msg)
-        })
+        removeProduct({ id: e.target.id })
+            .then(response => {
+                setRender(!render)
+                setShow(true)
+                setMsgAlert(response.msg)
+            })
     }
 
     const estado = (estado) => {
@@ -53,7 +60,6 @@ function Productos(params) {
 
     const refBusqueda = useRef()
     const refNum_filas = useRef()
-    const refTbody = useRef()
 
     useEffect(() => {
         const array = lista.filter(fila => fila["nombre"].toLowerCase().includes(valor.toLowerCase()))
@@ -66,18 +72,18 @@ function Productos(params) {
         return (lista)
     }
 
-    function Tabla({ lista = [], filas = 5 }) {
-        const inicio = (filas * pagActual) - filas;
+    // function Tabla({ lista = [], filas = 10 }) {
+    //     const inicio = (filas * pagActual) - filas;
 
-        lista = aux(lista)
-        lista = lista.slice(inicio, inicio + filas)
+    //     lista = aux(lista)
+    //     lista = lista.slice(inicio, inicio + filas)
 
-        return (
-            lista.map(p =>
-                <FilaProduct key={p.id} p={p} />
-            )
-        )
-    }
+    //     return (
+    //         lista.map(p =>
+    //             <FilaProduct key={p.id} p={p} />
+    //         )
+    //     )
+    // }
 
     function FilaProduct({ p }) {
 
@@ -170,62 +176,58 @@ function Productos(params) {
     }
 
     return (
-        <div style={{ backgroundColor: "white" }}>
-            <div className='container py-3'>
-                <h1 className='mb-5'>Todos los productos en linea</h1>
-
+        <div style={{ backgroundColor: "gray" }}>
+            <div className='p-2 py-3'>
+                <h2 className='mb-3'>Gestion de Catálogo</h2>
+                {/* <Tabla /> */}
                 {
                     show &&
                     <Alert variant="danger" onClose={() => setShow(false)} dismissible>
                         <p>{MsgAlert}</p>
                     </Alert>
                 }
+                <div className='contenedor-tabla'>
 
-                <div className='row col-5 mb-3'>
-                    <div className='input-group flex-nowrap'>
-                        <label className="input-group-text">Busqueda:</label>
-                        <input className="form-control col-1" type="text" ref={refBusqueda} onKeyUp={busqueda} />
-                    </div>
-                </div>
-
-                <div className="mb-3">
-                    <div className="row">
-                        <div className="col">
-                            <label htmlFor="num_filas">Mostrar  </label>
-                            <select name="num_filas" id="num_filas" className="form-select-sm" ref={refNum_filas} onChange={changeFilas} >
-                                <option value="10">10</option>
-                                <option value="25">25</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
-                            </select> <label htmlFor="fin">  registros</label>
+                    <div className='row mb-3'>
+                        <div className=' col input-group flex-nowrap'>
+                            <label className="input-group-text">Búsqueda:</label>
+                            <input className="form-control col-1" type="text" ref={refBusqueda} onKeyUp={busqueda} />
                         </div>
-                        <div className="pagination col">
-                            <li className="page-item prev-page" id="prev"><p className="page-link prev-page btn" onClick={prevPage}>Anterior</p></li>
-                            <Pagination active={pagActual} />
-                            <li className="page-item next-page" id="next"><p className="page-link next-page btn" onClick={nextPage}>Siguiente</p></li>
+
+                        <div className='col text-end'>
+                            <Link to="/registrarPr" className='btn btn-success'>Nuevo Producto</Link>
                         </div>
                     </div>
-                </div>
 
-                <Table striped bordered hover size="sm" >
-                    <thead className='text-center'>
-                        <tr>
-                            <th>#</th>
-                            <th>Nombre</th>
-                            <th>Precio</th>
-                            <th>Stock</th>
-                            <th>Estado</th>
-                            <th>Tipo de Producto</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody className='text-center' ref={refTbody} id="cuerpo">
-                        <Tabla lista={lista} filas={filas} />
-                    </tbody>
-                </Table>
-                <MODAL estado={false} />
-                {/* <Modal showModal={showModal} estado={estado} id={id} /> */}
+                    <div className="mb-3">
+                        <div className="row">
+                            <div className="col">
+                                <label htmlFor="num_filas">Mostrar  </label>
+                                <select name="num_filas" id="num_filas" className="form-select-sm" ref={refNum_filas} onChange={changeFilas} >
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select> <label htmlFor="fin">  registros</label>
+                            </div>
+                            <div className="pagination col">
+                                <li className="page-item prev-page" id="prev"><p className="page-link prev-page btn" onClick={prevPage}>Anterior</p></li>
+                                <Pagination active={pagActual} />
+                                <li className="page-item next-page" id="next"><p className="page-link next-page btn" onClick={nextPage}>Siguiente</p></li>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <Paginacion
+                        data={lista}
+                        ediar={editar}
+                        eliminar={eliminar}
+                        headers={headers} />
+
+                    <MODAL estado={false} />
+                </div>
             </div>
+
         </div>
     )
 }

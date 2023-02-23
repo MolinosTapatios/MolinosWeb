@@ -1,3 +1,5 @@
+import React from "react"
+
 function CardProducto ({urlmg,nombre,id,descripcion} ={}) {
     return(
         <>

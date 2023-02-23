@@ -1,4 +1,3 @@
-// import React from "react";
 import { URL } from "./config.js";
 
 const fromAjaxResponseToProduct = response => {
