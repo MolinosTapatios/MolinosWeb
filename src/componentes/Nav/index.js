@@ -1,12 +1,13 @@
 import React from 'react';
-import img from 'img/LOGO.png';
-import { Nav, Button, Container, Form, Navbar, NavDropdown } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom'
+import { Nav, Button, Container, Form, Navbar, NavDropdown } from 'react-bootstrap';
 import useUser from '../../hooks/useUser';
+import img from 'img/LOGO.png';
+import './index.css'
 
 function Menu(params) {
 
-    const {logout,isLogged} = useUser()
+    const { logout, isLogged } = useUser()
     const navigate = useNavigate();
 
     const handleSalir = () => {
@@ -39,18 +40,20 @@ function Menu(params) {
                         <div className='botones'>
                             {
                                 isLogged ?
-                                    <NavDropdown title={icon} className="me-2 btn btn-secondary">
-                                        <NavDropdown.Item href="#action2">Mi Cuenta</NavDropdown.Item>
-                                        <NavDropdown.Divider />
-                                        <NavDropdown.Item onClick={handleSalir}>Salir</NavDropdown.Item>
-                                    </NavDropdown>
-                                    : <Link className='btn-outline-secondary btn me-3' to={"/login"} style={{ width: "150px", cursor: "pointer" }}>Iniciar Sesion</Link>
+                                    <>
+                                        <NavDropdown title={icon} className="me-2 btn btn-secondary">
+                                            <NavDropdown.Item href="#action2">Mi Cuenta</NavDropdown.Item>
+                                            <NavDropdown.Divider />
+                                            <NavDropdown.Item onClick={handleSalir}>Salir</NavDropdown.Item>
+                                        </NavDropdown>
+                                        <Link to="/carrito" className='btn btn-secondary'>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-cart4" viewBox="0 0 16 16">
+                                                <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l.5 2H5V5H3.14zM6 5v2h2V5H6zm3 0v2h2V5H9zm3 0v2h1.36l.5-2H12zm1.11 3H12v2h.61l.5-2zM11 8H9v2h2V8zM8 8H6v2h2V8zM5 8H3.89l.5 2H5V8zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"></path>
+                                            </svg>
+                                        </Link>
+                                    </>
+                                    : <Link className='btn-outline-secondary btn me-3' to={"/login"} style={{ width: "150px", cursor: "pointer" }}>Iniciar Sesión</Link>
                             }
-                            <Button className='btn btn-secondary'>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-cart4" viewBox="0 0 16 16">
-                                    <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l.5 2H5V5H3.14zM6 5v2h2V5H6zm3 0v2h2V5H9zm3 0v2h1.36l.5-2H12zm1.11 3H12v2h.61l.5-2zM11 8H9v2h2V8zM8 8H6v2h2V8zM5 8H3.89l.5 2H5V8zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"></path>
-                                </svg>
-                            </Button>
                         </div>
                     </Form>
                 </Container>
@@ -66,17 +69,17 @@ function Menu(params) {
                                 <NavDropdown.Divider />
                                 <Link className='dropdown-item' to="/">Molinos de Piedras</Link>
                             </NavDropdown>
-                            <Link className='nav-link' to="/tortilla">Tortilladoras</Link>
-                            <Link className='nav-link' to="/catalogo">Catálogo</Link>
-                            {/* <NavDropdown title="Catalogo" id="navbarScrollingDropdown">
-                                <Link className='dropdown-item' to="/todos_productos">Todos los productos</Link>
-                                <NavDropdown.Divider />
-                                <Link className='dropdown-item' to="registrarPr">Registrar Producto</Link>
-                            </NavDropdown> */}
-
-                            <Link className='nav-link add' to="#action2">Carrito</Link>
-                            <Link className='nav-link add' to="#action2">Mi Cuenta</Link>
-                            <Link className='nav-link add' to="/" onClick={() => { sessionStorage.removeItem("active") }}>Salir</Link>
+                            <Link className='nav-link' to="/tortilladoras">Tortilladoras</Link>
+                            {
+                                isLogged ?
+                                    <>
+                                        <Link className='nav-link' to="/catalogo">Catálogo</Link>
+                                        <Link className='nav-link add' to="/carrito">Carrito</Link>
+                                        <Link className='nav-link add' to="#action2">Mi Cuenta</Link>
+                                        <Link className='nav-link add' to="/" onClick={() => { sessionStorage.removeItem("active") }}>Salir</Link>
+                                    </> :
+                                    <Link className='nav-link add' to="/login">Iniciar Sesión</Link>
+                            }
                         </Nav>
                     </Navbar.Collapse>
                 </Container>

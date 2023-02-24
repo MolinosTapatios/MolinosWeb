@@ -4,7 +4,7 @@ import { Registrar } from "services/insetProduct";
 import Carrusel from "componentes/Carrusel";
 import inputImages from 'services/inputImages';
 
-function RegistrarProduct(params) {
+function RegistrarProduct() {
 
     const refNombre = useRef(null);
     const refPrecio = useRef(null);
@@ -34,7 +34,7 @@ function RegistrarProduct(params) {
         setValidated(true);
     };
 
-    async function handleRegistro() {
+    function handleRegistro() {
         const data = {
             "nombre": refNombre.current.value,
             "precio": refPrecio.current.value,
@@ -44,15 +44,17 @@ function RegistrarProduct(params) {
             "status": refStatus.current.value,
             "tipo": refTipo.current.value,
         }
-        const respuesta = await Registrar(data)
-        if (respuesta.flag){
-            setColor("info")
-            guardarImagen()
-        }
-        else
-            setColor("danger")
-        setError(respuesta.msg)
-        setShow(true)
+        Registrar({data:data}).then(respuesta=>{
+
+            if (respuesta.flag){
+                setColor("info")
+                guardarImagen()
+            }
+            else
+                setColor("danger")
+            setError(respuesta.msg)
+            setShow(true)
+        })
     }
     
     

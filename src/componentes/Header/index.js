@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
+import { useHref } from "react-router-dom";
 import Nav from '../Nav'
 import useUser from "../../hooks/useUser";
-import { useHref } from "react-router-dom";
 
 function Header({acceder}) {
     const href = useHref()
@@ -18,8 +18,8 @@ function Header({acceder}) {
             {
                 isLogged 
                 ?
-                    "/catalogo" === href || "/"===href || "/registrarPr"===href ? <Nav /> : ""
-                : "/" === href ? <Nav /> : ""
+                    "/catalogo" === href || "/"===href || "/registrarPr"===href || "/tortilladoras"===href || "/carrito"===href ? <Nav /> : ""
+                : "/" === href || "/tortilladoras"===href ? <Nav /> : ""
                 
             }
         </>

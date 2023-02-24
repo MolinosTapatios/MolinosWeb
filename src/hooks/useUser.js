@@ -1,9 +1,9 @@
-import {useCallback, useContext} from 'react'
+import {useCallback, useContext, useState} from 'react'
 import Context from "../context/UserContext";
 import loginService from 'services/login';
-import { useState } from 'react';
 
-function useUser(params) {
+function useUser() {
+
     const {jwt, setJWT} = useContext(Context)
     const [estado, setEstado] = useState({error:null, loading:false})
 

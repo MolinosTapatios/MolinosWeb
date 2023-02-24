@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import image from "img/1.0.png";
 import { useNavigate } from "react-router-dom";
 import useUser from "../../hooks/useUser";
+import './index.css'
 
 function Login() {
     const { login, isLogged, loading, error } = useUser();

@@ -1,10 +1,128 @@
+import React, {useState, useEffect, useRef} from "react";
+import './index.css'
 import Tabla from "componentes/Tabla";
-import React from "react";
 
-function Paginacion({headers, data, ediar, eliminar}) {
-    return(
+function Paginacion({headers, data = [], editar, eliminar }) {
+    
+    const refNum_filas = useRef()
+    const refBusqueda = useRef()
+
+    const [filas, setFilas] = useState(10)
+    const [valor, setValor] = useState("")
+    const [pagActual, setPagActual] = useState(1)
+    const [pagTotales, setPagTotales] = useState(10)
+    const [lista, setLista] = useState([])
+
+    useEffect(() => {
+        const array = data.filter(fila => fila["nombre"].toLowerCase().includes(valor.toLowerCase()))
+        const itemsTot = (array.length - (array.length % parseInt(filas))) / parseInt(filas) + (array.length % parseInt(filas) === 0 ? 0 : 1);
+        setPagTotales(itemsTot)
+        const p = data.slice(((pagActual*filas)-filas),(filas*pagActual))
+        setLista(p)
+    }, [data, filas, valor, pagActual])
+
+    function changeFilas() {
+        setFilas(refNum_filas.current.value)
+        setPagActual(1)
+    }
+
+    function busqueda() {
+        setValor(refBusqueda.current.value)
+        setPagActual(1)
+    }
+
+    function clickItem(e) {
+        setPagActual(parseInt(e.target.textContent))
+    }
+
+    function prevPage() {
+        if (pagActual > 1)
+            setPagActual(pagActual - 1)
+    }
+
+    function nextPage() {
+        if (pagActual < pagTotales)
+            setPagActual(pagActual + 1)
+    }
+
+    function PageItem({ pos = 0 }) {
+        let active = "page-item"
+        if (pagActual === pos) {
+            active = "page-item active"
+        }
+        return (
+            <li className={active} >
+                <p className="page-link btn" onClick={clickItem}>{pos}</p>
+            </li>
+        )
+    }
+
+    function Pagination() {
+        let items = []
+        let flag = false
+        const pagAnterior = pagActual - 1
+        const pagSiguiente = pagActual + 1
+        let countTruncate = 0
+
+        for (let i = 1; i <= pagTotales; i++) {
+            if (pagTotales >= 9) {
+                if (pagAnterior > 3 && pagSiguiente < pagTotales - 2) {
+                    if (i >= pagAnterior && i <= pagSiguiente) {
+                        flag = true
+                        items.push(<PageItem key={i} pos={i} />)
+                    }
+                } else {
+                    if ((pagActual < 5 && i <= 5) || (pagActual > pagTotales - 5 && i >= pagTotales - 4) || i === pagTotales || i === 1) {
+                        items.push(<PageItem key={i} pos={i} />)
+                    } else {
+                        countTruncate++;
+                        if (countTruncate === 1)
+                            items.push(<li key={-1} className="page-item"><p className="page-link">...</p></li>)
+                    }
+                }
+            } else {
+                items.push(<PageItem key={i} pos={i} />)
+            }
+        }
+        if (flag) {
+            items.unshift(<li key={-1} className="page-item"><p className="page-link">...</p></li>)
+            items.unshift(<PageItem key={1} pos={1} />)
+            items.push(<li key={-2} className="page-item"><p className="page-link">...</p></li>)
+            items.push(<PageItem key={pagTotales} pos={pagTotales} />)
+        }
+        return (items)
+    }
+    
+    return (
         <>
-            <Tabla headers={headers} lista={data} editar={ediar} eliminar={eliminar} />
+        <hr className="solid"></hr>
+            <div className='row mb-3'>
+                <div className="col-4">
+                    <div className='input-group flex-nowrap'>
+                        <label className="input-group-text">Búsqueda:</label>
+                        <input className="form-control col-1" type="text" ref={refBusqueda} onKeyUp={busqueda} />
+                    </div>
+                </div>
+            </div>
+            <div className="mb-3">
+                <div className="row">
+                    <div className="col">
+                        <label htmlFor="num_filas">Mostrar  </label>
+                        <select name="num_filas" id="num_filas" className="form-select-sm" ref={refNum_filas} onChange={changeFilas} >
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select> <label htmlFor="fin">  registros</label>
+                    </div>
+                    <div className="pagination col">
+                        <li className="page-item prev-page" id="prev"><p className="page-link prev-page btn" onClick={prevPage}>Anterior</p></li>
+                        <Pagination active={pagActual} />
+                        <li className="page-item next-page" id="next"><p className="page-link next-page btn" onClick={nextPage}>Siguiente</p></li>
+                    </div>
+                </div>
+            </div>
+            <Tabla headers={headers} lista={lista} editar={editar} eliminar={eliminar} />
         </>
     )
 }

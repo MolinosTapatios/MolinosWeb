@@ -1,0 +1,22 @@
+.carrusel-cards{
+    display: flex;
+    /* flex-wrap: wrap; */
+    flex-flow: row wrap;
+    /* justify-content: space-evenly; */
+}
+
+/* .card-group{
+    /* display: flex;
+    flex-wrap: wrap;
+    justify-content: center; 
+} */
+
+.carur {
+    display: flex;
+    
+  }
+
+  .carrusel-cards>.card {
+    flex: 1 0 0%;
+    margin-bottom: 0;
+  }
