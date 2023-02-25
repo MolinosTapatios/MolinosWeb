@@ -14,8 +14,8 @@ function useProducts() {
                 if (tipo === -1 && limit === 0) {
                     setProductos(resp)
                 } else {
-                    const filtroTipo = resp.filter((r, i) => r.Tipo_Producto_id === tipo)
-                    const filtrolimit = filtroTipo.filter((r, i) => i < limit)
+                    const filtroTipo = resp.filter((r, i) => parseInt(r.Tipo_Producto_id) === tipo)
+                    const filtrolimit = filtroTipo.filter((r, i) => i < parseInt(limit))
                     setProductos(filtrolimit)
                 }
                 setEstado({ loading: false, error: null })

@@ -24,4 +24,5 @@ export default function login({ user, password } = {}) {
     })
         .then(resp => resp.json())
         .then(posData)
+        .catch(posData)
 }

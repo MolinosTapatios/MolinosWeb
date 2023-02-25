@@ -9,7 +9,7 @@ function VistaProducto({ data = [] }) {
             <div className="carrusel-cards">
                 {
                     data.map(p =>
-                        <CardProducto key={p.id} nombre={p.nombre} precio={p.precio} />
+                        <CardProducto key={p.id} id={p.id} nombre={p.nombre} precio={p.precio} />
                     )
                 }
             </div>

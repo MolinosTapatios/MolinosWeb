@@ -61,11 +61,18 @@ function ModalEditar({ showModal, estado, id = 0 }) {
     };
 
     function mostrarImg() {
-        const img = refImagen.current.files[0]
-        const fileReadar = new FileReader();
-        fileReadar.readAsDataURL(img)
-        fileReadar.onload = function () {
-            muestraImagen.current.src = fileReadar.result
+        console.log(refImagen.current.files[0])
+        const imgs = [];
+        if(refImagen.current.files.length > 0){
+            for (let i = 0; i < refImagen.current.files.length; i++) {
+                let img = refImagen.current.files[i]
+                let fileReadar = new FileReader();
+                fileReadar.readAsDataURL(img)
+                fileReadar.onload = () => {
+                    imgs.push({"path": fileReadar.result,"id":i})
+                }
+            }
+            setImages(imgs)
         }
     }
 

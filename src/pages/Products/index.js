@@ -21,7 +21,7 @@ function Productos() {
 
     useEffect(function () {
         tipoProductos({tipo:-1,limit:0})
-    }, [render, tipoProductos])
+    }, [ tipoProductos])
 
     function eliminar(e) {
         removeProduct({ id: e.target.id })

@@ -4,9 +4,7 @@ import { Link } from 'react-router-dom';
 
 import "./index.css"
 
-import Paginacion from 'componentes/Paginacion'
 import Modal from 'componentes/ModalEditar'
-import getProducts from 'services/getProducts';
 import inputImages from 'services/inputImages';
 import removeProduct from 'services/removeProduct';
 
@@ -20,10 +18,6 @@ function Productos(params) {
     const [id, setId] = useState(0)
 
     const headers = ["#","Nombre","Precio","Stock","Estado","Tipo de Producto","Acciones"]
-
-    useEffect(function () {
-        getProducts().then(setLista)
-    }, [render])
 
     function eliminar(e) {
         removeProduct({ id: e.target.id })

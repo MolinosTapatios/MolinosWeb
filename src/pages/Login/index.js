@@ -71,7 +71,7 @@ function Login() {
                                     </div>
                                     {error &&
                                         <div className="alert alert-danger">
-                                            {error.msg}
+                                            {error}
                                         </div>}
                                     <button
                                         id="button"
