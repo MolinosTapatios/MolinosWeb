@@ -4,29 +4,12 @@ const fromAjaxResponseToProduct = response => {
     return response
 }
 
-export default function updateProduct({
-    id,
-    nombre,
-    precio,
-    stock,
-    descricripcion,
-    caracteristicas,
-    status,
-    tipo } = {}) {
+export default function updateProduct({formdata} = {}) {
 
     const ajaxURL = `${URL}/ajax_editarProducto.php`
 
     return fetch(ajaxURL, {
-        body: JSON.stringify({
-            "id": id,
-            "nombre": nombre,
-            "precio": precio,
-            "stock": stock,
-            "descripcion": descricripcion,
-            "caracteristicas": caracteristicas,
-            "status": status,
-            "tipo": tipo
-        }),
+        body: formdata,
         method: "POST"
     })
         .then(resp => resp.json())

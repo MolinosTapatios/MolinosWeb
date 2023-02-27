@@ -1,27 +1,33 @@
-import React, { useEffect } from "react"
+import React  from "react"
 import "./index.css"
-import { URL } from "services/config"
 import Carrusel from "componentes/Carrusel";
-import useSingleProduct from "hooks/useSingleProduct";
+import setCarrito from "services/setCarrito";
+import useUser from 'hooks/useUser';
+import ToastAlert from "componentes/Toast";
+import { useState } from "react";
 
-function CardProducto({ id, nombre, precio } = {}) {
 
-    const { getproduct, producto,} = useSingleProduct()
-    const images = [{id:1, path:`${URL}/img/img_2023022400241649c61da02f53d04a994b93.jpg`},{id:2, path:`${URL}/img/img_2023022400241649c61da02f53d04a994b93.jpg`} ]
+function CardProducto({ id, nombre, precio, images } = {}) {
 
-    useEffect(()=>{
-        getproduct({id:id})
-    },[producto])
+    const { user_id } = useUser()
+    const [alert, setAlert] = useState({mensaje:null,estado:false,color:null})
+
+    function addCart() {
+        setCarrito({cantidad:1,idProducto:id, idUsuer:user_id, mantener:true})
+        .then(resp=>resp.flag && setAlert({color:"info",estado:true,mensaje:resp.msg}))
+    }
 
     return (
         <>
+            <ToastAlert color={alert.color} estado={alert.estado} mensaje={alert.mensaje} />
             <div className="card m-2" style={{ width: "18rem" }}>
-                <Carrusel images={images} />
-                {/* <img src={`${URL}/img/img_2023022400241649c61da02f53d04a994b93.jpg`} className="card-img-top" alt="..." /> */}
+                {
+                    images.length !== 0  && <Carrusel images={images} />
+                }
                 <div className="card-body">
                     <h5 className="card-title">{nombre}</h5>
                     <p className="card-text">${precio}</p>
-                    <button id={id} className="btn btn-primary">Agregar a carrito</button>
+                    <button id={id} className="btn btn-primary" onClick={addCart}>Agregar a carrito</button>
                 </div>
             </div>
         </>

@@ -1,8 +1,7 @@
 import { Form, Row, Col, InputGroup, Button, Alert } from 'react-bootstrap';
 import React, { useRef, useState } from 'react';
-import { Registrar } from "services/insetProduct";
+import Registrar from "services/insetProduct";
 import Carrusel from "componentes/Carrusel";
-import inputImages from 'services/inputImages';
 
 function RegistrarProduct() {
 
@@ -35,62 +34,58 @@ function RegistrarProduct() {
     };
 
     function handleRegistro() {
+        const formdata = new FormData()
+
         const data = {
             "nombre": refNombre.current.value,
             "precio": refPrecio.current.value,
             "stock": refStock.current.value,
             "descripcion": refDescripcion.current.value,
-            "caracteristicas" : refCaracteristicas.current.value,
+            "caracteristicas": refCaracteristicas.current.value,
             "status": refStatus.current.value,
             "tipo": refTipo.current.value,
         }
-        Registrar({data:data}).then(respuesta=>{
 
-            if (respuesta.flag){
-                setColor("info")
-                guardarImagen()
-            }
-            else
-                setColor("danger")
-            setError(respuesta.msg)
-            setShow(true)
-        })
-    }
-    
-    
-    function mostrarImg() {
-        const imgs = [];
-        if(refImagen.current.files.length > 0){
-            for (let i = 0; i < refImagen.current.files.length; i++) {
-                let img = refImagen.current.files[i]
-                let fileReadar = new FileReader();
-                fileReadar.readAsDataURL(img)
-                fileReadar.onload = () => {
-                    imgs.push({"path": fileReadar.result,"id":i})
-                }
-            }
-            setImages(imgs)
-        }
-    }
-//se guarda la imagen
-    function guardarImagen() {
-
-        if(!refImagen){
-            alert("No hay archivos seleccionados");
-            return;
-        }
-        //guardando todas lam imagenes para enviar
-        const formdata = new FormData()
         for (let i = 0; i < refImagen.current.files.length; i++) {
             formdata.append('imagen[]', refImagen.current.files[i])
         }
-        formdata.append('user', refNombre.current.value)
 
-        inputImages({formdata:formdata})
-        .then(res => console.log(res))
+        formdata.append('producto', JSON.stringify(data))
+
+        Registrar({ formdata: formdata })
+            .then(res => {
+                if (res.flag) {
+                    setColor("info")
+                }
+                else
+                    setColor("danger")
+                setError(res.msg)
+                setShow(true)
+            })
     }
 
-    function limpiar(){
+    function mostrarImg() {
+        const imgs = [];
+        if (refImagen.current.files.length > 0) {
+            for (let i = 0; i < refImagen.current.files.length; i++) {
+                let img = refImagen.current.files[i]
+                let fileReadar = new FileReader();
+
+                fileReadar.readAsDataURL(img)
+                fileReadar.onload = () => {
+                    imgs.push({
+                        "path": fileReadar.result,
+                        "id": i
+                    })
+                    setImages([...imgs])
+                }
+            }
+        } else {
+            setImages([])
+        }
+    }
+
+    function limpiar() {
         refNombre.current.value = null
         refPrecio.current.value = null
         refStock.current.value = null
@@ -100,12 +95,13 @@ function RegistrarProduct() {
         refStatus.current.value = ""
         refTipo.current.value = ""
         setValidated(false)
+        setImages([])
     }
 
     return (
         <div style={{ background: "gray" }}>
-            <div className='container py-1' >
-                <h1 className='text-center mt-2 mb-5'>Registro de productos</h1>
+            <h2 className='text-center pt-2 mb-3'>Registro de productos</h2>
+            <div style={{ backgroundColor: "white", borderRadius: "20px", margin: '20px', padding: '25px' }}>
                 {
                     show &&
                     <Alert variant={color} onClose={() => setShow(false)} dismissible>
@@ -155,7 +151,7 @@ function RegistrarProduct() {
                                 ref={refStock}
                                 required
                             />
-                            <Form.Control.Feedback type="invalid">Ingresa el stoc actual</Form.Control.Feedback>
+                            <Form.Control.Feedback type="invalid">Ingresa el stock actual</Form.Control.Feedback>
                         </Form.Group>
                     </Row>
 
@@ -231,14 +227,15 @@ function RegistrarProduct() {
 
                         <Form.Group as={Col}>
                             <Form.Label>Imagen</Form.Label>
-                            <Carrusel images={images}/>
+                            {images &&
+                                <Carrusel images={images} />
+                            }
                         </Form.Group>
                     </Row>
 
                     <Row className='justify-content-evenly'>
-                        <Button className='col-3' type="submit">Registrar Producto</Button>
-
                         <Button className='col-3' onClick={limpiar}>Limpiar Formulario</Button>
+                        <Button className='col-3' type="submit">Registrar Producto</Button>
                     </Row>
                 </Form>
             </div>

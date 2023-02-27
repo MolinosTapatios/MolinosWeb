@@ -14,7 +14,7 @@ function useUser() {
                 if (resp) {
                     if (resp.flag) {
                         window.sessionStorage.setItem("active", JSON.stringify(resp));
-                        setJWT(resp)
+                        setJWT(resp.id)
                         setEstado({ loading: false, error: "" })
                     } else {
                         setEstado({ loading: false, error: resp.msg })
@@ -22,12 +22,13 @@ function useUser() {
                 }
             })
             .catch(err => {
-                setEstado({ loading: false, error: "Error en el servidor" })
+                setEstado({ loading: false, error: "Error " + err })
             })
     }, [setJWT])
 
     const logout = useCallback(() => {
         setJWT(null)
+        sessionStorage.removeItem("active")
     }, [setJWT])
 
     return {
@@ -35,7 +36,8 @@ function useUser() {
         login,
         loading: estado.loading,
         error: estado.error,
-        logout
+        logout,
+        user_id : jwt
     }
 }
 

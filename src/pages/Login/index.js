@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import image from "img/1.0.png";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useUser from "../../hooks/useUser";
 import './index.css'
 
@@ -11,10 +11,11 @@ function Login() {
     const refUsuario = useRef(null);
     const refPassword = useRef(null);
 
-    useEffect(
-        () => {
-            if (isLogged) navigate("/");
-        },
+    useEffect(() => {
+        if (isLogged) {
+            navigate("/");
+        } 
+    },
         [isLogged, navigate]
     );
 
@@ -82,14 +83,14 @@ function Login() {
                                     >
                                         Iniciar sesión
                                     </button>
-                                    <a className="row justify-content-center" href="https://#">
+                                    <Link to="/tu mauser" className="row justify-content-center">
                                         ¿Olvidaste tu Contraseña?
-                                    </a>
+                                    </Link>
                                     <hr className="border border-dark border-2 opacity-50" />
                                     <div className="d-grid gap-2 col-8 mx-auto">
-                                        <button className="mb-2 btn btn-lg rounded-3 btn-success">
+                                        <Link to="crear cuenta" className="mb-2 btn btn-lg rounded-3 btn-success">
                                             Crear cuenta
-                                        </button>
+                                        </Link>
                                     </div>
                                 </div>
                             </div>

@@ -2,9 +2,9 @@ import { useState, useRef, useEffect } from "react";
 import { Modal, Button, Form, Row, Col, InputGroup } from "react-bootstrap";
 import getSingleProduct from "services/getSingleProduct";
 import updateProduct from "services/updateProduct";
-import Carrusel from 'componentes/ModalEditar';
+import Carrusel from 'componentes/Carrusel';
 
-function ModalEditar({ showModal, estado, id = 0 }) {
+function ModalEditar({ id = 0, showModal, render, toastAlert }) {
 
     const refTitleModal = useRef(null);
     const refNombre = useRef(null);
@@ -15,37 +15,37 @@ function ModalEditar({ showModal, estado, id = 0 }) {
     const refCaracteristicas = useRef(null);
     const refStatus = useRef(null);
     const refTipo = useRef(null);
-    const muestraImagen = useRef(null);
 
     const [validated, setValidated] = useState(false);
-    const [show, setShowModal] = useState(showModal);
+    const [show, setShowModal] = useState(false);
     const [images, setImages] = useState([]);
 
     useEffect(() => {
-        if (id !== 0 && showModal && refNombre.current.value === "" ) {
-            console.log(id)
+        // console.log(toastAlert)
+        if(id !== 0 ){
+            setShowModal(true)
             getSingleProduct({ id: id })
                 .then(response => {
-                    console.log(response)
                     if (!response.msg) {
-                        refTitleModal.current.innerHTML = response.nombre
-                        refNombre.current.value = response.nombre
-                        refTipo.current.value = response.Tipo_Producto_id
-                        refStatus.current.value = response.status
-                        refCaracteristicas.current.value = response.caracteristicas
-                        refDescripcion.current.value = response.descripcion
-                        refPrecio.current.value = response.precio
-                        refStock.current.value = response.stock
-                        setImages(response.images)
-                    }
+                            refTitleModal.current.innerHTML = response.nombre
+                            refNombre.current.value = response.nombre
+                            refTipo.current.value = response.Tipo_Producto_id
+                            refStatus.current.value = response.status
+                            refCaracteristicas.current.value = response.caracteristicas
+                            refDescripcion.current.value = response.descripcion
+                            refPrecio.current.value = response.precio
+                            refStock.current.value = response.stock
+                            if (response.images) {
+                                setImages(response.images)
+                            }
+                        }
                 })
-
         }
     }, [id,showModal])
 
     const handleCloseModal = () => {
-        estado(false)
         setShowModal(false)
+        setImages([])
     }
 
     const handleSubmit = (event) => {
@@ -61,34 +61,58 @@ function ModalEditar({ showModal, estado, id = 0 }) {
     };
 
     function mostrarImg() {
-        console.log(refImagen.current.files[0])
         const imgs = [];
-        if(refImagen.current.files.length > 0){
+        if (refImagen.current.files.length > 0) {
             for (let i = 0; i < refImagen.current.files.length; i++) {
                 let img = refImagen.current.files[i]
                 let fileReadar = new FileReader();
+
                 fileReadar.readAsDataURL(img)
                 fileReadar.onload = () => {
-                    imgs.push({"path": fileReadar.result,"id":i})
+                    imgs.push({
+                        "path": fileReadar.result,
+                        "id": i
+                    })
+                    setImages([...imgs])
                 }
             }
-            setImages(imgs)
+        } else {
+            setImages([])
         }
     }
 
     function handleRegistro() {
+        const formdata = new FormData()
+
+        const data = {
+            "id": id,
+            "nombre": refNombre.current.value,
+            "precio": refPrecio.current.value,
+            "stock": refStock.current.value,
+            "descripcion": refDescripcion.current.value,
+            "caracteristicas": refCaracteristicas.current.value,
+            "status": refStatus.current.value,
+            "tipo": refTipo.current.value,
+        }
+        for (let i = 0; i < refImagen.current.files.length; i++) {
+            formdata.append('imagen[]', refImagen.current.files[i])
+        }
+
+        formdata.append('producto', JSON.stringify(data))
+
         setShowModal(false)
-        estado(false)
-        updateProduct({
-            id: id,
-            nombre: refNombre.current.value,
-            precio: refPrecio.current.value,
-            stock: refStock.current.value,
-            descricripcion: refDescripcion.current.value,
-            caracteristicas: refCaracteristicas.current.value,
-            status: refStatus.current.value,
-            tipo: refTipo.current.value
-        })
+        updateProduct({ formdata: formdata })
+            .then(resp => {
+                setImages([])
+                setValidated(false)
+                if (resp.flag) {
+                    console.log(resp)
+                    render()
+                    toastAlert({msg:resp.msg,estado:render, color:'info'})
+                }else{
+                    toastAlert({msg:resp.msg,estado:render, color:'warning'})
+                }
+            })
     }
 
     return (
@@ -181,8 +205,9 @@ function ModalEditar({ showModal, estado, id = 0 }) {
                                         type="file"
                                         accept='.png, .jpg'
                                         ref={refImagen}
-                                        encType="multipart/form-data"
                                         onChange={mostrarImg}
+                                        encType="multipart/form-data"
+                                        multiple
                                     // required
                                     />
                                     <Form.Control.Feedback type="invalid">

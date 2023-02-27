@@ -1,13 +1,13 @@
-import {URL} from "./config.js"
+import { URL } from "./config.js"
 
 const fromAjaxResponseInput = response => {
     return response
 }
 
-function inputImages({formdata}={}) {
+function inputImages({ formdata } = {}) {
 
     return fetch(`${URL}/guardarImg.php`, {
-        method: "POST",
+        // method: "POST",
         body: formdata
     })
         .then(res => res.json)

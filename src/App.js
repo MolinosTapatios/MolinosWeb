@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { Route, Routes } from 'react-router-dom'
+import "./App.css"
 
 import Login from "pages/Login"
 import Home from "pages/Home"
@@ -12,6 +13,28 @@ import Header from "./componentes/Header"
 
 import { UserContextProvider } from 'context/UserContext'
 import { ProductsContextProvider } from 'context/ProductsContext'
+import LogoutTimer from "componentes/LogoutTimer"
+
+function Contador({conectado}) {
+
+  const [timer, setTimer] = useState(0)
+
+  useEffect(()=>{
+
+    if (conectado) {
+      setTimeout(()=>{
+        setTimer(timer + 1)
+      }, 1000)
+    }
+      
+  })
+  
+  return(
+    <>
+      <div className="contador">{timer}</div>
+    </>
+  )
+}
 
 function App() {
 
@@ -35,6 +58,8 @@ function App() {
     <>
       <UserContextProvider>
         <Header acceder={acceder} />
+        <LogoutTimer time={10 * 1000} />
+        <Contador conectado={conectado} />
         <ProductsContextProvider>
           <Routes>
             <Route path="/login" element={<Login />} />

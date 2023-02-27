@@ -10,7 +10,7 @@
   display: none;
 }
 
-.add {
+.add-link {
   display: block;
 }
 
@@ -20,7 +20,7 @@
     display: flex;
   }
 
-  .add {
+  .add-link {
     display: none;
   }
 }

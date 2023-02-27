@@ -24,5 +24,5 @@ export default function login({ user, password } = {}) {
     })
         .then(resp => resp.json())
         .then(posData)
-        .catch(posData)
+        .catch("Error en el servidor")
 }

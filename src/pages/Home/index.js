@@ -1,15 +1,18 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import CarruselCards from "componentes/CarruselCards";
 import './index.css'
-import useProducts from "hooks/useProducts";
+import getProducts from "services/getProducts";
 
 function Home() {
 
-    const { productos, tipoProductos } = useProducts()
+    const [productos, setProductos] = useState();
 
     useEffect(() => {
-        tipoProductos({ limit: 10, tipo: 1 })
-    }, [tipoProductos])
+        getProducts({ limit: 10, tipo: 1, status: 1 })
+            .then(resp => {
+                setProductos(resp)
+            })
+    }, [])
 
     return (
         <div style={{ minWidth: "300px" }}>

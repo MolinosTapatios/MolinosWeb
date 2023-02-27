@@ -1,0 +1,5 @@
+.toast-alert{
+    position: fixed;
+    top: 40px;
+    min-width: 500px;
+}

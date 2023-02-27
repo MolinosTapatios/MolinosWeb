@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom'
 import { Nav, Button, Container, Form, Navbar, NavDropdown } from 'react-bootstrap';
-import useUser from '../../hooks/useUser';
+import useUser from 'hooks/useUser';
 import img from 'img/LOGO.png';
 import './index.css'
 
@@ -12,7 +12,7 @@ function Menu(params) {
 
     const handleSalir = () => {
         navigate("/login")
-        sessionStorage.removeItem("active")
+        // sessionStorage.removeItem("active")
         logout()
     }
 
@@ -74,11 +74,11 @@ function Menu(params) {
                                 isLogged ?
                                     <>
                                         <Link className='nav-link' to="/catalogo">Catálogo</Link>
-                                        <Link className='nav-link add' to="/carrito">Carrito</Link>
-                                        <Link className='nav-link add' to="#action2">Mi Cuenta</Link>
-                                        <Link className='nav-link add' to="/" onClick={() => { sessionStorage.removeItem("active") }}>Salir</Link>
+                                        <Link className='nav-link add-link' to="/carrito">Carrito</Link>
+                                        <Link className='nav-link add-link' to="#action2">Mi Cuenta</Link>
+                                        <Link className='nav-link add-link' to="/" onClick={() => { sessionStorage.removeItem("active") }}>Salir</Link>
                                     </> :
-                                    <Link className='nav-link add' to="/login">Iniciar Sesión</Link>
+                                    <Link className='nav-link add-link' to="/login">Iniciar Sesión</Link>
                             }
                         </Nav>
                     </Navbar.Collapse>
