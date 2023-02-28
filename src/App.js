@@ -15,26 +15,26 @@ import { UserContextProvider } from 'context/UserContext'
 import { ProductsContextProvider } from 'context/ProductsContext'
 import LogoutTimer from "componentes/LogoutTimer"
 
-function Contador({conectado}) {
+// function Contador({conectado}) {
 
-  const [timer, setTimer] = useState(0)
+//   const [timer, setTimer] = useState(0)
 
-  useEffect(()=>{
+//   useEffect(()=>{
 
-    if (conectado) {
-      setTimeout(()=>{
-        setTimer(timer + 1)
-      }, 1000)
-    }
+//     if (conectado) {
+//       setTimeout(()=>{
+//         setTimer(timer + 1)
+//       }, 1000)
+//     }
       
-  })
+//   })
   
-  return(
-    <>
-      <div className="contador">{timer}</div>
-    </>
-  )
-}
+//   return(
+//     <>
+//       <div className="contador">{timer}</div>
+//     </>
+//   )
+// }
 
 function App() {
 
@@ -58,8 +58,8 @@ function App() {
     <>
       <UserContextProvider>
         <Header acceder={acceder} />
-        <LogoutTimer time={10 * 1000} />
-        <Contador conectado={conectado} />
+        <LogoutTimer time={10 * 1000} conectado={conectado} />
+        {/* <Contador conectado={conectado} /> */}
         <ProductsContextProvider>
           <Routes>
             <Route path="/login" element={<Login />} />

@@ -22,7 +22,8 @@ function useUser() {
                 }
             })
             .catch(err => {
-                setEstado({ loading: false, error: "Error " + err })
+                // console.log(err.sta)
+                setEstado({ loading: false, error: "Error en el servidor" })
             })
     }, [setJWT])
 

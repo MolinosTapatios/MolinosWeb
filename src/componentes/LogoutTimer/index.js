@@ -1,53 +1,55 @@
-// import useUser from "hooks/useUser";
-import { useEffect, /* useState */ } from "react";
-// import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
-function LogoutTimer({ time }) {
-  // const [timer, setTimer] = useState();
-  // const { isLogged, logout } = useUser()
-  // const navigate = useNavigate()
+function LogoutTimer({conectado}) {
 
-  useEffect(() => {
+   /* const [loggedIn, setLoggedIn] = useState(conectado);
 
-    // if(isLogged){
-    //   setTimeout(()=>{
-    //     console.log("sesion expirada");
-    //     navigate("/login")
-    //     logout()
-    //   },5000)
-    // }
-  // eslint-disable-next-line
-  },[]);
+  const checkForInactivity = () => {
+    const expireTime = localStorage.getItem("expireTime")
 
+    if(expireTime < Date.now()){
+      console.log("Log out")
+    }
+  }
 
-  // useEffect(() => {
-  //   const resetTimer = () => {
-  //     if (timer) {
-  //       clearTimeout(timer);
-  //     }
-  //     setTimer(setTimeout(logout, time));
-  //   };
+  const updateExpireTime = () => {
+    const expireTime = Date.now() + 10000
 
-  //   const logout = () => {
-  //     // Limpiar los tokens de sesión o el estado de autenticación
-  //     // y redirigir al usuario a la página de inicio de sesión.
-  //   };
+    localStorage.setItem("expireTime", expireTime)
+  }
 
-  //   resetTimer();
+  useEffect(()=>{
+    const interval = setInterval(() => {
+      checkForInactivity()
+    }, 5000);
 
-  //   // Reiniciar el temporizador cuando el usuario realiza alguna actividad.
-    // document.addEventListener("mousemove", resetTimer);
-  //   document.addEventListener("keydown", resetTimer);
+    return () => clearInterval(interval)
+  },[])
 
-  //   return () => {
-  //     clearTimeout(timer);
-  //     document.removeEventListener("mousemove", resetTimer);
-      // document.removeEventListener("keydown", resetTimer);
-  //   };
-  // }, [timer, time]);
+  useEffect(()=>{
+    updateExpireTime()
 
+    window.addEventListener("mousemove",updateExpireTime)
 
-  return null;
+    return()=>{
+      window.removeEventListener("mousemove",updateExpireTime)
+    }
+  },[]) */
+
+  const [timer, setTimer] = useState(0);
+
+  useEffect(()=>{
+    setTimeout(()=>{
+      setTimer(timer+1)
+    },1000)
+  },[timer])
+  
+  return(
+    <>
+      <div className="contador">{timer}</div>
+    </>
+  )
+
 }
 
 export default LogoutTimer
