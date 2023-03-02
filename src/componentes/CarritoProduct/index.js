@@ -3,7 +3,7 @@ import useUser from 'hooks/useUser'
 import { URL } from 'services/config'
 import setCarrito from 'services/setCarrito'
 import './index.css'
-import deleteProduct from 'services/deleteProducto'
+import { Producto } from 'services/producto'
 
 
 function CarritoProduct({ id, nombre, cantidad_producto, stock, precio, path, total, render, setAlert}) {
@@ -12,9 +12,10 @@ function CarritoProduct({ id, nombre, cantidad_producto, stock, precio, path, to
     const [cantidad, setCantidad] = useState(parseInt(cantidad_producto))
     const [state, setstate] = useState({ loading: false, error: false })
     const [flag, setFlag] = useState(false)
- 
+    
     function removeOfCart() {
-        deleteProduct({user_id: parseInt(user_id),producto_id: parseInt(id)})
+        const p = new Producto({})
+        p.deleteProduct({user_id: parseInt(user_id),producto_id: parseInt(id)})
         .then((resp) =>{
             if (resp.flag){
                 setAlert({color:"warning",estado:true, mensaje:resp.msg})
@@ -52,7 +53,7 @@ function CarritoProduct({ id, nombre, cantidad_producto, stock, precio, path, to
                 .catch(setstate({ loading: false, error: true }))
                 setFlag(false)
         }
-    }, [cantidad,cantidad_producto,id,total, user_id])
+    }, [cantidad,cantidad_producto,id,total, user_id, flag])
 
     return (
         <>

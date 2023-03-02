@@ -1,52 +1,23 @@
+// import useUser from "hooks/useUser";
 import { useEffect, useState } from "react";
 
-function LogoutTimer({conectado}) {
+function LogoutTimer({ conectado }) {
 
-   /* const [loggedIn, setLoggedIn] = useState(conectado);
+  // const { logout } = useUser()
+  const [reloj, setReloj] = useState(0)
 
-  const checkForInactivity = () => {
-    const expireTime = localStorage.getItem("expireTime")
-
-    if(expireTime < Date.now()){
-      console.log("Log out")
+  //solo es un temporizador
+  useEffect(() => {
+    if (conectado) {
+      setTimeout(() => {
+        setReloj(reloj + 1)
+      }, 1000)
     }
-  }
+  }, [reloj, conectado])
 
-  const updateExpireTime = () => {
-    const expireTime = Date.now() + 10000
-
-    localStorage.setItem("expireTime", expireTime)
-  }
-
-  useEffect(()=>{
-    const interval = setInterval(() => {
-      checkForInactivity()
-    }, 5000);
-
-    return () => clearInterval(interval)
-  },[])
-
-  useEffect(()=>{
-    updateExpireTime()
-
-    window.addEventListener("mousemove",updateExpireTime)
-
-    return()=>{
-      window.removeEventListener("mousemove",updateExpireTime)
-    }
-  },[]) */
-
-  const [timer, setTimer] = useState(0);
-
-  useEffect(()=>{
-    setTimeout(()=>{
-      setTimer(timer+1)
-    },1000)
-  },[timer])
-  
-  return(
+  return (
     <>
-      <div className="contador">{timer}</div>
+        {/* <div className="contador">{reloj}</div> */}
     </>
   )
 

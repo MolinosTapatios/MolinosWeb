@@ -1,6 +1,6 @@
 import { Form, Row, Col, InputGroup, Button, Alert } from 'react-bootstrap';
 import React, { useRef, useState } from 'react';
-import Registrar from "services/insetProduct";
+import { Producto } from "services/producto";
 import Carrusel from "componentes/Carrusel";
 
 function RegistrarProduct() {
@@ -51,8 +51,9 @@ function RegistrarProduct() {
         }
 
         formdata.append('producto', JSON.stringify(data))
-
-        Registrar({ formdata: formdata })
+        
+        const p = new Producto({})
+        p.crearProducto({ formdata: formdata })
             .then(res => {
                 if (res.flag) {
                     setColor("info")

@@ -3,23 +3,22 @@ import "./index.css"
 import Carrusel from "componentes/Carrusel";
 import setCarrito from "services/setCarrito";
 import useUser from 'hooks/useUser';
-import ToastAlert from "componentes/Toast";
-import { useState } from "react";
 
 
 function CardProducto({ id, nombre, precio, images } = {}) {
 
     const { user_id } = useUser()
-    const [alert, setAlert] = useState({mensaje:null,estado:false,color:null})
+
+    // console.log(images)
 
     function addCart() {
         setCarrito({cantidad:1,idProducto:id, idUsuer:user_id, mantener:true})
-        .then(resp=>resp.flag && setAlert({color:"info",estado:true,mensaje:resp.msg}))
+        .then(resp=>resp.flag && "")
     }
 
     return (
         <>
-            <ToastAlert color={alert.color} estado={alert.estado} mensaje={alert.mensaje} />
+            {/* <ToastAlert color={alert.color} estado={alert.estado} mensaje={alert.mensaje} /> */}
             <div className="card m-2" style={{ width: "18rem" }}>
                 {
                     images.length !== 0  && <Carrusel images={images} />

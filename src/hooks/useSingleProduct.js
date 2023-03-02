@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react"
-import getSingleProduct from 'services/getSingleProduct'
+import getSingleProduct from 'services/_getSingleProduct'
 
 function useSingleProduct() {
 

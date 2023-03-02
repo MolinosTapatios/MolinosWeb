@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Carousel from 'react-bootstrap/Carousel';
-//import url
-import {URL} from 'services/config'
 
 function Carrusel({ images }) {
 
     const [render, setRender] = useState(false)
 
     useEffect(() => {
+        // console.log(images)
     }, [render])
 
     function val() {
@@ -20,18 +19,20 @@ function Carrusel({ images }) {
 
     if (images) {
         return (
-            <Carousel onClick={val} className="m-1">
+            <Carousel onClick={val} className="m-1" id="carrusel">
                 {
                     images.map((img, i) =>
                         <div className='carousel-item' key={i}>
                             <img
+                                id={img.id}
                                 className="d-block w-100"
-                                src={URL + img.path}
+                                src={img.path}
                                 alt="First slide"
+                                style={{maxHeight:"300px", width:"auto"}}
                             />
-                            <Carousel.Caption>
+                            {/* <Carousel.Caption>
 
-                            </Carousel.Caption>
+                            </Carousel.Caption> */}
                         </div>
                     )
                 }

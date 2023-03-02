@@ -1,8 +1,11 @@
 import { useState, useRef, useEffect } from "react";
 import { Modal, Button, Form, Row, Col, InputGroup } from "react-bootstrap";
-import getSingleProduct from "services/getSingleProduct";
-import updateProduct from "services/updateProduct";
 import Carrusel from 'componentes/Carrusel';
+
+import './index.css'
+
+import { Producto } from "services/producto";
+import deleteImg from "services/deleteImg";
 
 function ModalEditar({ id = 0, showModal, render, toastAlert }) {
 
@@ -19,12 +22,12 @@ function ModalEditar({ id = 0, showModal, render, toastAlert }) {
     const [validated, setValidated] = useState(false);
     const [show, setShowModal] = useState(false);
     const [images, setImages] = useState([]);
-
+    
     useEffect(() => {
-        // console.log(toastAlert)
         if(id !== 0 ){
             setShowModal(true)
-            getSingleProduct({ id: id })
+            const p = new Producto({})
+            p.getSingleProduct({ id: id })
                 .then(response => {
                     if (!response.msg) {
                             refTitleModal.current.innerHTML = response.nombre
@@ -101,7 +104,8 @@ function ModalEditar({ id = 0, showModal, render, toastAlert }) {
         formdata.append('producto', JSON.stringify(data))
 
         setShowModal(false)
-        updateProduct({ formdata: formdata })
+        const p = new Producto({})
+        p.updateProduct({ formdata: formdata })
             .then(resp => {
                 setImages([])
                 setValidated(false)
@@ -113,6 +117,22 @@ function ModalEditar({ id = 0, showModal, render, toastAlert }) {
                     toastAlert({msg:resp.msg,estado:render, color:'warning'})
                 }
             })
+    }
+
+    useEffect(()=>{
+        
+    })
+    
+    const deleteImage=()=>{
+        const imgs = document.getElementById('carrusel').childNodes[1]
+        for (let i = 0; i < imgs.childNodes.length; i++) {
+            if(imgs.childNodes[i].classList.length > 1){
+                deleteImg({id:parseInt(imgs[i].childNodes[0].id)})
+                .then(resp => console(resp))
+                imgs.childNodes[i].style.display = 'none'
+                console.log(imgs.childNodes[0])
+            }
+        }
     }
 
     return (
@@ -246,7 +266,11 @@ function ModalEditar({ id = 0, showModal, render, toastAlert }) {
 
                             <Form.Group as={Col}>
                                 <Form.Label>Imagen</Form.Label>
-                                <Carrusel images={images} />
+                                <Carrusel images={images} deleteImg={deleteImage} />
+                                {
+                                    images.length !== 0 &&
+                                <span><i className="bi bi-trash btn btn-danger delete" onClick={deleteImage}></i></span>
+                                }
                             </Form.Group>
                         </Row>
                         <Modal.Footer>

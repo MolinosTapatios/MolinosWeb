@@ -36,8 +36,8 @@ function Tabla({ headers, lista, editar, eliminar} = {}) {
                 <td>{p.nombre}</td>
                 <td>{p.precio}</td>
                 <td>{p.stock}</td>
-                <td>{p.status}</td>
-                <td>{p.Tipo_Producto_id}</td>
+                <td>{parseInt(p.status) === 1 ? "Visible" : "Oculto"}</td>
+                <td>{p.tipo}</td>
                 <td>
                     <button id={p.id} onClick={eliminar} className='btn btn-danger  mx-2'><i id={p.id} className="bi bi-trash"></i></button>
                     <button id={p.id} onClick={editar} className='btn btn-info mx-2'><i id={p.id} className="bi bi-pencil-square"></i></button>
