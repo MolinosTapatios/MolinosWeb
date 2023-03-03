@@ -1,5 +1,7 @@
 import { URL } from './config.js'
 
+const apiURL = `${URL}/main.php`
+
 class Producto {
 
     constructor({ id = null, nombre = null, descripcion = null, caracteristicas = null, precio = null, precioPublico = null, stock = null, status = null, tipo = null, as = null, imagenes = null }) {
@@ -83,12 +85,10 @@ class Producto {
         return this._imagenes
     }
 
-//----------------------------------------------------------------
-//           Pruebas
-//----------------------------------------------------------------
+    //----------------------------------------------------------------
+    //           Pruebas
+    //----------------------------------------------------------------
     pruebas(producto) {
-
-        const apiURL = `${URL}/main.php`
 
         return fetch(apiURL, {
             method: "POST",
@@ -102,95 +102,83 @@ class Producto {
     }
 
 
-//----------------------------------------------------------------
-//----------Todos los productos para el Home------------------
-//----------------------------------------------------------------
+    //----------------------------------------------------------------
+    //----------Todos los productos para el Home------------------
+    //----------------------------------------------------------------
     getProductosHome(p) {
 
-        const ajaxURL = `${URL}/main.php`
-
-        return fetch(ajaxURL, {
-            body: JSON.stringify({accion:"getProductosHome",producto:p}),
+        return fetch(apiURL, {
+            body: JSON.stringify({ accion: "getProductosHome", producto: p }),
             method: 'POST'
         })
             .then((res) => res.json())
-            .then(fromAjaxResponseToProducts)
+            .then(this.fromAjaxResponseToProducts)
     }
-//----------------------------------------------------------------
-//----------Todos los productos para el Catalogo------------------
-//----------------------------------------------------------------
+    //----------------------------------------------------------------
+    //----------Todos los productos para el Catalogo------------------
+    //----------------------------------------------------------------
     getProductosCatalogo(p) {
 
-        const ajaxURL = `${URL}/main.php`
-
-        return fetch(ajaxURL, {
-            body: JSON.stringify({accion:"getProductosCatalogo",producto:p}),
+        return fetch(apiURL, {
+            body: JSON.stringify({ accion: "getProductosCatalogo", producto: p }),
             method: 'POST'
         })
             .then((res) => res.json())
-            .then(fromAjaxResponseToProducts)
+            .then(this.fromAjaxResponseToProducts)
     }
-//----------------------------------------------------------------
-//         Informacion completa de un solo Producto
-//----------------------------------------------------------------
-    getSingleProduct({ id } = {}) {
-        const ajaxURL = `${URL}/ajax_getProducto.php`
-    
-        return fetch(ajaxURL, {
-            body: JSON.stringify({ "id": id }),
+    //----------------------------------------------------------------
+    //  Comprueba que sea un arreglo sino devuelve una arreglo vacio
+    //----------------------------------------------------------------
+    fromAjaxResponseToProducts(response) {
+
+        if (response.flag) {
+            const arr = response.msg.map(a => JSON.parse(a))
+            if (Array.isArray(arr)) {
+                return arr
+            }
+        }
+        return []
+    }
+    //----------------------------------------------------------------
+    //         Informacion completa de un solo Producto
+    //----------------------------------------------------------------
+    getSingleProduct(p) {
+
+        return fetch(apiURL, {
+            body: JSON.stringify({ accion: "getSingleProducto", producto: p }),
             method: "POST"
         })
             .then(resp => resp.json())
-            .then(resp => { return resp })
+            .then(this.ajaxGetSingleProducto)
     }
-    
-//----------------------------------------------------------------
-// Elimina un producto del carrito de compras
-//----------------------------------------------------------------
-    deleteProduct({ user_id, producto_id }) {
-    
-        const apiURL = `${URL}/ajax_deleteProductOfCart.php`
-    
-        return fetch(apiURL, {
-            method: "POST",
-            body: JSON.stringify({
-                user_id: user_id,
-                producto_id: producto_id
-            })
-        })
-            .then(resp => resp.json())
-            .then(resp => { return resp })
-    }
-//----------------------------------------------------------------
-//           Registra un producto
-//----------------------------------------------------------------
-    
-    crearProducto({ formdata } = {formdata : new FormData()}) {
 
-        formdata.append("accion","crearProducto")
-    
-        return fetch(`${URL}/main.php`, {
+    ajaxGetSingleProducto(response) {
+        if (response.msg) {
+            return response.msg
+        }
+        return null
+    }
+    //----------------------------------------------------------------
+    //           Registra un producto
+    //----------------------------------------------------------------
+    crearProducto({ formdata } = { formdata: new FormData() }) {
+
+        formdata.append("accion", "crearProducto")
+
+        return fetch(apiURL, {
             method: 'POST',
             body: formdata,
         })
             .then(res => res.json())
             .then(resp => { return resp })
     }
-    // crearProducto({ formdata } = {}) {
-    
-    //     return fetch(`${URL}/main.php`, {
-    //         method: 'POST',
-    //         body: formdata,
-    //     })
-    //         .then(res => res.json())
-    //         .then(resp => { return resp })
-    // }
-//----------------------------------------------------------------
-//           Elimina un producto
-//----------------------------------------------------------------
+    //----------------------------------------------------------------
+    //           Elimina un producto
+    //----------------------------------------------------------------
     removeProduct({ id } = {}) {
+
         const apiURL = `${URL}/ajax_eliminarProducto.php`
-    
+
         return fetch(apiURL, {
             body: JSON.stringify({ "id": id }),
             method: "POST"
@@ -198,13 +186,13 @@ class Producto {
             .then((res) => res.json())
             .then(resp => { return resp })
     }
-//----------------------------------------------------------------
-//           Actualiza un producto
-//----------------------------------------------------------------
+    //----------------------------------------------------------------
+    //           Actualiza un producto
+    //----------------------------------------------------------------
     updateProduct({ formdata } = {}) {
-    
+
         const ajaxURL = `${URL}/ajax_editarProducto.php`
-    
+
         return fetch(ajaxURL, {
             body: formdata,
             method: "POST"
@@ -214,20 +202,6 @@ class Producto {
     }
 
 }
-
-//----------------------------------------------------------------
-//  Comprueba que sea un arreglo sino devuelve una arreglo vacio
-//----------------------------------------------------------------
-const fromAjaxResponseToProducts = response => {
-    if(response.flag){
-        const arr = response.msg.map(a => JSON.parse(a))
-        if (Array.isArray(arr)) {
-            return arr
-        }
-    }
-    return []
-}
-
 //----------------------------------------------------------------
 //           Exportacion de todas las funciones
 //----------------------------------------------------------------

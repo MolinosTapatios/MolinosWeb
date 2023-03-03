@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import useUser from 'hooks/useUser'
 import { URL } from 'services/config'
-import setCarrito from 'services/setCarrito'
 import './index.css'
-import { Producto } from 'services/producto'
+import { Carrito } from 'services/carrito'
 
 
 function CarritoProduct({ id, nombre, cantidad_producto, stock, precio, path, total, render, setAlert}) {
@@ -14,8 +13,8 @@ function CarritoProduct({ id, nombre, cantidad_producto, stock, precio, path, to
     const [flag, setFlag] = useState(false)
     
     function removeOfCart() {
-        const p = new Producto({})
-        p.deleteProduct({user_id: parseInt(user_id),producto_id: parseInt(id)})
+        const c = new Carrito({usuarioId:parseInt(user_id)})
+        c.deleteProduct({c,producto_id: parseInt(id)})
         .then((resp) =>{
             if (resp.flag){
                 setAlert({color:"warning",estado:true, mensaje:resp.msg})
@@ -40,7 +39,8 @@ function CarritoProduct({ id, nombre, cantidad_producto, stock, precio, path, to
     useEffect(() => {
         if (flag) {
             setstate({ loading: true, error: false })
-            setCarrito({ cantidad: cantidad, idProducto: id, idUsuer: user_id, mantener: false })
+            const c = new Carrito({usuarioId:user_id})
+            c.addCarrito({ cantidad: cantidad, idProducto: id, mantener: false, carrito: c })
                 .then(resp => {
                     console.log(resp)
                     if (resp.flag) {

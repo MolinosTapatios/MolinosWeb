@@ -26,8 +26,8 @@ function ModalEditar({ id = 0, showModal, render, toastAlert }) {
     useEffect(() => {
         if(id !== 0 ){
             setShowModal(true)
-            const p = new Producto({})
-            p.getSingleProduct({ id: id })
+            const p = new Producto({id: id});
+            p.getSingleProduct(p)
                 .then(response => {
                     if (!response.msg) {
                             refTitleModal.current.innerHTML = response.nombre
@@ -38,8 +38,8 @@ function ModalEditar({ id = 0, showModal, render, toastAlert }) {
                             refDescripcion.current.value = response.descripcion
                             refPrecio.current.value = response.precio
                             refStock.current.value = response.stock
-                            if (response.images) {
-                                setImages(response.images)
+                            if (response.imagenes) {
+                                setImages(response.imagenes)
                             }
                         }
                 })
@@ -110,7 +110,6 @@ function ModalEditar({ id = 0, showModal, render, toastAlert }) {
                 setImages([])
                 setValidated(false)
                 if (resp.flag) {
-                    console.log(resp)
                     render()
                     toastAlert({msg:resp.msg,estado:render, color:'info'})
                 }else{

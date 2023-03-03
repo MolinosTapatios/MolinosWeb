@@ -1,8 +1,8 @@
 import React  from "react"
 import "./index.css"
 import Carrusel from "componentes/Carrusel";
-import setCarrito from "services/setCarrito";
 import useUser from 'hooks/useUser';
+import { Carrito } from "services/carrito";
 
 
 function CardProducto({ id, nombre, precio, images } = {}) {
@@ -12,7 +12,8 @@ function CardProducto({ id, nombre, precio, images } = {}) {
     // console.log(images)
 
     function addCart() {
-        setCarrito({cantidad:1,idProducto:id, idUsuer:user_id, mantener:true})
+        const c = new Carrito({usuarioId:user_id})
+        c.addCarrito({cantidad:1,idProducto:id, mantener:true, carrito:c})
         .then(resp=>resp.flag && "")
     }
 
