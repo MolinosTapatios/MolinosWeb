@@ -164,41 +164,42 @@ class Producto {
     crearProducto({ formdata } = { formdata: new FormData() }) {
 
         formdata.append("accion", "crearProducto")
-
+        
         return fetch(apiURL, {
             method: 'POST',
             body: formdata,
         })
-            .then(res => res.json())
-            .then(resp => { return resp })
+        .then(res => res.json())
+        .then(resp => { return resp })
     }
     //----------------------------------------------------------------
     //           Elimina un producto
     //----------------------------------------------------------------
-    removeProduct({ id } = {}) {
-
-        const apiURL = `${URL}/ajax_eliminarProducto.php`
-
+    removeProduct(p) {
+        
         return fetch(apiURL, {
-            body: JSON.stringify({ "id": id }),
+            body: JSON.stringify({
+                accion: "deleteProducto",
+                producto: p
+            }),
             method: "POST"
         })
-            .then((res) => res.json())
-            .then(resp => { return resp })
+        .then((res) => res.json())
+        .then(resp => { return resp })
     }
     //----------------------------------------------------------------
     //           Actualiza un producto
     //----------------------------------------------------------------
     updateProduct({ formdata } = {}) {
-
-        const ajaxURL = `${URL}/ajax_editarProducto.php`
-
-        return fetch(ajaxURL, {
+        
+        formdata.append("accion", "updateProducto")
+        
+        return fetch(apiURL, {
             body: formdata,
             method: "POST"
         })
             .then(resp => resp.json())
-            .then(resp => { return resp })
+            .then(resp => { return [] })
     }
 
 }

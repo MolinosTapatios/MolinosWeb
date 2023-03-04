@@ -26,8 +26,8 @@ function Productos() {
     }, [render])
     
     function eliminar(e) {
-        const p = new Producto({})
-        p.removeProduct({ id: e.target.id })
+        const p = new Producto({id:parseInt(e.target.id)})
+        p.removeProduct(p)
             .then(response => {
                 console.log(response)
                 setToastAlert({ msg: response.msg, estado: !toastAlert.estado, color: 'danger' })

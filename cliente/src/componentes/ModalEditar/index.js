@@ -32,7 +32,7 @@ function ModalEditar({ id = 0, showModal, render, toastAlert }) {
                     if (!response.msg) {
                             refTitleModal.current.innerHTML = response.nombre
                             refNombre.current.value = response.nombre
-                            refTipo.current.value = response.Tipo_Producto_id
+                            refTipo.current.value = response.tipo
                             refStatus.current.value = response.status
                             refCaracteristicas.current.value = response.caracteristicas
                             refDescripcion.current.value = response.descripcion
