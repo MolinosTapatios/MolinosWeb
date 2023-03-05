@@ -5,7 +5,8 @@ import "./index.css"
 
 import Paginacion from 'componentes/Paginacion'
 import Modal from 'componentes/ModalEditar'
-import {Producto} from "services/producto";
+import { Producto } from "services/producto";
+import ToastAlert from 'componentes/ToastAlert';
 
 function Productos() {
 
@@ -14,23 +15,27 @@ function Productos() {
     const [id, setId] = useState(0)
     const [toastAlert, setToastAlert] = useState({ msg: null, estado: false, color: null })
     const [productos, setProductos] = useState([])
-    
+
     const headers = ["#", "Nombre", "Precio", "Stock", "Estado", "Tipo de Producto", "Acciones"]
-    
+
+    const handleToast = () => {
+        setToastAlert({ estado: !toastAlert.estado })
+    }
+
     useEffect(() => {
         const p = new Producto({})
         p.getProductosCatalogo(p)
-        .then(resp => {
-            setProductos(resp)
-        })
+            .then(resp => {
+                setProductos(resp)
+            })
     }, [render])
-    
+
     function eliminar(e) {
-        const p = new Producto({id:parseInt(e.target.id)})
+        const p = new Producto({ id: parseInt(e.target.id) })
         p.removeProduct(p)
             .then(response => {
-                console.log(response)
-                setToastAlert({ msg: response.msg, estado: !toastAlert.estado, color: 'danger' })
+                // console.log(response.msg.msg)
+                setToastAlert({ msg: response.msg.msg, estado: true, color: 'danger' })
                 setRender(!render)
             })
     }
@@ -46,6 +51,12 @@ function Productos() {
 
     return (
         <div style={{ backgroundColor: "gray" }}>
+            <ToastAlert
+                color={toastAlert.color}
+                estado={toastAlert.estado}
+                mensaje={toastAlert.msg}
+                handleEstado={handleToast}
+            />
             <div className='p-4 py-4'>
                 <h2 className='mb-4'>Gestion de Catálogo</h2>
 
@@ -62,8 +73,6 @@ function Productos() {
                         headers={headers} />
 
                     <Modal showModal={showModal} render={handleRender} id={id} toastAlert={setToastAlert} />
-
-                    {/* <ToastAlert estado={toastAlert.estado} mensaje={toastAlert.msg} color={toastAlert.color} /> */}
                 </div>
             </div>
         </div>

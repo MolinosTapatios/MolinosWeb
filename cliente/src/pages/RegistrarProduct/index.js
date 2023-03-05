@@ -37,6 +37,7 @@ function RegistrarProduct() {
         const formdata = new FormData()
 
         const data = {
+            "id": null,
             "nombre": refNombre.current.value,
             "precio": refPrecio.current.value,
             "stock": refStock.current.value,
@@ -51,7 +52,7 @@ function RegistrarProduct() {
         }
 
         formdata.append('producto', JSON.stringify(data))
-        
+
         const p = new Producto({})
         p.crearProducto({ formdata: formdata })
             .then(res => {

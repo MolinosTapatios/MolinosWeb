@@ -84,24 +84,6 @@ class Producto {
     get imagenes() {
         return this._imagenes
     }
-
-    //----------------------------------------------------------------
-    //           Pruebas
-    //----------------------------------------------------------------
-    pruebas(producto) {
-
-        return fetch("https://www.instagram.com/api/v1/accounts/edit/web_form_data/", {
-            method: "GET",
-            mode: "no-cors",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-            },
-        })
-            .then(res => res.json())
-            .then(res => { return res })
-    }
-
-
     //----------------------------------------------------------------
     //----------Todos los productos para el Home------------------
     //----------------------------------------------------------------
