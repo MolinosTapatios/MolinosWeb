@@ -5,7 +5,7 @@ import {Producto} from "services/producto";
 
 function Home() {
 
-    const [productos, setProductos] = useState();
+    const [productos, setProductos] = useState()
 
     useEffect(() => {
         const p = new Producto({tipo:1, status:1,precio:10})
@@ -33,4 +33,4 @@ function Home() {
     );
 }
 
-export default Home;
+export default Home

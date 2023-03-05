@@ -3,6 +3,7 @@ import CardProducto from "componentes/CardProduct"
 import './index.css'
 
 function VistaProducto({ data = [] }) {
+    console.log(data)
     return (
         <>
             <div className="carrusel-cards">
@@ -14,7 +15,8 @@ function VistaProducto({ data = [] }) {
                             nombre={p.nombre}
                             precio={p.precio}
                             images={p.imagenes}
-                            descripcion={p.descripcion} />
+                            descripcion={p.descripcion}
+                            caracteristicas={p.caracteristicas} />
                     )
                 }
             </div>

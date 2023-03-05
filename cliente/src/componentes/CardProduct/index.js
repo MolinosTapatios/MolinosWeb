@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 // import { Carrito } from "services/carrito";
 
 
-function CardProducto({ id, nombre, precio, images, descripcion } = {}) {
+function CardProducto({ id, nombre, precio, images, descripcion, caracteristicas } = {}) {
 
     const navigate = useNavigate()
 
@@ -17,8 +17,16 @@ function CardProducto({ id, nombre, precio, images, descripcion } = {}) {
     })
 
     const redirection = useCallback(() => {
-        navigate(`/detalles/${nombre}`)
-    },[nombre, navigate])
+        navigate(`/detalles/${nombre}`, {
+            state: {
+                imgs: images,
+                id: id,
+                descripcion: descripcion,
+                precio:precio,
+                caracteristicas:caracteristicas
+            }
+        })
+    }, [nombre, navigate])
 
     // const { user_id } = useUser()
 
