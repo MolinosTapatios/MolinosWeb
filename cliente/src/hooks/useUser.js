@@ -1,6 +1,6 @@
 import { useCallback, useContext, useState } from 'react'
 import Context from "../context/UserContext";
-import loginService from 'services/login';
+import Usuario from 'services/usuario';
 
 function useUser() {
 
@@ -9,20 +9,18 @@ function useUser() {
 
     const login = useCallback(({ username, password }) => {
         setEstado({ loading: true, error: null })
-        loginService({ user: username, password: password })
+        const u = new Usuario({username:username, password:password})
+        u.login(u)
             .then(resp => {
-                if (resp) {
-                    if (resp.flag) {
+                if (resp.flag) {
                         window.sessionStorage.setItem("active", JSON.stringify(resp));
                         setJWT(resp.id)
-                        setEstado({ loading: false, error: "" })
-                    } else {
-                        setEstado({ loading: false, error: resp.msg })
-                    }
+                }else{
+                    setEstado({loading:false, error:'Error al consultar'})
                 }
+                // setEstado({loading:false})
             })
             .catch(err => {
-                // console.log(err.sta)
                 setEstado({ loading: false, error: "Error en el servidor" })
             })
     }, [setJWT])

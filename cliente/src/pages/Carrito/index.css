@@ -25,7 +25,6 @@
     border: none;
     margin-top: 10px;
     cursor: pointer;
-    /* width: 1; */
     font-size: 20px;
 }
 
@@ -41,5 +40,5 @@
 }
 
 .title-cart{
-    margin-left: 100px;
+    margin-left: 0px;
 }

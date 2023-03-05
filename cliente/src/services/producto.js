@@ -90,7 +90,10 @@ class Producto {
     getProductosHome(p) {
 
         return fetch(apiURL, {
-            body: JSON.stringify({ accion: "getProductosHome", producto: p }),
+            body: JSON.stringify({
+                accion: "getProductosHome",
+                producto: p
+            }),
             method: 'POST'
         })
             .then((res) => res.json())

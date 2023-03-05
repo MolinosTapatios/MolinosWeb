@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { Route, Routes, useNavigate } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 
 import Login from "pages/Login"
 import Home from "pages/Home"
@@ -32,13 +32,6 @@ function App() {
     setConectado(estado)
   }
 
-  function Redirection () {
-    const navigate = useNavigate()
-    useEffect(()=>{
-      navigate("/404")
-    })
-  }
-
   return (
     <>
       <UserContextProvider>
@@ -48,7 +41,7 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<Home />} />
-            <Route path="/:rest/*" element={<Redirection />} />
+            <Route path="/:rest/*" element={<Navigate to={'/404'} />} />
             <Route path="/404" element={<ErrorPage />} />
             <Route path="/tortilladoras" element={<Tortilladoras />} />
             <Route path="/detalles/:name" element={<SingleProducto />}/>

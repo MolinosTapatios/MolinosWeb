@@ -3,20 +3,24 @@ import { useHref } from "react-router-dom";
 import Nav from '../Nav'
 import useUser from "../../hooks/useUser";
 
-function Header({acceder}) {
+function Header({ acceder }) {
     const href = useHref()
     const { isLogged, } = useUser()
 
     // console.log("header")
 
-    useEffect(()=>{
+    useEffect(() => {
         acceder(isLogged)
-    },[isLogged,acceder])
+    }, [isLogged, acceder])
 
     return (
         <>
             {
-                (href !== "/login" && href !== "/404") && <Nav />                
+                (
+                    href.toLowerCase() !== "/login".toLowerCase() &&
+                    href.toLowerCase() !== "/404".toLowerCase() &&
+                    href.toLowerCase() !== "/registrousuario".toLowerCase()
+                ) && <Nav />
             }
         </>
     )
