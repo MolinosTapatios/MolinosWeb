@@ -91,8 +91,7 @@ class Usuario {
         })
             .then(resp => resp.json())
             .then(resp => {
-                console.log(resp)
-                return []
+                return resp
             })
     }
     //----------------------------------------------------------------

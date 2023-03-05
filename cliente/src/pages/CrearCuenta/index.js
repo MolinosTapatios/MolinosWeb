@@ -1,12 +1,15 @@
 import React, { useRef, useState } from "react";
 import { Form } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import Usuario from "services/usuario";
 import './index.css'
 
 function CrearCuenta() {
 
+    const navigate = useNavigate()
     const [validated, setValidated] = useState(false);
     const [estado, setEstado] = useState({ error: null, loading: false })
+
     const refApaterno = useRef();
     const refAmaterno = useRef();
     const refNombre = useRef();
@@ -39,6 +42,7 @@ function CrearCuenta() {
                 .then(resp=>{
                     if(resp.flag){
                         alert("Cuenta Creada exitosamente")
+                        navigate("/login")
                         setEstado({loading:false})
                     }else{
                         setEstado({loading:false, error:resp.msg})
