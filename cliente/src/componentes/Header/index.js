@@ -16,11 +16,7 @@ function Header({acceder}) {
     return (
         <>
             {
-                isLogged 
-                ?
-                    "/catalogo" === href || "/"===href || "/registrarPr"===href || "/tortilladoras"===href || "/carrito"===href ? <Nav /> : ""
-                : "/" === href || "/tortilladoras"===href ? <Nav /> : ""
-                
+                (href !== "/login" && href !== "/404") && <Nav />                
             }
         </>
     )

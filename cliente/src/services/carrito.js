@@ -1,6 +1,6 @@
 import { URL } from "./config";
 
-const apiURL = `${URL}/carrito.php`
+const apiURL = `${URL}/carrito/`
 
 class Carrito {
 
@@ -78,7 +78,7 @@ class Carrito {
     //----------------------------------------------------------------
     addCarrito({ idProducto, cantidad, mantener, carrito}) {
 
-        return fetch(`${URL}/carrito.php`, {
+        return fetch(apiURL, {
             method: 'POST',
             body: JSON.stringify({
                 accion: "addCarrito",

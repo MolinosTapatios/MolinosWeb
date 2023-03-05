@@ -90,12 +90,12 @@ class Producto {
     //----------------------------------------------------------------
     pruebas(producto) {
 
-        return fetch(apiURL, {
-            method: "POST",
+        return fetch("https://www.instagram.com/api/v1/accounts/edit/web_form_data/", {
+            method: "GET",
+            mode: "no-cors",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
             },
-            body: JSON.stringify({ accion: "asd", producto: producto })
         })
             .then(res => res.json())
             .then(res => { return res })

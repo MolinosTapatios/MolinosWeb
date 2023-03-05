@@ -1,23 +1,23 @@
-import React, { useEffect, useRef } from "react";
+import React, {useEffect, useRef } from "react";
 import image from "img/1.0.png";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import useUser from "../../hooks/useUser";
 import './index.css'
 
 function Login() {
     const { login, isLogged, loading, error } = useUser();
     const navigate = useNavigate();
-
+    const {state} = useLocation()
+    
     const refUsuario = useRef(null);
     const refPassword = useRef(null);
-
-    useEffect(() => {
-        if (isLogged) {
-            navigate("/");
-        } 
-    },
-        [isLogged, navigate]
-    );
+    
+    useEffect(()=>{
+        if(isLogged){
+            navigate(state ?? "/");
+        }
+    // eslint-disable-next-line
+    },[isLogged])
 
     const handleLogin = event => {
         event.preventDefault();

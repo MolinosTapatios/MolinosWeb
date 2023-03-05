@@ -11,11 +11,6 @@ function Tortilladoras(params) {
         const p = new Producto({nombre:"Molino de piedras", tipo:1})
         p.pruebas(p)
         .then(respons => {
-            if(respons.flag){
-                setEstado({error:false,loading:false,msg:respons.msg})
-            }else{
-                setEstado({error:true,loading:false, msg:respons.msg})
-            }
         })
         .catch(e=>setEstado({error:true,loading:false,msg:e}))
     },[])

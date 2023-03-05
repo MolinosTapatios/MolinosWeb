@@ -30,11 +30,16 @@ function Tabla({ headers, lista, editar, eliminar} = {}) {
 
     function FilaProduct({ p }) {
 
+        const precio = parseInt(p.precio).toLocaleString('es-MX', {
+            style: 'currency',
+            currency: 'MXN'
+          })
+
         return (
             <tr >
                 <td>{p.id}</td>
                 <td>{p.nombre}</td>
-                <td>{p.precio}</td>
+                <td>{precio}</td>
                 <td>{p.stock}</td>
                 <td>{parseInt(p.status) === 1 ? "Visible" : "Oculto"}</td>
                 <td>{p.tipo}</td>
