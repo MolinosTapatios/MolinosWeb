@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
+
 import { Carrito as c } from "services/carrito";
 import useUser from "hooks/useUser";
 import CarritoProduct from 'componentes/CarritoProduct'
+import ToastAlert from "componentes/ToastAlert";
+
 import './index.css'
 
 function Carrito() {
@@ -13,6 +16,7 @@ function Carrito() {
     const [alert, setAlert] = useState({mensaje:null,estado:false,color:null})
 
     const handleRender = () => (setRender(!render))
+    const handleEstado = ()=> (setAlert({estado: !alert.estado}))
 
     useEffect(() => {
         const carrito = new c({usuarioId:1})
@@ -25,12 +29,13 @@ function Carrito() {
             })
     }, [user_id, render])
 
-    useEffect(()=>{
-        console.log(alert);
-    },[alert])
-
     return (
         <>
+            <ToastAlert
+                color={alert.color}
+                estado={alert.estado}
+                mensaje={alert.mensaje}
+                handleEstado={handleEstado} />
             <div style={{ backgroundColor: "gray" }}>
                 <div className='p-4 py-4'>
                     <h2 className='mb-4 title-cart'>Tu carrito</h2>

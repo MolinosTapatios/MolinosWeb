@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion'
 
 import "./index.css"
 
@@ -31,6 +32,10 @@ function Productos() {
     }, [render])
 
     function eliminar(e) {
+        // const fila = document.getElementById("fila"+e.target.id)
+        // const padre = fila.parentNode
+        // padre.removeChild(fila)
+        // console.log(fila)
         const p = new Producto({ id: parseInt(e.target.id) })
         p.removeProduct(p)
             .then(response => {
@@ -58,7 +63,15 @@ function Productos() {
                 handleEstado={handleToast}
             />
             <div className='p-4 py-4'>
-                <h2 className='mb-4'>Gestion de Catálogo</h2>
+                <motion.h2
+                    initial={{scale:0}}
+                    animate={{scale:1}}
+                    transition={{
+                        duration:2,
+                        type:"spring"
+                    }}
+                    className='mb-4'
+                    >Gestion de Catálogo</motion.h2>
 
                 <div className='contenedor-tabla'>
 
@@ -79,4 +92,4 @@ function Productos() {
     )
 }
 
-export default Productos;
+export default Productos

@@ -14,8 +14,8 @@ function Headers({ headers = [] }) {
 }
 
 
-function Tabla({ headers, lista, editar, eliminar} = {}) {
-    
+function Tabla({ headers, lista, editar, eliminar } = {}) {
+
     function Body({ data = [] } = {}) {
         return (
             <>
@@ -33,10 +33,10 @@ function Tabla({ headers, lista, editar, eliminar} = {}) {
         const precio = parseInt(p.precio).toLocaleString('es-MX', {
             style: 'currency',
             currency: 'MXN'
-          })
+        })
 
         return (
-            <tr >
+            <tr id={`fila${p.id}`} >
                 <td>{p.id}</td>
                 <td>{p.nombre}</td>
                 <td>{precio}</td>
