@@ -19,19 +19,17 @@ function CardProducto({ id, nombre, precio, images, descripcion, caracteristicas
                 imgs: images,
                 id: id,
                 descripcion: descripcion,
-                precio:precio,
-                caracteristicas:caracteristicas
+                precio: precio,
+                caracteristicas: caracteristicas
             }
         })
-    // eslint-disable-next-line
-    }, [navigate,id])
+        // eslint-disable-next-line
+    }, [navigate, id])
 
     return (
         <>
             <div className="card m-2" onClick={redirection} style={{ width: "18rem" }}>
-                {
-                    images.length !== 0 && <Carrusel images={images} />
-                }
+                <Carrusel images={images} />
                 <div className="card-body">
                     <h5 className="card-title">{nombre}</h5>
                     <p className="card-text" style={{ fontSize: "20px" }}>{precio}</p>

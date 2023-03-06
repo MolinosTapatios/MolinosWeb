@@ -7,7 +7,7 @@ import './index.css'
 
 function Menu() {
 
-    const { logout, isLogged } = useUser()
+    const { logout, isLogged, user } = useUser()
     const navigate = useNavigate()
     const location = useLocation()
 
@@ -78,7 +78,10 @@ function Menu() {
                             {
                                 isLogged ?
                                     <>
-                                        <NavLink className='nav-link' to="/catalogo">Catálogo</NavLink>
+                                        {
+                                            (parseInt(user.tipo) === 1 || parseInt(user.tipo) === 3) &&
+                                            <NavLink className='nav-link' to="/catalogo">Catálogo</NavLink>
+                                        }
                                         <NavLink className='nav-link add-link' to="/carrito">Carrito</NavLink>
                                         <NavLink className='nav-link add-link' to="#action2">Mi Cuenta</NavLink>
                                         <NavLink className='nav-link add-link' to="/" onClick={() => { sessionStorage.removeItem("active") }}>Salir</NavLink>

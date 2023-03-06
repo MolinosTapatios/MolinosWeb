@@ -7,13 +7,13 @@ import { Carrito } from 'services/carrito'
 
 function CarritoProduct({ id, nombre, cantidad_producto, stock, precio, path, total, render, setAlert}) {
 
-    const { user_id } = useUser()
+    const { user } = useUser()
     const [cantidad, setCantidad] = useState(parseInt(cantidad_producto))
     const [state, setstate] = useState({ loading: false, error: false })
     const [flag, setFlag] = useState(false)
     
     function removeOfCart() {
-        const c = new Carrito({usuarioId:parseInt(user_id)})
+        const c = new Carrito({usuarioId:parseInt(user.id)})
         c.deleteProduct({c,producto_id: parseInt(id)})
         .then((resp) =>{
             if (resp.flag){
@@ -39,10 +39,9 @@ function CarritoProduct({ id, nombre, cantidad_producto, stock, precio, path, to
     useEffect(() => {
         if (flag) {
             setstate({ loading: true, error: false })
-            const c = new Carrito({usuarioId:user_id})
+            const c = new Carrito({usuarioId:user.id})
             c.addCarrito({ cantidad: cantidad, idProducto: id, mantener: false, carrito: c })
                 .then(resp => {
-                    console.log(resp)
                     if (resp.flag) {
                         total(resp.total)
                         setstate({ loading: false, error: false })
@@ -53,13 +52,13 @@ function CarritoProduct({ id, nombre, cantidad_producto, stock, precio, path, to
                 .catch(setstate({ loading: false, error: true }))
                 setFlag(false)
         }
-    }, [cantidad,cantidad_producto,id,total, user_id, flag])
+    }, [cantidad,cantidad_producto,id,total, user, flag])
 
     return (
         <>
             <div>
                 <div className="row">
-                    <img className="col product-img" src={URL + `/` + path} alt="Producto 1" />
+                    <img className="col product-img" src={ URL + `/` + (path !== null ? path : "img/null.jpg") } alt="Producto 1" />
                     <span className="col product-name">{nombre}</span>
                     <div className="col-2 text-center">
                         <div className="cantidad">

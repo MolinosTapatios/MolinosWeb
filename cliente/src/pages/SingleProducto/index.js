@@ -10,7 +10,7 @@ import ToastAlert from "componentes/ToastAlert"
 
 export default function SingleProducto() {
 
-    const { user_id } = useUser()
+    const { user } = useUser()
     const { name } = useParams()
     const { state } = useLocation()
     const [estado, setEstado] = useState({ loading: false, error: false })
@@ -22,7 +22,7 @@ export default function SingleProducto() {
 
     function addCart() {
         setEstado({ loading: true })
-        const c = new Carrito({ usuarioId: user_id })
+        const c = new Carrito({ usuarioId: user.id })
         c.addCarrito({ cantidad: 1, idProducto: state.id, mantener: true, carrito: c })
             .then(resp => {
                 setEstado({ loading: false })
@@ -50,7 +50,7 @@ export default function SingleProducto() {
             <div className="contenedor">
                 <div className="single-product row">
                     <div className="single-product-image col" >
-                        <Carrusel images={state.imgs} />
+                        <Carrusel images={state.imgs } />
                     </div>
                     <div className="single-product-info col">
                         <h2>{name}</h2>

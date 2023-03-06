@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Carousel from 'react-bootstrap/Carousel';
+import { URL } from 'services/config';
 
-function Carrusel({ images }) {
+function Carrusel({ images = [] }) {
 
     const [render, setRender] = useState(false)
-
-    useEffect(() => {
-        // console.log(images)
-    }, [render])
 
     function val() {
         if (render === false) {
@@ -15,9 +12,9 @@ function Carrusel({ images }) {
         }
     }
 
-    
-
-    if (images) {
+    if (images.length === 0) {
+        images[0] = {id:0, path:`${URL}/img/null.jpg`}
+    }
         return (
             <Carousel onClick={val} className="m-1" id="carrusel">
                 {
@@ -38,11 +35,6 @@ function Carrusel({ images }) {
                 }
             </Carousel>
         )
-    } else {
-        return (
-            <p>No hay imagenes para mostrar</p>
-        )
-    }
 }
 
 export default Carrusel

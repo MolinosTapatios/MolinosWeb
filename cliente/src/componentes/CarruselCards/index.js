@@ -3,7 +3,6 @@ import CardProducto from "componentes/CardProduct"
 import './index.css'
 
 function VistaProducto({ data = [] }) {
-    console.log(data)
     return (
         <>
             <div className="carrusel-cards">

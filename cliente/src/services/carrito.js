@@ -62,7 +62,6 @@ class Carrito {
     }
     
     getCarrito(c) {
-        
         return fetch(apiURL, {
             method: "POST",
             body: JSON.stringify({

@@ -11,14 +11,15 @@ import Tortilladoras from "pages/Tortilladoras"
 
 import Header from "./componentes/Header"
 
-import { UserContextProvider } from 'context/UserContext'
 import { ProductsContextProvider } from 'context/ProductsContext'
 import LogoutTimer from "componentes/LogoutTimer"
 import SingleProducto from "pages/SingleProducto"
+import useUser from "hooks/useUser"
 
 function App() {
 
   const [conectado, setConectado] = useState(false);
+  const {isLogged,user} = useUser()
 
   useEffect(() => {
     const loggedUserJSON = window.sessionStorage.getItem("active");
@@ -34,7 +35,6 @@ function App() {
 
   return (
     <>
-      <UserContextProvider>
         <Header acceder={acceder} />
         <LogoutTimer time={10 * 1000} conectado={conectado} />
         <ProductsContextProvider>
@@ -46,16 +46,20 @@ function App() {
             <Route path="/tortilladoras" element={<Tortilladoras />} />
             <Route path="/detalles/:name" element={<SingleProducto />}/>
             {
-              conectado &&
+              isLogged &&
                 <>
+                {
+                  (parseInt(user.tipo) === 1 || parseInt(user.tipo) === 3) &&
+                  <>
                   <Route path="/registrarPr" element={<RegProduct />} />
                   <Route path="/catalogo" element={<Catalogo />} />
+                  </>
+                }
                   <Route path="/carrito" element={<Carrito />} />
                 </>
             }
           </Routes>
         </ProductsContextProvider>
-      </UserContextProvider>
     </>
   );
 }

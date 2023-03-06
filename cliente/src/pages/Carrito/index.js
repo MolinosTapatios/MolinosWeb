@@ -10,7 +10,7 @@ import './index.css'
 function Carrito() {
 
     const [carritoProducts, setCarritoProducts] = useState([])
-    const { user_id } = useUser()
+    const { user } = useUser()
     const [total, setTotal] = useState(null)
     const [render, setRender] = useState(false)
     const [alert, setAlert] = useState({mensaje:null,estado:false,color:null})
@@ -19,7 +19,7 @@ function Carrito() {
     const handleEstado = ()=> (setAlert({estado: !alert.estado}))
 
     useEffect(() => {
-        const carrito = new c({usuarioId:1})
+        const carrito = new c({usuarioId:user.id})
         carrito.getCarrito(carrito)
             .then(resp => {
                 setCarritoProducts(resp)
@@ -27,7 +27,7 @@ function Carrito() {
                     setTotal(resp[0].total)
                 }
             })
-    }, [user_id, render])
+    }, [user, render])
 
     return (
         <>

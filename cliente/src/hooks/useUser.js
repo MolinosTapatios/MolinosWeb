@@ -14,7 +14,7 @@ function useUser() {
             .then(resp => {
                 if (resp.flag) {
                         window.sessionStorage.setItem("active", JSON.stringify(resp));
-                        setJWT(resp.id)
+                        setJWT({id:resp.id,tipo:resp.tipo})
                 }else{
                     setEstado({loading:false, error:'Error al consultar'})
                 }
@@ -36,7 +36,7 @@ function useUser() {
         loading: estado.loading,
         error: estado.error,
         logout,
-        user_id : jwt
+        user : jwt
     }
 }
 
