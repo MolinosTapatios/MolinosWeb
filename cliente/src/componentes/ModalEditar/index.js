@@ -7,7 +7,7 @@ import './index.css'
 import { Producto } from "services/producto";
 import deleteImg from "services/deleteImg";
 
-function ModalEditar({ id = 0, showModal, render, toastAlert }) {
+function ModalEditar({ id = 0, showModal, estado, render, toastAlert }) {
 
     const refTitleModal = useRef(null);
     const refNombre = useRef(null);
@@ -20,12 +20,10 @@ function ModalEditar({ id = 0, showModal, render, toastAlert }) {
     const refTipo = useRef(null);
 
     const [validated, setValidated] = useState(false);
-    const [show, setShowModal] = useState(false);
     const [images, setImages] = useState([]);
     
     useEffect(() => {
-        if(id !== 0 ){
-            setShowModal(true)
+        if(showModal ){
             const p = new Producto({id: id});
             p.getSingleProduct(p)
                 .then(response => {
@@ -42,13 +40,13 @@ function ModalEditar({ id = 0, showModal, render, toastAlert }) {
                                 setImages(response.imagenes)
                             }
                         }
-                })
+                    })
         }
     }, [id,showModal])
 
     const handleCloseModal = () => {
-        setShowModal(false)
         setImages([])
+        estado()
     }
 
     const handleSubmit = (event) => {
@@ -103,7 +101,6 @@ function ModalEditar({ id = 0, showModal, render, toastAlert }) {
 
         formdata.append('producto', JSON.stringify(data))
 
-        setShowModal(false)
         const p = new Producto({})
         p.updateProduct({ formdata: formdata })
             .then(resp => {
@@ -116,6 +113,7 @@ function ModalEditar({ id = 0, showModal, render, toastAlert }) {
                     toastAlert({msg:resp.msg,estado:render, color:'warning'})
                 }
             })
+        estado()
     }
 
     useEffect(()=>{
@@ -137,7 +135,7 @@ function ModalEditar({ id = 0, showModal, render, toastAlert }) {
     return (
         <>
             <Modal
-                show={show}
+                show={showModal}
                 onHide={handleCloseModal}
                 backdrop="static"
                 keyboard={false}
@@ -227,7 +225,6 @@ function ModalEditar({ id = 0, showModal, render, toastAlert }) {
                                         onChange={mostrarImg}
                                         encType="multipart/form-data"
                                         multiple
-                                    // required
                                     />
                                     <Form.Control.Feedback type="invalid">
                                         El producto debe tener una imagen

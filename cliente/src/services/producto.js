@@ -1,6 +1,6 @@
 import { URL } from './config.js'
 
-const apiURL = `${URL}/main.php`
+const apiURL = `${URL}/producto/`
 
 class Producto {
 
@@ -116,8 +116,8 @@ class Producto {
     //----------------------------------------------------------------
     fromAjaxResponseToProducts(response) {
 
-        if (response.flag) {
-            const arr = response.msg.map(a => JSON.parse(a))
+        if (response) {
+            const arr = response.map(a => JSON.parse(a))
             if (Array.isArray(arr)) {
                 return arr
             }
@@ -138,8 +138,9 @@ class Producto {
     }
 
     ajaxGetSingleProducto(response) {
-        if (response.msg) {
-            return response.msg
+
+        if (response) {
+            return response
         }
         return null
     }
@@ -184,7 +185,7 @@ class Producto {
             method: "POST"
         })
             .then(resp => resp.json())
-            .then(resp => { return [] })
+            .then(resp => { return resp })
     }
 
 }

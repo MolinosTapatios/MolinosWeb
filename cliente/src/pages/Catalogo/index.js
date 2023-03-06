@@ -8,14 +8,17 @@ import Paginacion from 'componentes/Paginacion'
 import Modal from 'componentes/ModalEditar'
 import { Producto } from "services/producto";
 import ToastAlert from 'componentes/ToastAlert';
+import ModalConfirmacion from 'pages/ModalConfirmacion';
 
 function Productos() {
 
     const [render, setRender] = useState(false)
     const [showModal, setShowModal] = useState(false)
+    const [showModalConfirmacion, setShowModalConfirmacion] = useState(false)
     const [id, setId] = useState(0)
     const [toastAlert, setToastAlert] = useState({ msg: null, estado: false, color: null })
     const [productos, setProductos] = useState([])
+    const [eliminarConfirm, setEliminar] = useState(false);
 
     const headers = ["#", "Nombre", "Precio", "Stock", "Estado", "Tipo de Producto", "Acciones"]
 
@@ -31,18 +34,22 @@ function Productos() {
             })
     }, [render])
 
+    useEffect(() => {
+        if (eliminarConfirm) {
+            const p = new Producto({ id: parseInt(id) })
+            p.removeProduct(p)
+                .then(response => {
+                    setToastAlert({ msg: response.msg, estado: true, color: 'danger' })
+                    setRender(!render)
+                })
+        }
+    // eslint-disable-next-line
+    }, [eliminarConfirm])
+
     function eliminar(e) {
-        // const fila = document.getElementById("fila"+e.target.id)
-        // const padre = fila.parentNode
-        // padre.removeChild(fila)
-        // console.log(fila)
-        const p = new Producto({ id: parseInt(e.target.id) })
-        p.removeProduct(p)
-            .then(response => {
-                // console.log(response.msg.msg)
-                setToastAlert({ msg: response.msg.msg, estado: true, color: 'danger' })
-                setRender(!render)
-            })
+        handleCloseModalConfirmacion()
+        setId(parseInt(e.target.id))
+        setEliminar(false)
     }
 
     const handleRender = () => setRender(!render)
@@ -52,6 +59,10 @@ function Productos() {
     const editar = (e) => {
         setId(e.target.id)
         estado()
+    }
+
+    const handleCloseModalConfirmacion = () => {
+        setShowModalConfirmacion(!showModalConfirmacion)
     }
 
     return (
@@ -64,14 +75,14 @@ function Productos() {
             />
             <div className='p-4 py-4'>
                 <motion.h2
-                    initial={{scale:0}}
-                    animate={{scale:1}}
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
                     transition={{
-                        duration:2,
-                        type:"spring"
+                        duration: 2,
+                        type: "spring"
                     }}
                     className='mb-4'
-                    >Gestion de Catálogo</motion.h2>
+                >Gestion de Catálogo</motion.h2>
 
                 <div className='contenedor-tabla'>
 
@@ -85,7 +96,20 @@ function Productos() {
                         eliminar={eliminar}
                         headers={headers} />
 
-                    <Modal showModal={showModal} render={handleRender} id={id} toastAlert={setToastAlert} />
+                    <Modal
+                        showModal={showModal}
+                        estado = {estado}
+                        render={handleRender}
+                        id={id}
+                        toastAlert={setToastAlert}
+                    />
+                    <ModalConfirmacion
+                        show={showModalConfirmacion}
+                        body={"¿Esta seguro que desea elimiar el producto?"}
+                        title={"Eliminar Producto"}
+                        handleClose={handleCloseModalConfirmacion}
+                        respuesta={setEliminar}
+                    />
                 </div>
             </div>
         </div>

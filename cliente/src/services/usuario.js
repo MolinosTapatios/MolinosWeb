@@ -4,7 +4,7 @@ const apiURL = `${URL}/usuario/`
 
 class Usuario {
 
-    constructor({ id = null, username, password = null, nombre = null, apaterno = null, amaterno = null, fechaNac = null, mail = null, tipo = null, as = null }) {
+    constructor({ id = null, username=null, password = null, nombre = null, apaterno = null, amaterno = null, fechaNac = null, mail = null, tipo = null, as = null }) {
         this._id = id
         this._username = username
         this._password = password
@@ -76,6 +76,22 @@ class Usuario {
     }
     get as() {
         return this._as
+    }
+    //----------------------------------------------------------------
+    //----------obtener info del usuario------------------
+    //----------------------------------------------------------------
+    getUsuario(u){
+        return fetch(apiURL,{
+            body:JSON.stringify({
+                accion : "getUsuario",
+                usuario : u
+            }),
+            method:'POST'
+        })
+        .then(resp => resp.json())
+        .then(resp => {
+            return resp
+        })
     }
     //----------------------------------------------------------------
     //----------Crear nuevo usuario------------------

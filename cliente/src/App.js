@@ -15,6 +15,7 @@ import { ProductsContextProvider } from 'context/ProductsContext'
 import LogoutTimer from "componentes/LogoutTimer"
 import SingleProducto from "pages/SingleProducto"
 import useUser from "hooks/useUser"
+import MiCuenta from "pages/MiCuenta"
 
 function App() {
 
@@ -56,6 +57,7 @@ function App() {
                   </>
                 }
                   <Route path="/carrito" element={<Carrito />} />
+                  <Route path="/profile" element={<MiCuenta />} />
                 </>
             }
           </Routes>

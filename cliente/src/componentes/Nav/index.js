@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink, useLocation, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { Nav, Button, Container, Form, Navbar, NavDropdown } from 'react-bootstrap';
 import useUser from 'hooks/useUser';
 import img from 'img/LOGO.png';
@@ -47,7 +47,8 @@ function Menu() {
                                 isLogged ?
                                     <>
                                         <NavDropdown title={icon} className="me-2 btn btn-secondary">
-                                            <NavDropdown.Item href="#action2">Mi Cuenta</NavDropdown.Item>
+                                            {/* <NavDropdown.Item href="profile">Mi Cuenta</NavDropdown.Item> */}
+                                            <Link className='dropdown-item' to="profile">Mi Cuenta</Link>
                                             <NavDropdown.Divider />
                                             <NavDropdown.Item onClick={handleSalir}>Salir</NavDropdown.Item>
                                         </NavDropdown>

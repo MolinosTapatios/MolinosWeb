@@ -30,30 +30,30 @@ function CrearCuenta() {
             setEstado({ loading: true })
             if (refPassword.current.value === refConfirmar.current.value) {
                 const u = new Usuario({
-                    username:refUsername.current.value,
-                    amaterno:refAmaterno.current.value,
-                    apaterno:refApaterno.current.value,
-                    fechaNac:refFechaNac.current.value,
-                mail:refMail.current.value,
-                nombre:refNombre.current.value,
-                password:refPassword.current.value
-            })
-            u.crearUsuario(u)
-                .then(resp=>{
-                    if(resp.flag){
-                        alert("Cuenta Creada exitosamente")
-                        navigate("/login")
-                        setEstado({loading:false})
-                    }else{
-                        setEstado({loading:false, error:resp.msg})
-                    }
+                    username: refUsername.current.value,
+                    amaterno: refAmaterno.current.value,
+                    apaterno: refApaterno.current.value,
+                    fechaNac: refFechaNac.current.value,
+                    mail: refMail.current.value,
+                    nombre: refNombre.current.value,
+                    password: refPassword.current.value
                 })
-                .catch(e=>setEstado({loading:false,error:e}))
-        } else {
-            setEstado({ error: "Las contraseñas no coinciden", loading: false })
+                u.crearUsuario(u)
+                    .then(resp => {
+                        if (resp.flag) {
+                            alert("Cuenta Creada exitosamente")
+                            navigate("/login")
+                            setEstado({ loading: false })
+                        } else {
+                            setEstado({ loading: false, error: resp.msg })
+                        }
+                    })
+                    .catch(e => setEstado({ loading: false, error: e }))
+            } else {
+                setEstado({ error: "Las contraseñas no coinciden", loading: false })
+            }
         }
-    }
-    setValidated(true);
+        setValidated(true);
     };
 
     return (
