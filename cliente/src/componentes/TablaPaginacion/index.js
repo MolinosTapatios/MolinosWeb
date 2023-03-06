@@ -10,7 +10,7 @@ function Paginacion({ headers, data = [], editar, eliminar }) {
     const [datos, setDatos] = useState([]);
     const [filas, setFilas] = useState(10)
     const [valor, setValor] = useState("")
-    const [pagActual, setPagActual] = useState(2)
+    const [pagActual, setPagActual] = useState(1)
     const [pagTotales, setPagTotales] = useState(10)
     //se renderiza cada vez que cambian los valores
     useEffect(() => {

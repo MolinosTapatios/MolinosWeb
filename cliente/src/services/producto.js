@@ -115,7 +115,7 @@ class Producto {
     //  Comprueba que sea un arreglo sino devuelve una arreglo vacio
     //----------------------------------------------------------------
     fromAjaxResponseToProducts(response) {
-
+        
         if (response) {
             const arr = response.map(a => JSON.parse(a))
             if (Array.isArray(arr)) {
