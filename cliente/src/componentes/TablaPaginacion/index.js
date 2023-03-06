@@ -1,50 +1,49 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import './index.css'
 import Tabla from "componentes/Tabla";
 
-function Paginacion({headers, data = [], editar, eliminar }) {
-    
+function Paginacion({ headers, data = [], editar, eliminar }) {
+
     const refNum_filas = useRef()
     const refBusqueda = useRef()
 
+    const [datos, setDatos] = useState([]);
     const [filas, setFilas] = useState(10)
     const [valor, setValor] = useState("")
-    const [pagActual, setPagActual] = useState(1)
+    const [pagActual, setPagActual] = useState(2)
     const [pagTotales, setPagTotales] = useState(10)
-    const [lista, setLista] = useState([])
-
+    //se renderiza cada vez que cambian los valores
     useEffect(() => {
-        const array = data.filter(fila => fila["nombre"].toLowerCase().includes(valor.toLowerCase()))
-        const itemsTot = (array.length - (array.length % parseInt(filas))) / parseInt(filas) + (array.length % parseInt(filas) === 0 ? 0 : 1);
+        const dataFiltro = data.filter(fila => fila["nombre"].toLowerCase().includes(valor.toLowerCase()))
+        const itemsTot = (dataFiltro.length - (dataFiltro.length % parseInt(filas))) / parseInt(filas) + (dataFiltro.length % parseInt(filas) === 0 ? 0 : 1)
         setPagTotales(itemsTot)
-        const p = data.slice(((pagActual*filas)-filas),(filas*pagActual))
-        setLista(p)
+        setDatos(dataFiltro.slice(((pagActual * filas) - filas), (filas * pagActual)))
     }, [data, filas, valor, pagActual])
-
+    //cada que cambia la cantidad de filas
     function changeFilas() {
+        setPagActual(1)
         setFilas(refNum_filas.current.value)
-        setPagActual(1)
     }
-
-    function busqueda() {
+    //busqueda cada vez que presiona una tecla
+    function onKeyUpBusqueda() {
+        setPagActual(1)
         setValor(refBusqueda.current.value)
-        setPagActual(1)
     }
-
-    function clickItem(e) {
-        setPagActual(parseInt(e.target.textContent))
-    }
-
+    //pagina anterior
     function prevPage() {
         if (pagActual > 1)
             setPagActual(pagActual - 1)
     }
-
+    //pagina Siguiente
     function nextPage() {
         if (pagActual < pagTotales)
             setPagActual(pagActual + 1)
     }
-
+    //cada que se da click en un item
+    function clickItem(e) {
+        setPagActual(parseInt(e.target.textContent))
+    }
+    //renderizacon de cada item en de paginas
     function PageItem({ pos = 0 }) {
         let active = "page-item"
         if (pagActual === pos) {
@@ -56,7 +55,7 @@ function Paginacion({headers, data = [], editar, eliminar }) {
             </li>
         )
     }
-
+    //paginacion
     function Pagination() {
         let items = []
         let flag = false
@@ -92,16 +91,14 @@ function Paginacion({headers, data = [], editar, eliminar }) {
         }
         return (items)
     }
-    
+
     return (
         <>
-        <hr className="solid"></hr>
+            <hr className="solid"></hr>
             <div className='row mb-3'>
-                <div className="col-4">
-                    <div className='input-group flex-nowrap'>
-                        <label className="input-group-text">Búsqueda:</label>
-                        <input className="form-control col-1" type="text" ref={refBusqueda} onKeyUp={busqueda} />
-                    </div>
+                <div className='input-group flex-nowrap'>
+                    <label className="input-group-text">Búsqueda:</label>
+                    <input className="form-control col-1" type="text" ref={refBusqueda} onKeyUp={onKeyUpBusqueda} />
                 </div>
             </div>
             <div className="mb-3">
@@ -122,7 +119,7 @@ function Paginacion({headers, data = [], editar, eliminar }) {
                     </div>
                 </div>
             </div>
-            <Tabla headers={headers} lista={lista} editar={editar} eliminar={eliminar} />
+            <Tabla headers={headers} lista={datos} editar={editar} eliminar={eliminar} />
         </>
     )
 }

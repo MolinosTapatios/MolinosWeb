@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 
 import "./index.css"
 
-import Paginacion from 'componentes/Paginacion'
+import TablaPaginacion from 'componentes/TablaPaginacion'
 import Modal from 'componentes/ModalEditar'
 import { Producto } from "services/producto";
 import ToastAlert from 'componentes/ToastAlert';
@@ -90,12 +90,12 @@ function Productos() {
                         <Link to="/registrarPr" className='btn btn-success'>+Nuevo Producto</Link>
                     </div>
 
-                    <Paginacion
+                    <TablaPaginacion
                         data={productos}
                         editar={editar}
                         eliminar={eliminar}
-                        headers={headers} />
-
+                        headers={headers}
+                    />
                     <Modal
                         showModal={showModal}
                         estado = {estado}
