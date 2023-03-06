@@ -21,7 +21,7 @@ function Carrito() {
     useEffect(() => {
         const carrito = new c({usuarioId:user.id})
         carrito.getCarrito(carrito)
-            .then(resp => {
+        .then(resp => {
                 setCarritoProducts(resp)
                 if (resp.length !== 0) {
                     setTotal(resp[0].total)

@@ -20,7 +20,7 @@ import MiCuenta from "pages/MiCuenta"
 function App() {
 
   const [conectado, setConectado] = useState(false);
-  const {isLogged,user} = useUser()
+  const { isLogged, user } = useUser()
 
   useEffect(() => {
     const loggedUserJSON = window.sessionStorage.getItem("active");
@@ -36,32 +36,32 @@ function App() {
 
   return (
     <>
-        <Header acceder={acceder} />
-        <LogoutTimer time={10 * 1000} conectado={conectado} />
-        <ProductsContextProvider>
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/" element={<Home />} />
-            <Route path="/:rest/*" element={<Navigate to={'/404'} />} />
-            <Route path="/404" element={<ErrorPage />} />
-            <Route path="/tortilladoras" element={<Tortilladoras />} />
-            <Route path="/detalles/:name" element={<SingleProducto />}/>
-            {
-              isLogged &&
+      <Header acceder={acceder} />
+      <LogoutTimer time={10 * 1000} conectado={conectado} />
+      <ProductsContextProvider>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/tortilladoras" element={<Tortilladoras />} />
+          <Route path="/detalles/:name" element={<SingleProducto />} />
+          {
+            isLogged &&
+            <>
+              {
+                (parseInt(user.tipo) === 1 || parseInt(user.tipo) === 3) &&
                 <>
-                {
-                  (parseInt(user.tipo) === 1 || parseInt(user.tipo) === 3) &&
-                  <>
                   <Route path="/registrarPr" element={<RegProduct />} />
                   <Route path="/catalogo" element={<Catalogo />} />
-                  </>
-                }
-                  <Route path="/carrito" element={<Carrito />} />
-                  <Route path="/profile" element={<MiCuenta />} />
                 </>
-            }
-          </Routes>
-        </ProductsContextProvider>
+              }
+              <Route path="/carrito" element={<Carrito />} />
+              <Route path="/profile" element={<MiCuenta />} />
+            </>
+          }
+          <Route path="/:rest/*" element={<Navigate to={'/404'} />} />
+          <Route path="/404" element={<ErrorPage />} />
+        </Routes>
+      </ProductsContextProvider>
     </>
   );
 }
