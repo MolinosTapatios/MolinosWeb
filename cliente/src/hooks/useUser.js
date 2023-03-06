@@ -18,7 +18,6 @@ function useUser() {
                 }else{
                     setEstado({loading:false, error:'Error al consultar'})
                 }
-                // setEstado({loading:false})
             })
             .catch(err => {
                 setEstado({ loading: false, error: "Error en el servidor" })
@@ -26,12 +25,12 @@ function useUser() {
     }, [setJWT])
 
     const logout = useCallback(() => {
-        setJWT(null)
+        setJWT({id:null,tipo:null})
         sessionStorage.removeItem("active")
     }, [setJWT])
 
     return {
-        isLogged: Boolean(jwt),
+        isLogged: Boolean(jwt.id),
         login,
         loading: estado.loading,
         error: estado.error,

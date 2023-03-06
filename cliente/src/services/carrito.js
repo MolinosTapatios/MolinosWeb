@@ -46,7 +46,7 @@ class Carrito {
             .then(resp => resp.json())
             .then(resp => {
                 if (resp.flag) {
-                    return resp.msg
+                    return resp
                 }
                 return []
             })
@@ -55,7 +55,8 @@ class Carrito {
     // consulta todos los productos en en carrito
     //----------------------------------------------------------------
     fromAjaxResponse = response => {
-        if (response) {
+        console.log(response)
+        if (Array.isArray(response)) {
             return response
         }
         return []
