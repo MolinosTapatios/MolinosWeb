@@ -17,6 +17,7 @@ import Header from "./componentes/Header"
 import LogoutTimer from "componentes/LogoutTimer"
 
 import './App.css'
+import Chat from "componentes/Chat"
 
 function App() {
 
@@ -63,6 +64,7 @@ function App() {
           <Route path="/404" element={<ErrorPage />} />
         </Routes>
       </ProductsContextProvider>
+      <Chat />
     </>
   );
 }
