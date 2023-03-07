@@ -12,9 +12,9 @@ import cors from "cors";
 const app = express();
 const server = http.createServer(app);
 const io = new SocketServer(server, {
-  cors: {
-    origin: "http://localhost:3000",
-  },
+  // cors: {
+  //   origin: "http://localhost:3000",
+  // },
 });
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -23,7 +23,7 @@ app.use(cors());
 app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: false }));
 
-app.use(express.static(join(__dirname, "../client/build")));
+app.use(express.static(join(__dirname, "../cliente/build")));
 
 io.on("connection", (socket) => {
   console.log(socket.id);
