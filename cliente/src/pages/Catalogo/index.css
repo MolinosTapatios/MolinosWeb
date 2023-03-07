@@ -1,15 +1,28 @@
-h2{
+.catalogo-body{
+    min-width: 250px;
+}
+.tilte-Catalogo {
     color: white;
-    padding-left: 50px;
+    padding-left: 0px;
 }
 
-.contenedor-tabla{
+.paginacion-tabla {
     background-color: white;
     padding: 20px;
-    border-radius: 5px;
-    min-width: 500px;
+    border-radius: 15px;
+    min-width: 280px;
 }
 
-.selected{
+.selected {
     background-color: blueviolet;
 }
+
+.tabla-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+ thead {
+  background-color: rgba(24, 148, 230, 0.315);
+} 
+

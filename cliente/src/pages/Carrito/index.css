@@ -16,6 +16,8 @@
 .cart .total-price {
     font-size: 25px;
     font-weight: bold;
+    white-space: nowrap;
+    display: contents;
 }
 
 .cart .checkout-button {
@@ -28,17 +30,22 @@
     font-size: 20px;
 }
 
-.cart .footer-cart{
-    
+.cart .footer-cart {
     display: flex;
     justify-content: flex-end;
 }
 
-.contenedor-tabla{
-    margin-left: 50px;
-    margin-right: 50px;
+.title-cart {
+    margin-left: 0px;
+    color: #fff;
 }
 
-.title-cart{
-    margin-left: 0px;
+.contenedor-carrito {
+    border-radius: 150px;
+    background-color: #fff;
+    padding: 3vw;
+}
+
+.carrito{
+    padding: 5vw;
 }

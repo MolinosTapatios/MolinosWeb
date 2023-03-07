@@ -3,17 +3,16 @@ h2 {
 }
 
 .contenedor {
-    position: fixed;
     height: 100%;
     background-color: gray;
     padding: 60px;
 }
 
-.single-product-image img{
+.single-product-image img {
     width: 100%;
 }
 
-.single-product-image{
+.single-product-image {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -24,29 +23,34 @@ h2 {
     margin: 10px;
 }
 
-.single-product-info{
+.single-product-info {
     padding: 20px;
     min-width: 200px;
     width: 100%;
     background-color: white;
     border-radius: 20px;
-    margin: 10px;    
+    margin: 10px;
 }
 
-.info-precio{
+.info-precio {
     font-size: 30px;
     font-weight: 500;
     margin-top: 10px;
     margin-bottom: 10px;
 }
 
-.info-text{
+.info-text {
     margin: 0px;
     font-weight: bold;
 }
 
-.single-product-info h2{
+.single-product-info h2 {
     font-size: 30px;
     font-family: none;
     font-weight: bolder;
+}
+
+.single-product {
+    display: flex;
+    justify-content: center;
 }

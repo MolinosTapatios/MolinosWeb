@@ -3,7 +3,7 @@
 }
 
 .cart .product-price {
-    color: #888;
+    color: #000;
     font-size: 20px;
     margin-top: 5px;
 }
@@ -48,6 +48,11 @@
 
 .cantidad button{
     border: none;
-    background-color: white;
+    /* background-color: white; */
     font-size: 25px;
+}
+
+.fila-carrito{
+    padding: 20px;
+    border-radius: 10px;
 }

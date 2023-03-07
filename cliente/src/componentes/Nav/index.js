@@ -47,8 +47,7 @@ function Menu() {
                                 isLogged ?
                                     <>
                                         <NavDropdown title={icon} className="me-2 btn btn-secondary">
-                                            {/* <NavDropdown.Item href="profile">Mi Cuenta</NavDropdown.Item> */}
-                                            <Link className='dropdown-item' to="profile">Mi Cuenta</Link>
+                                            <Link className='dropdown-item' to="/profile">Mi Cuenta</Link>
                                             <NavDropdown.Divider />
                                             <NavDropdown.Item onClick={handleSalir}>Salir</NavDropdown.Item>
                                         </NavDropdown>
@@ -84,10 +83,10 @@ function Menu() {
                                             <NavLink className='nav-link' to="/catalogo">Catálogo</NavLink>
                                         }
                                         <NavLink className='nav-link add-link' to="/carrito">Carrito</NavLink>
-                                        <NavLink className='nav-link add-link' to="#action2">Mi Cuenta</NavLink>
-                                        <NavLink className='nav-link add-link' to="/" onClick={() => { sessionStorage.removeItem("active") }}>Salir</NavLink>
+                                        <NavLink className='nav-link add-link' to="/profile">Mi Cuenta</NavLink>
+                                        <NavLink className='nav-link add-link' to="/" onClick={handleSalir}>Salir</NavLink>
                                     </> :
-                                    <button className='nav-link add-link' onClick={handleClick}>Iniciar Sesión</button>
+                                    <span className='nav-link add-link' onClick={handleClick}>Iniciar Sesión</span>
                             }
                         </Nav>
                     </Navbar.Collapse>

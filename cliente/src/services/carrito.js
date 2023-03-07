@@ -55,7 +55,7 @@ class Carrito {
     // consulta todos los productos en en carrito
     //----------------------------------------------------------------
     fromAjaxResponse = response => {
-        console.log(response)
+
         if (Array.isArray(response)) {
             return response
         }

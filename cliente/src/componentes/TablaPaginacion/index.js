@@ -101,9 +101,10 @@ function Paginacion({ headers, data = [], editar, eliminar }) {
                     <input className="form-control col-1" type="text" ref={refBusqueda} onKeyUp={onKeyUpBusqueda} />
                 </div>
             </div>
-            <div className="mb-3">
-                <div className="row">
-                    <div className="col">
+            <div className="row my-4 justify-content-center">
+
+                <div className="col input-filas">
+                    <div className="align-self-center">
                         <label htmlFor="num_filas">Mostrar  </label>
                         <select name="num_filas" id="num_filas" className="form-select-sm" ref={refNum_filas} onChange={changeFilas} >
                             <option value="10">10</option>
@@ -112,14 +113,18 @@ function Paginacion({ headers, data = [], editar, eliminar }) {
                             <option value="100">100</option>
                         </select> <label htmlFor="fin">  registros</label>
                     </div>
-                    <div className="pagination col">
-                        <li className="page-item prev-page" id="prev"><p className="page-link prev-page btn" onClick={prevPage}>Anterior</p></li>
-                        <Pagination active={pagActual} />
-                        <li className="page-item next-page" id="next"><p className="page-link next-page btn" onClick={nextPage}>Siguiente</p></li>
-                    </div>
                 </div>
+
+                <div className="pagination col">
+                    <li className="page-item prev-page" id="prev"><p className="page-link prev-page btn" onClick={prevPage}>{'<<'}</p></li>
+                    <Pagination active={pagActual} />
+                    <li className="page-item next-page" id="next"><p className="page-link next-page btn" onClick={nextPage}>{'>>'}</p></li>
+                </div>
+
             </div>
-            <Tabla headers={headers} lista={datos} editar={editar} eliminar={eliminar} />
+            <div className="tabla-container">
+                <Tabla headers={headers} lista={datos} editar={editar} eliminar={eliminar} />
+            </div>
         </>
     )
 }

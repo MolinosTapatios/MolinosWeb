@@ -1,5 +1,21 @@
 .pagination{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-end;
+    margin-top: 15px;
+    justify-content: center;
+    min-width: 303px;
+}
+
+.pagination p{
+    margin-bottom: 0;
+}
+
+.input-filas{
+    display: contents;
+}
+
+@media (min-width:560px){
+    .pagination{
+        justify-content: flex-end;
+        margin-top: 0px;
+        min-width: none;
+    }
 }

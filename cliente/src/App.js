@@ -8,14 +8,15 @@ import Catalogo from 'pages/Catalogo'
 import ErrorPage from "pages/ErrorPage"
 import Carrito from "pages/Carrito"
 import Tortilladoras from "pages/Tortilladoras"
-
-import Header from "./componentes/Header"
+import SingleProducto from "pages/SingleProducto"
+import MiCuenta from "pages/MiCuenta"
 
 import { ProductsContextProvider } from 'context/ProductsContext'
-import LogoutTimer from "componentes/LogoutTimer"
-import SingleProducto from "pages/SingleProducto"
 import useUser from "hooks/useUser"
-import MiCuenta from "pages/MiCuenta"
+import Header from "./componentes/Header"
+import LogoutTimer from "componentes/LogoutTimer"
+
+import './App.css'
 
 function App() {
 

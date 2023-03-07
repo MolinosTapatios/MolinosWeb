@@ -37,17 +37,17 @@ function Carrito() {
                 mensaje={alert.mensaje}
                 handleEstado={handleEstado} />
             <div style={{ backgroundColor: "gray" }}>
-                <div className='p-4 py-4'>
-                    <h2 className='mb-4 title-cart'>Tu carrito</h2>
+                <div className='carrito'>
+                    <h2 className=' mb-4 title-cart'>Tu carrito</h2>
 
-                    <div className='contenedor-tabla'>
+                    <div className='contenedor-carrito'>
                         {
                             carritoProducts.length === 0 ?
-                                <div>Tu carrito esta vacio</div>
+                                <div>Tu carrito esta vacío</div>
                                 :
                                 <div className="cart">
                                     {
-                                        carritoProducts.map(p =>
+                                        carritoProducts.map((p,i) =>
                                             <CarritoProduct
                                                 cantidad_producto={p.cantidad}
                                                 id={p.id}
@@ -58,6 +58,7 @@ function Carrito() {
                                                 total={setTotal}
                                                 render={handleRender}
                                                 setAlert={setAlert}
+                                                i={i}
                                                 key={p.id}
                                                 />
                                         )

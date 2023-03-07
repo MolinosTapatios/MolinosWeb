@@ -43,7 +43,7 @@ function Productos() {
                     setRender(!render)
                 })
         }
-    // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [eliminarConfirm])
 
     function eliminar(e) {
@@ -66,7 +66,7 @@ function Productos() {
     }
 
     return (
-        <div style={{ backgroundColor: "gray" }}>
+        <div className='catalogo-body'>
             <ToastAlert
                 color={toastAlert.color}
                 estado={toastAlert.estado}
@@ -81,10 +81,10 @@ function Productos() {
                         duration: 2,
                         type: "spring"
                     }}
-                    className='mb-4'
+                    className='mb-4 tilte-Catalogo'
                 >Gestion de Catálogo</motion.h2>
 
-                <div className='contenedor-tabla'>
+                <div className='paginacion-tabla'>
 
                     <div className='col text-end'>
                         <Link to="/registrarPr" className='btn btn-success'>+Nuevo Producto</Link>
@@ -96,21 +96,21 @@ function Productos() {
                         eliminar={eliminar}
                         headers={headers}
                     />
-                    <Modal
-                        showModal={showModal}
-                        estado = {estado}
-                        render={handleRender}
-                        id={id}
-                        toastAlert={setToastAlert}
-                    />
-                    <ModalConfirmacion
-                        show={showModalConfirmacion}
-                        body={"¿Esta seguro que desea elimiar el producto?"}
-                        title={"Eliminar Producto"}
-                        handleClose={handleCloseModalConfirmacion}
-                        respuesta={setEliminar}
-                    />
                 </div>
+                <Modal
+                    showModal={showModal}
+                    estado={estado}
+                    render={handleRender}
+                    id={id}
+                    toastAlert={setToastAlert}
+                />
+                <ModalConfirmacion
+                    show={showModalConfirmacion}
+                    body={"¿Esta seguro que desea elimiar el producto?"}
+                    title={"Eliminar Producto"}
+                    handleClose={handleCloseModalConfirmacion}
+                    respuesta={setEliminar}
+                />
             </div>
         </div>
     )
