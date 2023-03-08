@@ -1,6 +1,6 @@
 import { URL } from "./config"
 
-const apiURL = `${URL}/usuario/`
+const apiURL = `${URL}/usuario`
 
 class Usuario {
 

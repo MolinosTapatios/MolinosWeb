@@ -34,7 +34,7 @@ function Mensaje({from, body}) {
 function Chat() {
 
     // const [estado, setEstado] = useState()
-    const [isOpen, setIsOpen] = useState(true);
+    const [isOpen, setIsOpen] = useState(false);
     const [mensajes, setMensages] = useState([{from:'Me',body:'Hola puñetas'}]);
 
     const refMessage = useRef()
