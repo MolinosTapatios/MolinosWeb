@@ -1,4 +1,4 @@
-import { URL } from "./config"
+import { URL } from "./config";
 
 const apiURL = `${URL}/carrito/`
 

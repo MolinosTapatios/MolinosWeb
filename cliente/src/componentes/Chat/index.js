@@ -2,8 +2,13 @@ import React, { useState, useEffect, useRef } from "react"
 import { motion } from "framer-motion";
 import './index.css'
 import io from 'socket.io-client'
+import { URL } from "services/config";
 
-const socket = io('/')
+//cuando se ejecuta desde el mismo sercidor
+// const socket = io('/')
+
+//sino se tiene que especificar la ruta del servidor de node js
+const socket = io(URL)
 
 function ChatBox({data=[]}) {
     return(

@@ -1,6 +1,6 @@
 import { URL } from "./config"
 
-const apiURL = `${URL}/api/usuarios`
+const apiURL = `${URL}/usuario/`
 
 class Usuario {
 
@@ -115,20 +115,17 @@ class Usuario {
     //----------------------------------------------------------------
     login(u) {
 
-        const usuario = new Usuario(u)
-        console.log(usuario)
-        return fetch('http://localhost:4000/api/usuarios', {
+        return fetch(apiURL, {
             body: JSON.stringify({
-                // accion : "validarUsuario",
-                username : usuario._username,
-                password: usuario._password
+                accion : "validarUsuario",
+                usuario : u
             }),// body data type must match "Content-Type" header
             method: "POST", // *GET, POST, PUT, DELETE, etc.
             // mode: 'cors', // no-cors, *cors, same-origin
             // cache: 'default', // *default, no-cache, reload, force-cache, only-if-cached
             // credentials: 'include', // include, *same-origin, omit
             headers: {
-                'Content-Type': 'application/json',
+                // 'Content-Type': 'application/json',
                 // 'Access-Control-Allow-Origin':'*' 
                 // 'Content-Type': 'application/x-www-form-urlencoded',
             },

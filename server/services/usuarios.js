@@ -7,7 +7,6 @@ export const validarUsuario = ({username, password}) => {
             if (error) {
                 reject(error);
               } else {
-                console.log(result)
                 if(md5(password) === result[0].password){
                   resolve({
                     id:result[0].id,
