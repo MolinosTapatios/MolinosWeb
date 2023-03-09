@@ -1,5 +1,8 @@
+import dotenv from 'dotenv'
 import express from "express"
+import userExtractor from '../middleware/userExtractor.js';
 import * as productoServices from '../services/producto.js'
+dotenv.config();
 
 const router = express.Router()
 
