@@ -1,6 +1,6 @@
 import { URL } from './config.js'
 
-const apiURL = `${URL}/producto/`
+const apiURL = `${URL}/productos`
 
 class Producto {
 
@@ -87,14 +87,10 @@ class Producto {
     //----------------------------------------------------------------
     //----------Todos los productos para el Home------------------
     //----------------------------------------------------------------
-    getProductosHome(p) {
+    getProductosHome(p = new Producto({})) {
 
-        return fetch(apiURL, {
-            body: JSON.stringify({
-                accion: "getProductosHome",
-                producto: p
-            }),
-            method: 'POST'
+        return fetch(`${apiURL}/${p._tipo}/${p._precio}`, {
+            method: 'GET'
         })
             .then((res) => res.json())
             .then(this.fromAjaxResponseToProducts)
@@ -104,7 +100,7 @@ class Producto {
     //----------------------------------------------------------------
     getProductosCatalogo(p) {
 
-        return fetch(apiURL, {
+        return fetch(`${apiURL}/`, {
             body: JSON.stringify({ accion: "getProductosCatalogo", producto: p }),
             method: 'POST'
         })
