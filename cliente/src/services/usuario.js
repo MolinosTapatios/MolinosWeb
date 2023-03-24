@@ -116,7 +116,6 @@ class Usuario {
     login(u) {
 
         const usuario = new Usuario(u)
-        console.log(usuario)
         return fetch('http://localhost:4000/api/usuarios', {
             body: JSON.stringify({
                 // accion : "validarUsuario",

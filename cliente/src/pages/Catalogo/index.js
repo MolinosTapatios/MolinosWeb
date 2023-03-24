@@ -18,7 +18,7 @@ function Productos() {
     const [id, setId] = useState(0)
     const [toastAlert, setToastAlert] = useState({ msg: null, estado: false, color: null })
     const [productos, setProductos] = useState([])
-    const [eliminarConfirm, setEliminar] = useState(false);
+    const [eliminarConfirm, setEliminar] = useState(false)
 
     const headers = ["#", "Nombre", "Precio", "Stock", "Estado", "Tipo de Producto", "Acciones"]
 

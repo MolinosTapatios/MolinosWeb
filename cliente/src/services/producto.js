@@ -1,6 +1,6 @@
 import { URL } from './config.js'
 
-const apiURL = `${URL}/productos`
+const apiURL = `${URL}/api/productos`
 
 class Producto {
 
@@ -93,7 +93,7 @@ class Producto {
             method: 'GET'
         })
             .then((res) => res.json())
-            .then(this.fromAjaxResponseToProducts)
+            .then(res =>{return res})
     }
     //----------------------------------------------------------------
     //----------Todos los productos para el Catalogo------------------
@@ -111,7 +111,7 @@ class Producto {
     //  Comprueba que sea un arreglo sino devuelve una arreglo vacio
     //----------------------------------------------------------------
     fromAjaxResponseToProducts(response) {
-        
+        console.log(response)
         if (response) {
             const arr = response.map(a => JSON.parse(a))
             if (Array.isArray(arr)) {

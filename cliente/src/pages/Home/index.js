@@ -11,6 +11,7 @@ function Home() {
         const p = new Producto({tipo:1, status:1,precio:10})
         p.getProductosHome(p)
             .then(resp => {
+                console.log(resp)
                 setProductos(resp)
             })
     }, [])

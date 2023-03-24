@@ -14,30 +14,30 @@ router.post('/', (_req, res) => {
 
   usuariosServices.validarUsuario(username)
     .then(results => {
+      
+      console.log(results)
 
       if (!(results.length > 0 && md5(password) === results[0].password)) {
         res.status(401).json({
           error: "Usuario o contraseña invalidos"
         })
+      } else {
+
+        const userForToken = {
+          id : results[0].id,
+          tipo: results[0].tipo_usuario_id,
+          username : results[0].username
+        }
+
+        const token = jwt.sign(userForToken,process.env.SECURITY)
+
+        res.send({
+          nombre: results[0].nombre,
+          token : token,
+          username: results[0].username,
+          tipo: results[0].tipo_usuario_id
+        })
       }
-
-      console.log(results)
-
-      const userForToken = {
-        id : results[0].id,
-        tipo: results[0].tipo_usuario_id,
-        username : results[0].username
-      }
-
-      console.log(userForToken)
-
-      const token = jwt.sign(userForToken,process.env.SECURITY)
-
-      res.send({
-        nombre: results[0].nombre,
-        token : token,
-        username: results[0].username
-      })
 
     })
     .catch(error => {

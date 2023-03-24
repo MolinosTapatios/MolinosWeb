@@ -12,11 +12,13 @@ function useUser() {
         const u = new Usuario({username:username, password:password})
         u.login(u)
             .then(resp => {
-                if (resp.flag) {
-                        window.sessionStorage.setItem("active", JSON.stringify(resp));
-                        setJWT({id:resp.id,tipo:resp.tipo})
+                console.log(resp)
+                if (resp.error) {
+                    setEstado({loading:false, error:resp.error})
                 }else{
-                    setEstado({loading:false, error:'Error al consultar'})
+                    window.sessionStorage.setItem("active", JSON.stringify(resp));
+                    setJWT({jwt:resp.token,tipo:resp.tipo})
+                    setEstado({loading:false, error:'Verificacion Exitosa'})
                 }
             })
             .catch(err => {
@@ -25,12 +27,12 @@ function useUser() {
     }, [setJWT])
 
     const logout = useCallback(() => {
-        setJWT({id:null,tipo:null})
+        setJWT(null)
         sessionStorage.removeItem("active")
     }, [setJWT])
 
     return {
-        isLogged: Boolean(jwt.id),
+        isLogged: Boolean(jwt),
         login,
         loading: estado.loading,
         error: estado.error,
