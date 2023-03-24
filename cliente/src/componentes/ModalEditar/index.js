@@ -30,8 +30,8 @@ function ModalEditar({ id = 0, showModal, estado, render, toastAlert }) {
                     if (!response.msg) {
                             refTitleModal.current.innerHTML = response.nombre
                             refNombre.current.value = response.nombre
-                            refTipo.current.value = response.tipo
-                            refStatus.current.value = response.status
+                            refTipo.current.value = response.Tipo_Producto_id
+                            refStatus.current.value = response.status.data[0]
                             refCaracteristicas.current.value = response.caracteristicas
                             refDescripcion.current.value = response.descripcion
                             refPrecio.current.value = response.precio
@@ -96,21 +96,20 @@ function ModalEditar({ id = 0, showModal, estado, render, toastAlert }) {
             "tipo": refTipo.current.value,
         }
         for (let i = 0; i < refImagen.current.files.length; i++) {
-            formdata.append('imagen[]', refImagen.current.files[i])
+            formdata.append('images', refImagen.current.files[i])
         }
 
         formdata.append('producto', JSON.stringify(data))
 
         const p = new Producto({})
-        p.updateProduct({ formdata: formdata })
+        p.updateProduct({formdata:formdata })
             .then(resp => {
                 setImages([])
                 setValidated(false)
-                if (resp.flag) {
-                    render()
-                    toastAlert({msg:resp.msg,estado:render, color:'info'})
+                if (resp.error) {
+                    toastAlert({msg:resp.error,estado:render, color:'warning'})
                 }else{
-                    toastAlert({msg:resp.msg,estado:render, color:'warning'})
+                    toastAlert({msg:resp.msg,estado:render, color:'info'})
                 }
             })
         estado()

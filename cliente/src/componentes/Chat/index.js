@@ -1,113 +1,113 @@
-import React, { useState, useEffect, useRef } from "react"
-import { motion } from "framer-motion";
-import './index.css'
-import io from 'socket.io-client'
-import { URL } from "services/config";
+// import React, { useState, useEffect, useRef } from "react"
+// import { motion } from "framer-motion";
+// import './index.css'
+// import io from 'socket.io-client'
+// import { URL } from "services/config";
 
-//cuando se ejecuta desde el mismo sercidor
-// const socket = io('/')
+// //cuando se ejecuta desde el mismo sercidor
+// // const socket = io('/')
 
-//sino se tiene que especificar la ruta del servidor de node js
-const socket = io(URL)
+// //sino se tiene que especificar la ruta del servidor de node js
+// const socket = io(URL)
 
-function ChatBox({data=[]}) {
-    return(
-        <>
-            {
-                data.map((m,i)=>
-                    <Mensaje body={m.body} from={m.from} key={i} />
-                )
-            }
-        </>
-    )
-}
+// function ChatBox({data=[]}) {
+//     return(
+//         <>
+//             {
+//                 data.map((m,i)=>
+//                     <Mensaje body={m.body} from={m.from} key={i} />
+//                 )
+//             }
+//         </>
+//     )
+// }
 
-function Mensaje({from, body}) {
-    return(
-        <>
-            {
-                from === 'Me'
-                    ?
-                    <div style={{backgroundColor:'red'}}>{body}</div>
-                    :
-                    <div style={{backgroundColor:'green'}}>{body}</div>
-            }
-        </>
-    )
-}
+// function Mensaje({from, body}) {
+//     return(
+//         <>
+//             {
+//                 from === 'Me'
+//                     ?
+//                     <div style={{backgroundColor:'red'}}>{body}</div>
+//                     :
+//                     <div style={{backgroundColor:'green'}}>{body}</div>
+//             }
+//         </>
+//     )
+// }
 
-function Chat() {
+// function Chat() {
 
-    // const [estado, setEstado] = useState()
-    const [isOpen, setIsOpen] = useState(false);
-    const [mensajes, setMensages] = useState([{from:'Me',body:'Hola puñetas'}]);
+//     // const [estado, setEstado] = useState()
+//     const [isOpen, setIsOpen] = useState(false);
+//     const [mensajes, setMensages] = useState([{from:'Me',body:'Hola puñetas'}]);
 
-    const refMessage = useRef()
+//     const refMessage = useRef()
 
-    const handleIsOpen = () => setIsOpen(!isOpen)
+//     const handleIsOpen = () => setIsOpen(!isOpen)
 
-    useEffect(() => {
-        const receiveMessage = (message) => {
-          setMensages([...mensajes,message]);
-        };
+//     useEffect(() => {
+//         const receiveMessage = (message) => {
+//           setMensages([...mensajes,message]);
+//         };
     
-        socket.on("message", receiveMessage);
+//         socket.on("message", receiveMessage);
     
-        return () => {
-          socket.off("message", receiveMessage);
-        };
-      }, [mensajes]);
+//         return () => {
+//           socket.off("message", receiveMessage);
+//         };
+//       }, [mensajes]);
     
-      const handleSubmit = (event) => {
-        event.preventDefault();
-        const newMessage = {
-          body: refMessage.current.value,
-          from: "Me",
-        };
-        setMensages([...mensajes,newMessage]);
-        console.log("se agrego el mensaje",{mensajes})
-        refMessage.current.value = ""
-        socket.emit("message", newMessage.body);
-      };
+//       const handleSubmit = (event) => {
+//         event.preventDefault();
+//         const newMessage = {
+//           body: refMessage.current.value,
+//           from: "Me",
+//         };
+//         setMensages([...mensajes,newMessage]);
+//         console.log("se agrego el mensaje",{mensajes})
+//         refMessage.current.value = ""
+//         socket.emit("message", newMessage.body);
+//       };
 
 
-    return (
-        <>
-            <motion.div
-                layout
-                className={!isOpen ? 'chat-icon' : 'chat-container'}
-            >
-                {
-                    isOpen
-                        ?
-                        <>
-                            <div className="wrapper">
-                                <section className="chat-area">
-                                    <header>
-                                        <img src="http://192.168.1.69/server/img/null.jpg" alt="" />
-                                        <span className="back-icon" onClick={handleIsOpen}><i className="bi bi-x-lg"></i></span>
+//     return (
+//         <>
+//             <motion.div
+//                 layout
+//                 className={!isOpen ? 'chat-icon' : 'chat-container'}
+//             >
+//                 {
+//                     isOpen
+//                         ?
+//                         <>
+//                             <div className="wrapper">
+//                                 <section className="chat-area">
+//                                     <header>
+//                                         <img src="http://192.168.1.69/server/img/null.jpg" alt="" />
+//                                         <span className="back-icon" onClick={handleIsOpen}><i className="bi bi-x-lg"></i></span>
 
-                                    </header>
-                                    <div className="chat-box">
-                                        <ChatBox data={mensajes} />
-                                    </div>
-                                    <form onSubmit={handleSubmit} className='typing-area'>
-                                        <input type="text" ref={refMessage} className="input-field" placeholder="Type a message here..." autoComplete="off" />
-                                        <button><i className="bi bi-send"></i></button>
-                                    </form>
-                                </section>
-                            </div>
-                            {/* <button onClick={handleIsOpen} >Close</button> */}
-                        </>
-                        :
-                        <>
-                            <span className="chat-badge">1</span>
-                            <h2 onClick={handleIsOpen}><i className="bi bi-chat-text"></i></h2>
-                        </>
-                }
-            </motion.div>
-        </>
-    )
-}
+//                                     </header>
+//                                     <div className="chat-box">
+//                                         <ChatBox data={mensajes} />
+//                                     </div>
+//                                     <form onSubmit={handleSubmit} className='typing-area'>
+//                                         <input type="text" ref={refMessage} className="input-field" placeholder="Type a message here..." autoComplete="off" />
+//                                         <button><i className="bi bi-send"></i></button>
+//                                     </form>
+//                                 </section>
+//                             </div>
+//                             {/* <button onClick={handleIsOpen} >Close</button> */}
+//                         </>
+//                         :
+//                         <>
+//                             <span className="chat-badge">1</span>
+//                             <h2 onClick={handleIsOpen}><i className="bi bi-chat-text"></i></h2>
+//                         </>
+//                 }
+//             </motion.div>
+//         </>
+//     )
+// }
 
-export default Chat
+// export default Chat

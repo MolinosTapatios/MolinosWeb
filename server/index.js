@@ -26,7 +26,7 @@ app.use(morgan("dev"))
 app.use(express.urlencoded({ extended: false }))
 
 // app.use(express.static(join(__dirname, "../cliente/build")))
-app.use(express.static('server/public'))
+app.use('/imagenes',express.static('server/public/img'))
 
 io.on("connection", (socket) => {
   console.log(socket.id)

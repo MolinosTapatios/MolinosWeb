@@ -13,7 +13,7 @@ function Carrusel({ images = [] }) {
     }
 
     if (images.length === 0) {
-        images[0] = {id:0, path:`${URL}/img/null.jpg`}
+        images[0] = {id:0, path:`${URL}/imagenes/null.jpg`}
     }
         return (
             <Carousel onClick={val} className="m-1" id="carrusel">

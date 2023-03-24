@@ -32,7 +32,7 @@ function Productos() {
             .then(resp => {
                 setProductos(resp)
             })
-    }, [render])
+    }, [])
 
     useEffect(() => {
         if (eliminarConfirm) {

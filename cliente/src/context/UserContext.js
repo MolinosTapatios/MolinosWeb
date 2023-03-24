@@ -4,13 +4,13 @@ const Context = React.createContext({})
 
 export function UserContextProvider({ children }) {
   
-  const [jwt, setJWT] = useState({id:null,tipo:null})
+  const [jwt, setJWT] = useState({jwt:null,tipo:null})
 
   useEffect(() => {
     const loggedUserJSON = window.sessionStorage.getItem("active");
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
-      setJWT({id:user.id,tipo:user.tipo});
+      setJWT({jwt:user.token,tipo:user.tipo});
     }
   }, [])
 

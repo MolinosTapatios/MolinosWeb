@@ -101,11 +101,10 @@ class Producto {
     getProductosCatalogo(p) {
 
         return fetch(`${apiURL}/`, {
-            body: JSON.stringify({ accion: "getProductosCatalogo", producto: p }),
-            method: 'POST'
+            method: 'GET'
         })
             .then((res) => res.json())
-            .then(this.fromAjaxResponseToProducts)
+            .then(res=>{ return res })
     }
     //----------------------------------------------------------------
     //  Comprueba que sea un arreglo sino devuelve una arreglo vacio
@@ -123,14 +122,15 @@ class Producto {
     //----------------------------------------------------------------
     //         Informacion completa de un solo Producto
     //----------------------------------------------------------------
-    getSingleProduct(p) {
+    getSingleProduct(p = new Producto({})) {
 
-        return fetch(apiURL, {
-            body: JSON.stringify({ accion: "getSingleProducto", producto: p }),
-            method: "POST"
+        return fetch(`${apiURL}/${p._id}`, {
+            method: "GET"
         })
             .then(resp => resp.json())
-            .then(this.ajaxGetSingleProducto)
+            .then(resp => {
+                console.log(resp[0])
+                return resp[0]})
     }
 
     ajaxGetSingleProducto(response) {
@@ -172,13 +172,11 @@ class Producto {
     //----------------------------------------------------------------
     //           Actualiza un producto
     //----------------------------------------------------------------
-    updateProduct({ formdata } = {}) {
-        
-        formdata.append("accion", "updateProducto")
+    updateProduct({ formdata = new FormData() } = {}) {
         
         return fetch(apiURL, {
+            method:'PUT',
             body: formdata,
-            method: "POST"
         })
             .then(resp => resp.json())
             .then(resp => { return resp })

@@ -27,12 +27,12 @@ function useUser() {
     }, [setJWT])
 
     const logout = useCallback(() => {
-        setJWT(null)
+        setJWT({})
         sessionStorage.removeItem("active")
     }, [setJWT])
 
     return {
-        isLogged: Boolean(jwt),
+        isLogged: Boolean(jwt.jwt),
         login,
         loading: estado.loading,
         error: estado.error,

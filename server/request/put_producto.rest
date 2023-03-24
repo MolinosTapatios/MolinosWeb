@@ -1,0 +1,13 @@
+PUT http://localhost:4000/api/productos/
+Content-Type: application/json
+
+{
+    "nombre": "Sara 9",
+    "descripcion": "sfdsgdsgergerggegvef",
+    "caracteristicas":"sdfsdfrwfrwrfw",
+    "precio": 10000,
+    "stock": 8,
+    "status": 1,
+    "tipo":1,
+    "id":8
+}

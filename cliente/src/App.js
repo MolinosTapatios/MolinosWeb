@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, /* useEffect */ } from "react"
 import { Navigate, Route, Routes } from 'react-router-dom'
 
 import Login from "pages/Login"
@@ -17,20 +17,20 @@ import Header from "./componentes/Header"
 import LogoutTimer from "componentes/LogoutTimer"
 
 import './App.css'
-import Chat from "componentes/Chat"
+// import Chat from "componentes/Chat"
 
 function App() {
 
   const [conectado, setConectado] = useState(false);
   const { isLogged, user } = useUser()
 
-  useEffect(() => {
-    const loggedUserJSON = window.sessionStorage.getItem("active");
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON);
-      setConectado(user.flag);
-    }
-  }, [conectado]);
+  // useEffect(() => {
+  //   const loggedUserJSON = window.sessionStorage.getItem("active");
+  //   if (loggedUserJSON) {
+  //     const user = JSON.parse(loggedUserJSON);
+  //     setConectado(user.flag);
+  //   }
+  // }, [conectado]);
 
   const acceder = (estado) => {
     setConectado(estado)
@@ -64,7 +64,7 @@ function App() {
           <Route path="/404" element={<ErrorPage />} />
         </Routes>
       </ProductsContextProvider>
-      <Chat />
+      {/* <Chat /> */}
     </>
   );
 }
