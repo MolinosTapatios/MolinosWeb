@@ -1,32 +1,32 @@
-import React, { useRef, useState } from "react";
-import { Form } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
-import Usuario from "services/usuario";
+import React, { useRef, useState } from "react"
+import { Form } from "react-bootstrap"
+import { useNavigate } from "react-router-dom"
+import Usuario from "services/usuario"
 import './index.css'
 
-function CrearCuenta() {
+function CrearCuenta({login}) {
 
     const navigate = useNavigate()
-    const [validated, setValidated] = useState(false);
+    const [validated, setValidated] = useState(false)
     const [estado, setEstado] = useState({ error: null, loading: false })
 
-    const refApaterno = useRef();
-    const refAmaterno = useRef();
-    const refNombre = useRef();
-    const refFechaNac = useRef();
-    const refMail = useRef();
-    const refUsername = useRef();
-    const refPassword = useRef();
-    const refConfirmar = useRef();
+    const refApaterno = useRef()
+    const refAmaterno = useRef()
+    const refNombre = useRef()
+    const refFechaNac = useRef()
+    const refMail = useRef()
+    const refUsername = useRef()
+    const refPassword = useRef()
+    const refConfirmar = useRef()
 
     const handleForm = event => {
-        const form = event.currentTarget;
+        const form = event.currentTarget
         if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
+            event.preventDefault()
+            event.stopPropagation()
         } else {
-            event.preventDefault();
-            event.stopPropagation();
+            event.preventDefault()
+            event.stopPropagation()
             setEstado({ loading: true })
             if (refPassword.current.value === refConfirmar.current.value) {
                 const u = new Usuario({
@@ -40,21 +40,23 @@ function CrearCuenta() {
                 })
                 u.crearUsuario(u)
                     .then(resp => {
-                        if (resp.flag) {
-                            alert("Cuenta Creada exitosamente")
-                            navigate("/login")
+                        if (!resp.error) {
+                            alert(resp.msg)
+                            login()
                             setEstado({ loading: false })
                         } else {
-                            setEstado({ loading: false, error: resp.msg })
+                            alert(resp.error)
+                            setEstado({ loading: false, error: resp.error })
                         }
                     })
                     .catch(e => setEstado({ loading: false, error: e }))
             } else {
+                refConfirmar.current.value = ''
                 setEstado({ error: "Las contraseñas no coinciden", loading: false })
             }
         }
-        setValidated(true);
-    };
+        setValidated(true)
+    }
 
     return (
         <>

@@ -100,10 +100,10 @@ class Usuario {
 
         return fetch(apiURL, {
             method: 'POST',
-            body: JSON.stringify({
-                accion: 'crearUsuario',
-                usuario: u
-            })
+            body: JSON.stringify(u),
+            headers:{
+                'Content-Type':'application/json'
+            }
         })
             .then(resp => resp.json())
             .then(resp => {
@@ -116,7 +116,7 @@ class Usuario {
     login(u) {
 
         const usuario = new Usuario(u)
-        return fetch('http://localhost:4000/api/usuarios', {
+        return fetch(`${apiURL}/log`, {
             body: JSON.stringify({
                 // accion : "validarUsuario",
                 username : usuario._username,

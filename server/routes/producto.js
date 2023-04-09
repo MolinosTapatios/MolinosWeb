@@ -15,7 +15,7 @@ router.get('/',async (_req, res) => {
     res.send(results)
   } catch (error) {
     console.error(error)
-    res.status(500).send('Ha ocurrido un error en el servidor')
+    res.status(500).send({error:'Ha ocurrido un error en el servidor'})
   }
 })
 
@@ -26,7 +26,7 @@ router.get('/:tipo/:limit', async (_req, res) => {
     res.send(results)
   } catch (error) {
     console.error(error)
-    res.status(500).send('Ha ocurrido un error en el servidor')
+    res.status(500).send({error:'Ha ocurrido un error en el servidor'})
   }
 })
 
@@ -37,7 +37,7 @@ router.post('/', async (_req, res) => {
     res.send(results)
   } catch (error) {
     console.error(error)
-    res.status(500).send('Ha ocurrido un error en el servidor')
+    res.status(500).send({error:'Ha ocurrido un error en el servidor'})
   }
 })
 
@@ -63,7 +63,7 @@ router.get('/:id/', async (_req, res) => {
     res.send(results)
   } catch (error) {
     console.error(error)
-    res.status(500).send('Ha ocurrido un error en el servidor')
+    res.status(500).send({error:'Ha ocurrido un error en el servidor'})
   }
 })
 

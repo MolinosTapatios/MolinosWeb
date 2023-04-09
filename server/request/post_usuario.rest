@@ -1,0 +1,15 @@
+POST http://localhost:4000/api/usuarios/
+Content-Type: application/json
+
+{
+    "_id": null,
+    "_username": "qwerty",
+    "_password": "qwerty",
+    "_nombre": "Aguiar",
+    "_apaterno": "Aguiar",
+    "_amaterno": null,
+    "_fechaNac": "2023-04-24",
+    "_mail": "aguiar@gmail.com",
+    "_tipo": null,
+    "_as": null
+}
