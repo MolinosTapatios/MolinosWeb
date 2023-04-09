@@ -12,7 +12,7 @@ function useUser() {
         const u = new Usuario({username:username, password:password})
         u.login(u)
             .then(resp => {
-                console.log(resp)
+                console.log(resp) 
                 if (resp.error) {
                     setEstado({loading:false, error:resp.error})
                 }else{

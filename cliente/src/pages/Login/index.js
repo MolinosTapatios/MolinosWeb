@@ -80,7 +80,8 @@ function Login() {
                                             {error &&
                                                 <div className="alert alert-danger">
                                                     {error}
-                                                </div>}
+                                                </div>
+                                            }
                                             <button
                                                 id="button"
                                                 className="w-100 mb-2 btn btn-lg rounded-3 btn-primary"
