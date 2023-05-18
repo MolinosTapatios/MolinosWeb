@@ -22,6 +22,7 @@ function ModalEditar({ id = 0, showModal, estado, render, toastAlert }) {
     const [validated, setValidated] = useState(false);
     const [images, setImages] = useState([]);
     
+    //get de info del producto
     useEffect(() => {
         if(showModal ){
             const p = new Producto({id: id});
@@ -82,6 +83,7 @@ function ModalEditar({ id = 0, showModal, estado, render, toastAlert }) {
         }
     }
 
+    //actualizacion del producto
     function handleRegistro() {
         const formdata = new FormData()
 
@@ -107,9 +109,9 @@ function ModalEditar({ id = 0, showModal, estado, render, toastAlert }) {
                 setImages([])
                 setValidated(false)
                 if (resp.error) {
-                    toastAlert({msg:resp.error,estado:render, color:'warning'})
+                    toastAlert({msg:resp.error,estado:true, color:'warning'})
                 }else{
-                    toastAlert({msg:resp.msg,estado:render, color:'info'})
+                    toastAlert({msg:resp.msg,estado:true, color:'info'})
                 }
             })
         estado()

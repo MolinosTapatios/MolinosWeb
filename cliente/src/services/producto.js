@@ -129,7 +129,6 @@ class Producto {
         })
             .then(resp => resp.json())
             .then(resp => {
-                console.log(resp[0])
                 return resp[0]})
     }
 
@@ -181,7 +180,6 @@ class Producto {
             .then(resp => resp.json())
             .then(resp => { return resp })
     }
-
 }
 //----------------------------------------------------------------
 //           Exportacion de todas las funciones

@@ -26,7 +26,7 @@ app.use(morgan("dev"))
 app.use(express.urlencoded({ extended: false }))
 
 // app.use(express.static(join(__dirname, "../cliente/build")))
-app.use('/imagenes',express.static('server/public/img'))
+app.use('/imagenes',express.static('server/public/imagenes'))
 
 io.on("connection", (socket) => {
   console.log(socket.id)
@@ -53,6 +53,15 @@ app.use((_request,respons)=>{
   respons.status(404).json({
     error:'Not fund'
   })
+})
+
+app.use((err, req, res, next) => {
+  if(err.code === 'LIMIT_FILE_SIZE'){
+    res.status(413).send({error:'Archivos exeden la capacidad'})
+  }else{
+    res.status(500).send({error:'Something broke!'})
+  }
+  console.log({err})
 })
 
 server.listen(PORT)
