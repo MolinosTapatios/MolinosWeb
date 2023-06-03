@@ -6,6 +6,7 @@ export const getAll = () => {
       if (error) {
         reject(error)
       } else {
+        console.log(results)
         resolve(results)
       }
     })
@@ -14,7 +15,7 @@ export const getAll = () => {
 
 export const getHome = ({ tipo, limit }) => {
   return new Promise((resolve, reject) => {
-    conn.query(`SELECT * from productos where Tipo_Producto_id = ${tipo} and \`as\` = 1 and status = 1 limit ${limit}`, function (error, results, fields) {
+    conn.query(`SELECT * from productos as p left join imagenes as i on p.id = i.productos_id where p.Tipo_Producto_id = ${tipo} and p.\`as\` = 1 and p.status = 1 limit ${limit}`, function (error, results, fields) {
       if (error) {
         reject(error)
       } else {

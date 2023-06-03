@@ -8,8 +8,8 @@ function Home() {
     const [productos, setProductos] = useState()
 
     useEffect(() => {
-        const p = new Producto({tipo:1, status:1,precio:10})
-        p.getProductosHome(p)
+        const p = new Producto({tipo:1, status:1})
+        p.getProductosHome(p, 10)
             .then(resp => {
                 setProductos(resp)
             })

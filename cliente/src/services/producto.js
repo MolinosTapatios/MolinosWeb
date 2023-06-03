@@ -85,11 +85,11 @@ class Producto {
         return this._imagenes
     }
     //----------------------------------------------------------------
-    //----------Todos los productos para el Home------------------
+    //----------Productos para el Home------------------
     //----------------------------------------------------------------
-    getProductosHome(p = new Producto({})) {
+    getProductosHome(p = new Producto({}), limit) {
 
-        return fetch(`${apiURL}/${p._tipo}/${p._precio}`, {
+        return fetch(`${apiURL}/${p._tipo}/${limit}`, {
             method: 'GET'
         })
             .then((res) => res.json())

@@ -70,9 +70,9 @@ function Menu() {
                         <Nav className="col-md-auto">
                             <NavLink className='nav-link' to="/">Inicio</NavLink>
                             <NavDropdown title="Molinos" id="navbarScrollingDropdown">
-                                <NavLink className='dropdown-item' to="/">Molinos de Discos</NavLink>
+                                <NavLink className='dropdown-item' to="/u">Molinos de Discos</NavLink>
                                 <NavDropdown.Divider />
-                                <NavLink className='dropdown-item' to="/">Molinos de Piedras</NavLink>
+                                <NavLink className='dropdown-item' to="/r">Molinos de Piedras</NavLink>
                             </NavDropdown>
                             <NavLink className='nav-link' to="/tortilladoras">Tortilladoras</NavLink>
                             {
