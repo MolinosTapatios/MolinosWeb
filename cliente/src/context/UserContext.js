@@ -1,10 +1,23 @@
 import React, { useState, useEffect } from 'react'
+import { useHref, useNavigate } from 'react-router-dom'
 
 const Context = React.createContext({})
 
 export function UserContextProvider({ children }) {
   
   const [jwt, setJWT] = useState({jwt:null,tipo:null})
+  const href = useHref()
+  const navigate = useNavigate()
+
+  useEffect(()=>{
+    if(href === '/catalogo' && jwt.jwt === null){
+      navigate('/login', {
+        state: {
+          href: href
+        }
+      })
+    }
+  },[href])
 
   useEffect(() => {
     const loggedUserJSON = window.sessionStorage.getItem("active");

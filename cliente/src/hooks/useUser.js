@@ -1,11 +1,13 @@
 import { useCallback, useContext, useState } from 'react'
 import Context from "../context/UserContext";
 import Usuario from 'services/usuario';
+import { useNavigate } from 'react-router-dom';
 
 function useUser() {
 
     const { jwt, setJWT } = useContext(Context)
     const [estado, setEstado] = useState({ error: null, loading: false })
+    const navigate = useNavigate()
 
     const login = useCallback(({ username, password }) => {
         setEstado({ loading: true, error: null })
@@ -26,8 +28,9 @@ function useUser() {
     }, [setJWT])
 
     const logout = useCallback(() => {
-        setJWT({})
+        setJWT({jwt:null, tipo:null})
         sessionStorage.removeItem("active")
+        navigate('/')
     }, [setJWT])
 
     return {

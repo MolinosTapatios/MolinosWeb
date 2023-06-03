@@ -8,7 +8,7 @@ function VistaProducto({ data = [] }) {
 
     //     return
     // }
-console.log(data)
+
     return (
         <>
             <div className="carrusel-cards">

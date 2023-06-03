@@ -18,7 +18,7 @@ function Login() {
 
     useEffect(() => {
         if (isLogged) {
-            navigate(state ?? "/");
+            navigate(state.href ?? "/");
         }
         // eslint-disable-next-line
     }, [isLogged])
