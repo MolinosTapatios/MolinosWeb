@@ -6,7 +6,6 @@ export const getAll = () => {
       if (error) {
         reject(error)
       } else {
-        console.log(results)
         resolve(results)
       }
     })
@@ -15,11 +14,33 @@ export const getAll = () => {
 
 export const getHome = ({ tipo, limit }) => {
   return new Promise((resolve, reject) => {
-    conn.query(`SELECT * from productos as p left join imagenes as i on p.id = i.productos_id where p.Tipo_Producto_id = ${tipo} and p.\`as\` = 1 and p.status = 1 limit ${limit}`, function (error, results, fields) {
+    conn.query(`SELECT * from productos as p where p.Tipo_Producto_id = ${tipo} and p.\`as\` = 1 and p.status = 1 limit ${limit}`, function (error, results, fields) {
+
       if (error) {
         reject(error)
+        
       } else {
-        resolve(results)
+
+        const promise = results.map(obj => {
+          return new Promise((resolve, reject) => {
+            conn.query(`SELECT * FROM imagenes WHERE productos_id = ${obj.id} and \`as\` = 1`, function (error, results, fields) {
+              if (error) {
+                reject(error)
+              } else {
+                obj.imagenes = results
+                resolve()
+              }
+            })
+          })
+        })
+        
+        Promise.all(promise)
+          .then(()=>{
+            resolve(results)
+          })
+          .catch((error)=>{
+            reject(error)
+          })
       }
     })
   })
