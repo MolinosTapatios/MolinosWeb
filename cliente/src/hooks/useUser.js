@@ -31,7 +31,7 @@ function useUser() {
         setJWT({jwt:null, tipo:null})
         sessionStorage.removeItem("active")
         navigate('/')
-    }, [setJWT])
+    }, [setJWT, navigate])
 
     return {
         isLogged: Boolean(jwt.jwt),

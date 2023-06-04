@@ -13,7 +13,7 @@ function Carrusel({ images = [] }) {
     }
 
     if (images.length === 0) {
-        images[0] = {id:0, path:`imagenes/null.jpg`}
+        images[0] = {id:0, path:`${URL}/imagenes/null.jpg`}
     }
 
         return (
@@ -24,7 +24,7 @@ function Carrusel({ images = [] }) {
                             <img
                                 id={img.id}
                                 className="d-block w-100"
-                                src={URL + '/' +img.path}
+                                src={img.path}
                                 alt="First slide"
                                 style={{maxHeight:"300px", width:"auto"}}
                             />

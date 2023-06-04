@@ -57,11 +57,11 @@ app.use((_request,respons)=>{
 
 app.use((err, req, res, next) => {
   if(err.code === 'LIMIT_FILE_SIZE'){
-    res.status(413).send({error:'Archivos exeden la capacidad'})
+    res.status(413).send({error:'Uno o varios archivos exceden el límite de 3MB'})
   }else{
     res.status(500).send({error:'Something broke!'})
   }
-  console.log({err})
+  console.log('Error desde app.use: '+err)
 })
 
 server.listen(PORT)

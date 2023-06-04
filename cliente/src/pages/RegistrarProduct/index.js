@@ -16,7 +16,7 @@ function RegistrarProduct() {
 
     //Validacion de formulario
     const [validated, setValidated] = useState(false);
-    const [error, setError] = useState(null);
+    const [msg, setMsg] = useState(null);
     const [show, setShow] = useState(false);
     const [color, setColor] = useState(null);
     const [images, setImages] = useState([]);
@@ -48,7 +48,7 @@ function RegistrarProduct() {
         }
 
         for (let i = 0; i < refImagen.current.files.length; i++) {
-            formdata.append('imagen[]', refImagen.current.files[i])
+            formdata.append('images', refImagen.current.files[i])
         }
 
         formdata.append('producto', JSON.stringify(data))
@@ -56,12 +56,14 @@ function RegistrarProduct() {
         const p = new Producto({})
         p.crearProducto({ formdata: formdata })
             .then(res => {
-                if (res.flag) {
+                if (!res.error) {
                     setColor("info")
+                    setMsg(res.msg)
                 }
-                else
+                else{
                     setColor("danger")
-                setError(res.msg)
+                    setMsg(res.error)
+                }
                 setShow(true)
             })
     }
@@ -108,7 +110,7 @@ function RegistrarProduct() {
                     show &&
                     <Alert variant={color} onClose={() => setShow(false)} dismissible>
                         <p>
-                            {error}
+                            {msg}
                         </p>
                     </Alert>
                 }
@@ -236,8 +238,8 @@ function RegistrarProduct() {
                     </Row>
 
                     <Row className='justify-content-evenly'>
-                        <Button className='col-3' onClick={limpiar}>Limpiar Formulario</Button>
-                        <Button className='col-3' type="submit">Registrar Producto</Button>
+                        <Button variant='secondary' className='col-3' onClick={limpiar}>Limpiar Formulario</Button>
+                        <Button variant='success' className='col-3' type="submit">Registrar Producto</Button>
                     </Row>
                 </Form>
             </div>

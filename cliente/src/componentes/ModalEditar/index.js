@@ -6,6 +6,7 @@ import './index.css'
 
 import { Producto } from "services/producto";
 import deleteImg from "services/deleteImg";
+import { URL } from "services/config";
 
 function ModalEditar({ id = 0, showModal, estado, render, toastAlert }) {
 
@@ -28,6 +29,7 @@ function ModalEditar({ id = 0, showModal, estado, render, toastAlert }) {
             const p = new Producto({id: id});
             p.getSingleProduct(p)
                 .then(response => {
+                    console.log(response)
                     if (!response.msg) {
                             refTitleModal.current.innerHTML = response.nombre
                             refNombre.current.value = response.nombre
@@ -38,6 +40,10 @@ function ModalEditar({ id = 0, showModal, estado, render, toastAlert }) {
                             refPrecio.current.value = response.precio
                             refStock.current.value = response.stock
                             if (response.imagenes) {
+                                response.imagenes.map(i=>{
+                                    i.path = URL + '/' + i.path
+                                    return i
+                                })
                                 setImages(response.imagenes)
                             }
                         }
@@ -97,6 +103,7 @@ function ModalEditar({ id = 0, showModal, estado, render, toastAlert }) {
             "status": refStatus.current.value,
             "tipo": refTipo.current.value,
         }
+        
         for (let i = 0; i < refImagen.current.files.length; i++) {
             formdata.append('images', refImagen.current.files[i])
         }

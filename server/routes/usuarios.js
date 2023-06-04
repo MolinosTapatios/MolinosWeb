@@ -16,8 +16,6 @@ router.post('/log', (_req, res) => {
   usuariosServices.validarUsuario(username)
     .then(results => {
 
-      console.log(results)
-
       if (!(results.length > 0 && md5(password) === results[0].password)) {
         res.status(401).json({
           error: "Usuario o contraseña invalidos"

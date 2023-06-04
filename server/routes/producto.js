@@ -6,6 +6,7 @@ import path from 'path'
 import * as productoServices from '../services/producto.js'
 
 dotenv.config()
+const error_server = 'Ha ocurrido un error en el servidor'
 
 const storage = multer.diskStorage({
   destination: 'server/public/imagenes',
@@ -32,7 +33,7 @@ const upload = multer({
   },
   //limite de 2 MB
   limits: { fileSize: 1024 * 1024 * 3 }
-})
+}).array('images', 10)
 
 const router = express.Router()
 
@@ -43,7 +44,7 @@ router.get('/', async (_req, res) => {
     res.send(results)
   } catch (error) {
     console.error(error)
-    res.status(500).send({ error: 'Ha ocurrido un error en el servidor' })
+    res.status(500).send({ error: error_server })
   }
 })
 
@@ -54,23 +55,44 @@ router.get('/:tipo/:limit', async (_req, res) => {
     res.send(results)
   } catch (error) {
     console.error(error)
-    res.status(500).send({ error: 'Ha ocurrido un error en el servidor' })
+    res.status(500).send({ error: error_server })
   }
 })
 
 //crea un producto
-router.post('/', async (_req, res) => {
+router.post('/', upload, async (_req, res) => {
   try {
-    const results = await productoServices.crearProducto(_req.body)
-    res.send(results)
+      const results = await productoServices.crearProducto({ body: _req.body, files: _req.files })
+      if (results > 0) {
+        console.log('true')
+        res.send({ msg: 'Producto creado correctamente' })
+      } else {
+        console.log('false')
+        res.send({ error: 'error al crear el producto' })
+      }
   } catch (error) {
     console.error(error)
-    res.status(500).send({ error: 'Ha ocurrido un error en el servidor' })
+    res.status(500).send({ error: error_server })
   }
 })
 
+// app.post('/upload', (req, res) => {
+//   upload(req, res, function (err) {
+//     if (err) {
+//       // Verificar si el error es por tamaño de archivo excedido
+//       if (err.code === 'LIMIT_FILE_SIZE') {
+//         console.log('El archivo excede el límite de 3MB:', req.file.originalname);
+//       } else {
+//         console.error(err);
+//       }
+//     } else {
+//       console.log('Archivo subido correctamente');
+//     }
+//   });
+// });
+
 //edita un producto
-router.put('/', upload.array('images', 10), async (_req, res) => {
+router.put('/', upload, async (_req, res) => {
   try {
     const results = await productoServices.editarProducto({ body: _req.body, files: _req.files })
     if (results > 0) {
@@ -80,7 +102,7 @@ router.put('/', upload.array('images', 10), async (_req, res) => {
     }
   } catch (error) {
     console.error(error)
-    res.status(500).send({ error: 'Ha ocurrido un error en el servidor' })
+    res.status(500).send({ error: error_server })
   }
 })
 
@@ -91,7 +113,7 @@ router.get('/:id/', async (_req, res) => {
     res.send(results)
   } catch (error) {
     console.error(error)
-    res.status(500).send({ error: 'Ha ocurrido un error en el servidor' })
+    res.status(500).send({ error: error_server })
   }
 })
 

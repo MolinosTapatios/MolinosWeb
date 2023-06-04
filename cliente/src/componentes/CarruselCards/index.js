@@ -4,11 +4,6 @@ import './index.css'
 
 function VistaProducto({ data = [] }) {
 
-    // const bucleFor = () => {
-
-    //     return
-    // }
-
     return (
         <>
             <div className="carrusel-cards">
@@ -23,9 +18,6 @@ function VistaProducto({ data = [] }) {
                             descripcion={p.descripcion}
                             caracteristicas={p.caracteristicas} />
                     )
-                }
-                {
-                    // bucleFor()
                 }
             </div>
         </>

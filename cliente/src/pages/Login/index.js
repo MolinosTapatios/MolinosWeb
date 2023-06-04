@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import image from "img/1.0.png";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import useUser from "../../hooks/useUser";
 import './index.css'
 import CrearCuenta from "./CrearCuenta";
@@ -18,7 +18,7 @@ function Login() {
 
     useEffect(() => {
         if (isLogged) {
-            navigate(state.href ?? "/");
+            navigate(state.href ?? "/")
         }
         // eslint-disable-next-line
     }, [isLogged])

@@ -10,14 +10,14 @@ export function UserContextProvider({ children }) {
   const navigate = useNavigate()
 
   useEffect(()=>{
-    if(href === '/catalogo' && jwt.jwt === null){
+    if((href === '/catalogo' || href === '/registrarPr') && jwt.jwt === null){
       navigate('/login', {
         state: {
           href: href
         }
       })
     }
-  },[href])
+  },[href,jwt.jwt, navigate])
 
   useEffect(() => {
     const loggedUserJSON = window.sessionStorage.getItem("active");

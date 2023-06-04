@@ -1,16 +1,24 @@
-import { useEffect, useState } from "react";
-import CarruselCards from "componentes/CarruselCards";
+import { useEffect, useState } from "react"
+import CarruselCards from "componentes/CarruselCards"
 import './index.css'
-import {Producto} from "services/producto";
+import { Producto } from "services/producto"
+import { URL } from "services/config"
 
 function Home() {
 
     const [productos, setProductos] = useState()
 
     useEffect(() => {
-        const p = new Producto({tipo:1, status:1})
+        const p = new Producto({ tipo: 1, status: 1 })
         p.getProductosHome(p, 10)
             .then(resp => {
+                resp.map(obj =>{
+                    obj.imagenes.map(i=>{
+                        i.path = URL + '/' +i.path
+                        return i
+                    })
+                    return obj
+                })
                 setProductos(resp)
             })
     }, [])

@@ -100,7 +100,7 @@ class Producto {
     //----------------------------------------------------------------
     getProductosCatalogo(p) {
 
-        return fetch(`${apiURL}/`, {
+        return fetch(`${apiURL}`, {
             method: 'GET'
         })
             .then((res) => res.json())
@@ -144,7 +144,7 @@ class Producto {
     //----------------------------------------------------------------
     crearProducto({ formdata } = { formdata: new FormData() }) {
 
-        formdata.append("accion", "crearProducto")
+        // formdata.append("accion", "crearProducto")
         
         return fetch(apiURL, {
             method: 'POST',
