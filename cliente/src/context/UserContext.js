@@ -20,7 +20,7 @@ export function UserContextProvider({ children }) {
   },[href,jwt.jwt, navigate])
 
   useEffect(() => {
-    const loggedUserJSON = window.sessionStorage.getItem("active");
+    const loggedUserJSON = window.localStorage.getItem("active");
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
       setJWT({jwt:user.token,tipo:user.tipo});

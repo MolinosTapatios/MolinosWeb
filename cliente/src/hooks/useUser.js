@@ -17,7 +17,7 @@ function useUser() {
                 if (resp.error) {
                     setEstado({loading:false, error:resp.error})
                 }else{
-                    window.sessionStorage.setItem("active", JSON.stringify(resp));
+                    window.localStorage.setItem("active", JSON.stringify(resp));
                     setJWT({jwt:resp.token,tipo:resp.tipo})
                     setEstado({loading:false, error:'Verificacion Exitosa'})
                 }
@@ -29,7 +29,7 @@ function useUser() {
 
     const logout = useCallback(() => {
         setJWT({jwt:null, tipo:null})
-        sessionStorage.removeItem("active")
+        localStorage.removeItem("active")
         navigate('/')
     }, [setJWT, navigate])
 
