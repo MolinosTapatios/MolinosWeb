@@ -80,7 +80,10 @@ function Menu() {
                                     <>
                                         {
                                             (parseInt(user.tipo) === 1 || parseInt(user.tipo) === 3) &&
-                                            <NavLink className='nav-link' to="/catalogo">Catálogo</NavLink>
+                                            <>
+                                                <NavLink className='nav-link' to="/catalogo">Catálogo</NavLink>
+                                                <NavLink className='nav-link' to="/almacen">Almacén</NavLink>
+                                            </>
                                         }
                                         <NavLink className='nav-link add-link' to="/carrito">Carrito</NavLink>
                                         <NavLink className='nav-link add-link' to="/profile">Mi Cuenta</NavLink>

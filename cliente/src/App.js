@@ -10,6 +10,7 @@ import Carrito from "pages/Carrito"
 import Tortilladoras from "pages/Tortilladoras"
 import SingleProducto from "pages/SingleProducto"
 import MiCuenta from "pages/MiCuenta"
+import Almacen from "pages/Almacen"
 
 import { ProductsContextProvider } from 'context/ProductsContext'
 import useUser from "hooks/useUser"
@@ -54,6 +55,7 @@ function App() {
                 <>
                   <Route path="/registrarPr" element={<RegProduct />} />
                   <Route path="/catalogo" element={<Catalogo />} />
+                  <Route path="/almacen" element={<Almacen />} />
                 </>
               }
               <Route path="/carrito" element={<Carrito />} />

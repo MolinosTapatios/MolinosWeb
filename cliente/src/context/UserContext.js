@@ -6,16 +6,20 @@ const Context = React.createContext({})
 export function UserContextProvider({ children }) {
   
   const [jwt, setJWT] = useState({jwt:null,tipo:null})
-  const href = useHref()
+  const href = useHref().toLowerCase()
   const navigate = useNavigate()
 
   useEffect(()=>{
-    if((href === '/catalogo' || href === '/registrarPr') && jwt.jwt === null){
-      navigate('/login', {
-        state: {
-          href: href
-        }
-      })
+    if((href === '/catalogo'.toLowerCase() || href === '/registrarPr'.toLowerCase() || href === '/almacen'.toLowerCase) && jwt.jwt === null){
+      if(jwt.jwt){
+        navigate(href)
+      }else{
+        navigate('/login', {
+          state: {
+            href: href
+          } 
+        })
+      }
     }
   },[href,jwt.jwt, navigate])
 

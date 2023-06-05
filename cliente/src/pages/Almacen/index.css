@@ -1,0 +1,25 @@
+.body-almacen{
+    /* background-color: aqua; */
+    padding: 15px;
+    text-align: center;
+}
+
+.title-almacen{
+    color: white;
+    /* margin-top: 12px; */
+    /* margin-left: 12px; */
+}
+
+/* .row-almacen{
+    /* background-color: white; 
+} */
+
+.col-almacen{
+    border-radius: 5px;
+    margin: 5px;
+    background-color: white;
+}
+
+.btn-entrada{
+    background-color: #fdd162;
+}
