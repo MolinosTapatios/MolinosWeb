@@ -16,6 +16,7 @@ function CardProducto({ id, nombre, precio, images, descripcion, caracteristicas
     const redirection = useCallback(() => {
         navigate(`/detalles/${nombre}`, {
             state: {
+                state: false,
                 imgs: images,
                 id: id,
                 descripcion: descripcion,

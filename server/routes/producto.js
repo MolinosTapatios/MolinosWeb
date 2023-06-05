@@ -76,21 +76,6 @@ router.post('/', upload, async (_req, res) => {
   }
 })
 
-// app.post('/upload', (req, res) => {
-//   upload(req, res, function (err) {
-//     if (err) {
-//       // Verificar si el error es por tamaño de archivo excedido
-//       if (err.code === 'LIMIT_FILE_SIZE') {
-//         console.log('El archivo excede el límite de 3MB:', req.file.originalname);
-//       } else {
-//         console.error(err);
-//       }
-//     } else {
-//       console.log('Archivo subido correctamente');
-//     }
-//   });
-// });
-
 //edita un producto
 router.put('/', upload, async (_req, res) => {
   try {
@@ -111,6 +96,21 @@ router.get('/:id/', async (_req, res) => {
   try {
     const results = await productoServices.getSingleProduct({ id: _req.params.id })
     res.send(results)
+  } catch (error) {
+    console.error(error)
+    res.status(500).send({ error: error_server })
+  }
+})
+
+//elimina un producto
+router.delete('/:id/', async (_req, res) => {
+  try {
+    const results = await productoServices.deleteProduct({ id: _req.params.id })
+    if(results > 0){
+      res.send({msg: 'Producto eliminado correctamente'})
+    }else{
+      res.status(404).send({msg: 'Error al eliminar'})
+    }
   } catch (error) {
     console.error(error)
     res.status(500).send({ error: error_server })

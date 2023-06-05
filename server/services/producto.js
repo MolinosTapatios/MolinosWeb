@@ -148,3 +148,15 @@ export const editarProducto = ({ body, files }) => {
 			})
 	})
 }
+
+export const deleteProduct = ({ id }) => {
+	return new Promise((resolve, reject) => {
+		conn.query(`UPDATE productos set \`as\` = 0 where id = ${id}`, function (error, results, fields) {
+			if (error) {
+				reject(error);
+			} else {
+				resolve(results.affectedRows)
+			}
+		});
+	});
+}

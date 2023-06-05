@@ -1,12 +1,14 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { useLocation, useParams } from "react-router-dom"
 
 import Carrusel from "componentes/Carrusel"
+import ToastAlert from "componentes/ToastAlert"
+import { URL } from "services/config"
 import { Carrito } from "services/carrito"
+import { Producto } from "services/producto"
 import useUser from "hooks/useUser"
 
 import './index.css'
-import ToastAlert from "componentes/ToastAlert"
 
 export default function SingleProducto() {
 
@@ -15,6 +17,7 @@ export default function SingleProducto() {
     const { state } = useLocation()
     const [estado, setEstado] = useState({ loading: false, error: false })
     const [toastAlert, setToastAlert] = useState({ color: null, estado: false, msg: null })
+    const [p, setProducto] = useState(new Producto({ imagenes: [] }))
 
     const handleToast = () => {
         setToastAlert({ estado: !toastAlert.estado })
@@ -39,6 +42,38 @@ export default function SingleProducto() {
             })
     }
 
+    useEffect(() => {
+        if (state.state) {
+            p.id = state.id 
+            p.getSingleProduct(p)
+                .then(response => {
+                    if (!response.error) {
+                        if (response.imagenes) {
+                            response.imagenes.map(i => {
+                                i.path = URL + '/' + i.path
+                                return i
+                            })
+                        }
+                        setProducto({
+                            caracteristicas: response.caracteristicas,
+                            descripcion: response.descripcion,
+                            precio: state.precio,
+                            imagenes: response.imagenes
+                        })
+                    }
+                })
+                .catch()
+        } else {
+            setProducto({
+                caracteristicas: state.caracteristicas,
+                descripcion: state.descripcion,
+                precio: state.precio,
+                imagenes: state.imgs
+            })
+        }
+        // eslint-disable-next-line
+    }, [state])
+
     return (
         <>
             <ToastAlert
@@ -50,15 +85,15 @@ export default function SingleProducto() {
             <div className="contenedor">
                 <div className="single-product row">
                     <div className="single-product-image col" >
-                        <Carrusel images={state.imgs } />
+                        <Carrusel images={p.imagenes} />
                     </div>
                     <div className="single-product-info col">
                         <h2>{name}</h2>
-                        <p className="info-precio">{state.precio}</p>
+                        <p className="info-precio">{p.precio}</p>
                         <p className="info-text">Características:</p>
-                        <p>{state.caracteristicas}</p>
+                        <p>{p.caracteristicas}</p>
                         <p className="info-text">Descripción:</p>
-                        <p>{state.descripcion}</p>
+                        <p>{p.descripcion}</p>
                         <button className="btn btn-primary" disabled={estado.loading} onClick={addCart} >Agregar a carrito</button>
                     </div>
                 </div>

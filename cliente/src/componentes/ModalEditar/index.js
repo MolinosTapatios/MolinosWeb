@@ -8,7 +8,7 @@ import { Producto } from "services/producto";
 import deleteImg from "services/deleteImg";
 import { URL } from "services/config";
 
-function ModalEditar({ id = 0, showModal, estado, render, toastAlert }) {
+function ModalEditar({ id = null, showModal, estado, toastAlert, setProductos }) {
 
     const refTitleModal = useRef(null);
     const refNombre = useRef(null);
@@ -22,37 +22,39 @@ function ModalEditar({ id = 0, showModal, estado, render, toastAlert }) {
 
     const [validated, setValidated] = useState(false);
     const [images, setImages] = useState([]);
-    
+
     //get de info del producto
     useEffect(() => {
-        if(showModal ){
-            const p = new Producto({id: id});
+        if (showModal) {
+            const p = new Producto({ id: id });
             p.getSingleProduct(p)
                 .then(response => {
-                    console.log(response)
-                    if (!response.msg) {
-                            refTitleModal.current.innerHTML = response.nombre
-                            refNombre.current.value = response.nombre
-                            refTipo.current.value = response.Tipo_Producto_id
-                            refStatus.current.value = response.status.data[0]
-                            refCaracteristicas.current.value = response.caracteristicas
-                            refDescripcion.current.value = response.descripcion
-                            refPrecio.current.value = response.precio
-                            refStock.current.value = response.stock
-                            if (response.imagenes) {
-                                response.imagenes.map(i=>{
-                                    i.path = URL + '/' + i.path
-                                    return i
-                                })
-                                setImages(response.imagenes)
-                            }
+                    // console.log(response)
+                    if (!response.error) {
+                        refTitleModal.current.innerHTML = response.nombre
+                        refNombre.current.value = response.nombre
+                        refTipo.current.value = response.Tipo_Producto_id
+                        refStatus.current.value = response.status.data[0]
+                        refCaracteristicas.current.value = response.caracteristicas
+                        refDescripcion.current.value = response.descripcion
+                        refPrecio.current.value = response.precio
+                        refStock.current.value = response.stock
+                        if (response.imagenes) {
+                            response.imagenes.map(i => {
+                                i.path = URL + '/' + i.path
+                                return i
+                            })
+                            setImages(response.imagenes)
                         }
-                    })
+                    }
+                })
         }
-    }, [id,showModal])
+    }, [id, showModal])
 
     const handleCloseModal = () => {
         setImages([])
+        id = null
+        setValidated(false)
         estado()
     }
 
@@ -103,7 +105,7 @@ function ModalEditar({ id = 0, showModal, estado, render, toastAlert }) {
             "status": refStatus.current.value,
             "tipo": refTipo.current.value,
         }
-        
+
         for (let i = 0; i < refImagen.current.files.length; i++) {
             formdata.append('images', refImagen.current.files[i])
         }
@@ -111,29 +113,42 @@ function ModalEditar({ id = 0, showModal, estado, render, toastAlert }) {
         formdata.append('producto', JSON.stringify(data))
 
         const p = new Producto({})
-        p.updateProduct({formdata:formdata })
+        p.updateProduct({ formdata: formdata })
             .then(resp => {
                 setImages([])
                 setValidated(false)
                 if (resp.error) {
-                    toastAlert({msg:resp.error,estado:true, color:'warning'})
-                }else{
-                    toastAlert({msg:resp.msg,estado:true, color:'info'})
+                    toastAlert({ msg: resp.error, estado: true, color: 'warning' })
+                } else {
+                    toastAlert({ msg: resp.msg, estado: true, color: 'info' })
+                    setProductos(data => {
+                        const newArray = data.map(p => {
+                            if (p.id === parseInt(id)) {
+                                return {
+                                    ...p,
+                                    nombre: refNombre.current.value,
+                                    precio: refPrecio.current.value,
+                                    stock: refStock.current.value,
+                                    status: {data: {0: parseInt(refStatus.current.value)}},
+                                    tipo: refTipo.current.value
+                                }
+                            } else {
+                                return p
+                            }
+                        })
+                        return newArray
+                    })
                 }
             })
         estado()
     }
 
-    useEffect(()=>{
-        
-    })
-    
-    const deleteImage=()=>{
+    const deleteImage = () => {
         const imgs = document.getElementById('carrusel').childNodes[1]
         for (let i = 0; i < imgs.childNodes.length; i++) {
-            if(imgs.childNodes[i].classList.length > 1){
-                deleteImg({id:parseInt(imgs[i].childNodes[0].id)})
-                .then(resp => console(resp))
+            if (imgs.childNodes[i].classList.length > 1) {
+                deleteImg({ id: parseInt(imgs[i].childNodes[0].id) })
+                    .then(resp => console(resp))
                 imgs.childNodes[i].style.display = 'none'
                 console.log(imgs.childNodes[0])
             }
@@ -163,6 +178,7 @@ function ModalEditar({ id = 0, showModal, estado, render, toastAlert }) {
                                     type="text"
                                     placeholder="Nombre"
                                     ref={refNombre}
+                                    id="nombre"
                                     required
                                 />
                                 <Form.Control.Feedback type="invalid">Ingresa el nombre del producto.</Form.Control.Feedback>
@@ -273,7 +289,7 @@ function ModalEditar({ id = 0, showModal, estado, render, toastAlert }) {
                                 <Carrusel images={images} deleteImg={deleteImage} />
                                 {
                                     images.length !== 0 &&
-                                <span><i className="bi bi-trash btn btn-danger delete" onClick={deleteImage}></i></span>
+                                    <span><i className="bi bi-trash btn btn-danger delete" onClick={deleteImage}></i></span>
                                 }
                             </Form.Group>
                         </Row>

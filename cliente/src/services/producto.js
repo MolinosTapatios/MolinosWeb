@@ -156,14 +156,10 @@ class Producto {
     //----------------------------------------------------------------
     //           Elimina un producto
     //----------------------------------------------------------------
-    removeProduct(p) {
+    removeProduct(p = new Producto({})) {
         
-        return fetch(apiURL, {
-            body: JSON.stringify({
-                accion: "deleteProducto",
-                producto: p
-            }),
-            method: "POST"
+        return fetch(`${apiURL}/${p._id}`, {
+            method: "DELETE"
         })
         .then((res) => res.json())
         .then(resp => { return resp })

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion'
 
@@ -12,7 +12,6 @@ import ModalConfirmacion from 'pages/ModalConfirmacion';
 
 function Productos() {
 
-    const [render, setRender] = useState(false)
     const [showModal, setShowModal] = useState(false)
     const [showModalConfirmacion, setShowModalConfirmacion] = useState(false)
     const [id, setId] = useState(0)
@@ -20,6 +19,7 @@ function Productos() {
     const [productos, setProductos] = useState([])
     const [eliminarConfirm, setEliminar] = useState(false)
 
+    const p = useMemo(() => new Producto({}), [])
     const headers = ["#", "Nombre", "Precio", "Stock", "Estado", "Tipo de Producto", "Acciones"]
 
     const handleToast = () => {
@@ -27,20 +27,23 @@ function Productos() {
     }
 
     useEffect(() => {
-        const p = new Producto({})
         p.getProductosCatalogo(p)
             .then(resp => {
                 setProductos(resp)
             })
-    }, [])
+    }, [p])
 
     useEffect(() => {
         if (eliminarConfirm) {
-            const p = new Producto({ id: parseInt(id) })
+            p.id = parseInt(id)
             p.removeProduct(p)
                 .then(response => {
+                    const newData = productos.filter(s => s.id !== id)
+                    setProductos(newData)
                     setToastAlert({ msg: response.msg, estado: true, color: 'danger' })
-                    setRender(!render)
+                })
+                .catch(error => {
+                    setToastAlert({ msg: error, estado: true, color: 'warning' })
                 })
         }
         // eslint-disable-next-line
@@ -52,14 +55,12 @@ function Productos() {
         setEliminar(false)
     }
 
-    const handleRender = () => setRender(!render)
+    const estado = useCallback( () => { setShowModal(!showModal) },[showModal])
 
-    const estado = () => { setShowModal(!showModal) }
-
-    const editar = (e) => {
-        setId(e.target.id)
+    const editar = useCallback((e) => {
+        setId(parseInt(e.target.id))
         estado()
-    }
+    }, [estado])
 
     const handleCloseModalConfirmacion = () => {
         setShowModalConfirmacion(!showModalConfirmacion)
@@ -100,9 +101,9 @@ function Productos() {
                 <Modal
                     showModal={showModal}
                     estado={estado}
-                    render={handleRender}
                     id={id}
                     toastAlert={setToastAlert}
+                    setProductos={setProductos}
                 />
                 <ModalConfirmacion
                     show={showModalConfirmacion}
