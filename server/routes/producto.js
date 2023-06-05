@@ -2,7 +2,7 @@ import dotenv from 'dotenv'
 import express from "express"
 import multer from 'multer'
 import path from 'path'
-// import userExtractor from '../middleware/userExtractor.js';
+import userExtractor from '../middleware/userExtractor.js';
 import * as productoServices from '../services/producto.js'
 
 dotenv.config()
@@ -92,7 +92,8 @@ router.put('/', upload, async (_req, res) => {
 })
 
 //retorna informacion de un solo producto
-router.get('/:id/', async (_req, res) => {
+router.get('/:id/', userExtractor, async (_req, res) => {
+  console.log({_req})
   try {
     const results = await productoServices.getSingleProduct({ id: _req.params.id })
     res.send(results)

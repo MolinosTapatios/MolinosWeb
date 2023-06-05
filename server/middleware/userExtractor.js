@@ -20,9 +20,15 @@ const userExtractor = (_req, res, next) => {
             })
         }
 
-        const {id:userId} = decodeToker
+        const {
+            id:userId,
+            tipo,
+            username
+        } = decodeToker
 
         _req.userId = userId
+        _req.tipo = tipo
+        _req.username = username
 
         next()
 

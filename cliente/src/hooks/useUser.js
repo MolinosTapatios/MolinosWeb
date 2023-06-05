@@ -28,10 +28,12 @@ function useUser() {
     }, [setJWT])
 
     const logout = useCallback(() => {
+        const u = new Usuario({})
+        u.logout({token:jwt.jwt})
         setJWT({jwt:null, tipo:null})
         localStorage.removeItem("active")
         navigate('/')
-    }, [setJWT, navigate])
+    }, [setJWT, navigate, jwt])
 
     return {
         isLogged: Boolean(jwt.jwt),

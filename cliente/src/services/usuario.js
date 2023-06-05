@@ -139,6 +139,16 @@ class Usuario {
             .then(resp => {return resp})
             .catch("Error en el servidor")
     }
+
+    logout({token}) {
+        console.log('Bearer ' + token)
+        return fetch(`${apiURL}/logout`,{
+            method: 'DELETE',
+            headers: {
+                Authorization: 'Bearer ' + token
+            }
+        })
+    }
 }
 
 export default Usuario
